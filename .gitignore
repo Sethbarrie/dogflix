@@ -4,3 +4,5 @@ bundle.js.map
 config/master.key
 public/assets
 log/
+# Ignore master key for decrypting credentials and more.
+/config/master.key
