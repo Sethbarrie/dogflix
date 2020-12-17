@@ -1,0 +1,169 @@
+.movie-tile{
+    position: relative;
+    background-color: transparent;
+    min-width: 15.3vw;
+    max-width: 295px;
+    height: clamp( 115px, 11.475vw, 165px );
+    transition: .15s;
+    margin-right: 5px;
+    // z-index: 25;
+}
+
+.carousel-window > .movie-tile:first-child{
+    margin-left: 3.45vw;
+}
+
+#hovered-movie-tile{
+    // position: relative;
+
+    background-color: rgb(22, 20, 32);
+    // The transform here will increase the size of the pop out tile
+    // but it will expand from the center instead of the top left
+    // also the translate slides it up to offset the bottom growth
+
+    // transform: scale(2,2); // Initial test, was okay
+    transform: scale(1.5,1.5) translateY(-60px);
+    transition: .3s;
+    z-index: 40;
+    // animation-delay: .5s;
+}
+
+.movie-tile-video,
+.anti-flicker-image{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    // This causes the image or the movie, which ever is being displayed
+    // from the video tag to be the full size of the tile. Otherwise you
+    // get weird gaps since all the videos aren't the same size
+    object-fit: fill;
+}
+
+.movie-tile-video{
+    // z-index: 31;
+}
+
+.anti-flicker-image{
+    // z-index: 30;
+}
+
+
+
+#hovered-movie-tile-video,
+#hovered-anti-flicker-image{
+    border-radius: 4px 4px 4px 4px;
+    height: 100%;
+    position: absolute;
+    overflow: visible;
+}
+
+
+/////////////////////////////////////////
+// Styling for the control below the movie tile
+.movie-tile-controls{
+    width: 100%;
+    height: 0px;
+    transition: .1s;
+    bottom: 0;
+    opacity: 0;
+}
+
+#hovered-movie-tile-controls{
+    position: absolute;
+    height: 11vh;
+    opacity: 1;
+    background-color: rgb(22, 20, 32);
+    transform: translateY(11vh);
+    transition: .3s;
+    border-top: 1px solid black;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: 3px 3px 3px #101010;
+}
+
+.movie-tile-button-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px 10px;
+}
+
+.movie-tile-button-container .material-icons:first-of-type{
+    font-size: 45px;
+}
+
+.movie-tile-button-container .material-icons:last-of-type{
+    margin-right: 25px;
+    font-size: 35px;
+    border-radius: 50px;
+    border: 3px white solid;
+}
+
+.movie-tile-button-container .material-icons:first-of-type:hover,
+.movie-tile-button-container .material-icons:last-of-type:hover{
+    color: gray;
+    border-color: gray;
+    cursor: pointer;
+}
+
+.movie-tile-info{
+    width: 100%;
+}
+
+.upper-movie-info span{
+    height: 25px;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 7px 7px;
+    margin-bottom: 3px;
+    text-overflow: ellipsis;
+}
+
+.upper-movie-info span:first-of-type{
+    color: green;
+}
+
+.upper-movie-info span:nth-child(2){
+    text-transform: uppercase;
+    border: 1px solid white;
+    margin: 0px 7px;
+    padding: 2px;
+    padding-right: 4px;
+}
+
+.lower-movie-info{
+    display: flex;
+    align-items: center;
+    height: 25px;
+}
+
+.movie-descriptor{
+    list-style-type: disc;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+    padding-right: 16px;
+    height: 13px;
+}
+
+.lower-movie-info li:first-of-type{
+    list-style: none;
+}
+
+#hovered-movie-tile:nth-child(6n + 1){
+    transform: scale(1.5) translate(2.5vw, -60px);
+}
+
+#hovered-movie-tile-controls:nth-child(6n + 1){
+    transform: translate(2.5vw, 11vh);
+}
+
+#hovered-movie-tile:nth-child(6n + 6){
+    transform: scale(1.5) translate(-2.5vw, -60px);
+}
+
+#hovered-movie-tile-controls:nth-child(6n + 6){
+    transform: translate(-2.5vw, 11vh);
+}

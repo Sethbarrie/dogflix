@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Welcome to Dogflix!</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    
+    <% if current_user%>
+        <script>
+          window.currentUser = {
+            "id": <%= current_user.id %>,
+            "username": "<%= current_user.username %>",
+            "email": "<%= current_user.email %>",
+            "autoplay": <%= current_user.autoplay %>
+          };
+        </script>
+    <%end%>
+
+    <script type="text/javascript">
+      window.background1 = "<%= image_url("background#{rand(1..5)}.jpg") %>";
+      window.background2 = "<%= image_url("background#{rand(1..5)}.jpg") %>";
+
+      window.githubIconUnfilled = "<%= image_url('github-icon.png') %>";
+      window.githubIconFilled = "<%= image_url('github-icon-filled.png') %>";
+      window.linkedinIconUnfilled = '<%= image_url('linkedin-icon.png') %>';
+      window.linkedinIconFilled = '<%= image_url('linkedin-icon-filled.png') %>';
+      window.rubberDuck = " <%= image_url('rubber-duck-icon.png') %>";
+
+      window.netflixComputer = "<%= image_url('Netflix-Computer.png') %>";
+      window.netflixLogo = "<%= image_url('dogflix-logo1.png') %>";
+      window.netflixPhone = "<%= image_url('Netflix-Phone.jpg') %>";
+      window.netflixTV = "<%= image_url('Netflix-TV.png') %>";
+      window.profilePicture = "<%= image_url('user-profile-icon.png') %>"
+
+    </script>
+    
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

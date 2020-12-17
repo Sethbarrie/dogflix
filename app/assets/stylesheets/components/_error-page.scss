@@ -1,0 +1,70 @@
+.error-page-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-image: image-url('404-background.png');
+    background-size: cover;
+}
+
+#error-navbar{
+    margin-bottom: 1px;
+}
+
+.error-page-container > #error-page-header{
+    font-size: 6em;
+    font-weight: 700;
+    margin-bottom: 40px;
+    min-width:  705px;
+    margin-top: 95px;
+}
+
+.error-page-container > #error-page-message-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0px auto 40px;
+}
+
+#error-page-message-container > #error-page-message{
+    font-size: 2.2em;
+    font-weight: 300;
+    width: 50vw;
+    text-align: center;
+    margin-bottom: 40px;
+    min-width: 280px;
+}
+
+#error-page-message-container > #error-page-redirect-button{
+    border: none;
+    border-radius: 3px;
+    color: black;
+    background-color: white;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 20px 35px;
+    margin-bottom: 40px;
+}
+
+#error-page-message-container > #error-page-bottom-error-message{
+    border-left: 2px solid $d-red-button;
+    font-size: 40px;
+    font-weight: 100;
+    padding: 20px 20px;
+    min-width: 450px;
+}
+
+#error-page-bottom-error-message > #error-page-bottom-error-code{
+    font-size: 40px;
+    font-weight: 700;
+    padding-left: 5px;
+}
+
+
+

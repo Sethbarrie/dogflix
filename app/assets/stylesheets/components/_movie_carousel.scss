@@ -1,0 +1,102 @@
+.carousel-background-container{
+    display: flex;
+    flex-direction: column-reverse;
+    background: linear-gradient(0deg, rgba(20,20,20,1) 45%, rgba(0,0,0,1) 100%);
+    background-size: cover;
+    width: 100%;
+}
+
+.movie-carousel-container,
+.movie-carousel-inner-container{
+    display: flex;
+    width: 100%;
+    min-width: 500px;
+}
+
+.movie-carousel-header{
+    padding-left: 3.5vw;
+    padding-bottom: 28px;
+    font-size: 1.4vw;
+    font-weight: 700;
+    color: #e5e5e5;
+    line-height: 1.25vw;
+    vertical-align: top;
+    border: none;
+}
+
+.movie-carousel-container{
+    flex-direction: column;
+    background: transparent;
+    // the height calcs are for adding the header font size and line height
+    height: calc(18vh + 2.65vw);
+    min-height: calc(115px + 2.65vw);
+    width:100%;
+    min-width: 700px;
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.movie-carousel-container:first-child{
+    margin-bottom: 100px;
+}
+
+.movie-carousel-inner-container{
+    flex-direction: row;
+    box-sizing: border-box;
+    border: none;
+    height: 18vh;
+    min-height: 115px;
+    width:100%;
+    min-width: 700px;
+    max-width: 100%;
+
+}
+
+.prev-carousel-window-button,
+.prev-carousel-window-button-dead,
+.next-carousel-window-button{
+    background-color: #141414;
+    height: clamp( 115px, 11.475vw, 165px );
+    min-height: 115px;
+    width: 3.2vw;
+    border: none;
+    opacity: 0;
+    transition: .3s;
+    padding: 0px 0px;
+    box-sizing: content-box;
+    cursor: pointer;
+    outline: none;
+    position: absolute;
+    font-size: 3vw;
+    color: white;
+}
+
+.prev-carousel-window-button,
+.prev-carousel-window-button-dead{
+    left: 0;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.next-carousel-window-button{
+    right: 0;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.prev-carousel-window-button-dead{
+    border: none;
+    cursor: auto;
+    transition: 0s;
+}
+
+.prev-carousel-window-button:hover,
+.next-carousel-window-button:hover,
+.next-carousel-window-button-dead:hover{
+    opacity: 1;
+    transition: .3s;
+
+}
+
+.carousel-window{
+    display: flex;
+    min-width: 367.2vw;
+}

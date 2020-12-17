@@ -1,0 +1,387 @@
+//Main Styling for the whole page
+
+#splash-container{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    width: 100%
+}
+
+#splash-main-container{
+    z-index: 0;
+    background-image: image-url('background' + random(5) + '.jpg') ;
+    background-size: cover;
+    width: 100%;
+    height: 750px;
+}
+
+#splash-main-container > #darken-filter{
+    display: flex;
+    background-image: -webkit-linear-gradient(bottom,rgba(0,0,0,.8) 0,rgba(0,0,0,0) 60%,rgba(0,0,0,.8) 100%);
+    width: 100%;
+    height: 100%;
+}
+
+////////////////////////////////////////////////
+//Styling for the top section with the email form to sign up
+#splash-main-container  #splash-main-inner-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 70px 50px;
+    margin: 0px auto;
+}
+
+#splash-main-text{
+    max-width: 800px;
+}
+
+#splash-main-text > h1{
+    font-size: 4rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+#splash-main-text > h2{
+    font-size: 1.625rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 1rem;
+}
+
+#splash-main-text > h3{
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#entry-email-form{
+    display: flex;
+    align-items: center;
+    min-width: 810px;
+}
+
+#entry-form-button{
+    height: 75px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    font-size: 2rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    border-left: 1px solid black;
+}
+
+#entry-email{
+    padding:0px;
+    font-size: 1.625rem;
+    font-weight: 400;
+    height: 75px;
+    width: 500px;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+
+.splash-signup-form-errors{
+    min-height: 20px;
+    max-height: 20px;
+    min-width: 500px;
+    max-width: 500px;
+}
+
+#splash-signup-form-errors-present{
+    padding-top: 3px;
+    color: orange;
+    box-sizing: border-box;
+}
+
+.splash-errors-present{
+    border-bottom: 3px solid orange;
+}
+
+/////////////////////////////////////////////////
+//Styling for the 3 sections under the main, with the images
+
+#splash1-container, #splash2-container, #splash3-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    border-top: 5px solid $d-gray-border;
+    background-color: #000000;
+}
+
+#splash1-container > #splash1-inner-container,
+#splash2-container > #splash2-inner-container, 
+#splash3-container > #splash3-inner-container{
+    z-index: 20;
+    padding: 70px 50px;
+    margin: 0px auto;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 350px;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+}
+
+#splash1-inner-container > #splash1-text{
+    max-width: 550px;
+    padding-right: 50px;
+}
+
+#splash2-inner-container > #splash2-text{
+    max-width: 600px;
+    padding-left: 50px;
+}
+
+#splash3-inner-container > #splash3-text{
+    max-width: 510px;
+    padding-right: 50px;
+}
+
+#splash1-container h2, #splash2-container h2, #splash3-container h2{
+    font-size: 1.625rem;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+#splash1-container h1, #splash2-container h1, #splash3-container h1{
+    font-size: 3.125rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+#splash1-inner-container #image1{
+    position: relative;
+    height: 330px;
+    z-index: 10;
+}
+
+#splash2-inner-container #image2{
+    height: 330px;
+
+}
+
+#splash3-inner-container #image3{
+    height: 370px;
+    position: relative;
+    z-index: 10;
+}
+#splash1-video-player{
+    position: relative;
+}
+#splash1-video-player video{
+    z-index: 1;
+    height: 180px;
+    position: absolute;
+    top: 68px;
+    left: 59px;
+}
+
+#splash3-video-player{
+    position: relative;
+}
+#splash3-video-player video{
+    z-index: 1;
+    height: 168px;
+    position: absolute;
+    top: 41px;
+    left: 94px;
+}
+/////////////////////////////////////////////////////////
+//Styling for the FAQ section including the dropdowns and the second email form
+
+#splash-faq-container{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-top: 5px solid $d-gray-border;
+    background-color: #000000;
+}
+
+#splash-faq-container > #splash-faq-inner-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 70px 50px;
+    background-color: #000000;
+    min-width: 700px;
+}
+
+#splash-faq-inner-container > #faq-header{
+    font-size: 3.125rem;
+    font-weight: 400;
+}
+
+.dropdown-faq > .dropdown-div{
+
+    width: 100%;
+    min-width: 450px;
+    margin-top: 8px;
+}
+
+.dropdown-div > .splash-faq-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.625rem;
+    font-weight: 400;
+    color:white;
+    background-color:#303030;
+    border-width: 0px;
+    padding-left: 30px;
+    padding-right: 20px ;
+    height: 70px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+}
+
+.splash-faq-button > .material-icons{
+    font-size: 40px;
+    transition: 1s;
+}
+
+
+
+#splash-faq-container .dropdown-faq{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px auto;
+    width: 47%;
+}
+
+.dropdown-faq .splash-faq-closed{
+    // display: none;
+    color: #000;
+    display: block;
+    height: 0px;
+    transition: .2s;
+}
+
+#splash-faq-open .splash-faq-closed{
+    height: auto;
+    color: white;
+    border-top: 1px solid #000000;
+    padding: 30px;
+    font-size: 1.625rem;
+    font-weight: 400;
+    background-color: #303030;
+    transition: .2s;
+}
+
+#splash-faq-open .material-icons{
+    transform: rotate(225deg);
+    transition: .5s;
+}
+
+#splash-faq-form > #splash-faq-text{
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+
+/////////////////////////////////////////////////////
+//Styling for the footer at the bottom, including the github link and the 
+//Language selector
+#splash-footer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: black;
+    border-top: 5px solid $d-gray-border;
+    height: 100px;
+}
+
+.github-image-container,
+.linkedin-image-container{
+    position: relative;
+    padding: 0px 10px;
+}
+
+.github-image img,
+.linkedin-image img{
+    position: absolute;
+    z-index: 5;
+    width: 80px;
+    height: 80px;
+    // padding: 15px 25px;
+}
+
+.github-image-filled img,
+.linkedin-image-filled img{
+    z-index: 3;
+    width: 80px;
+    height: 80px;
+    // padding: 15px 25px;
+}
+
+.github-image:hover img,
+.linkedin-image:hover img{
+    opacity: 0;
+    transition: .1s;    
+}
+
+.language-dropdown{
+    display: flex;
+    flex-direction: row;
+    width: 140px;
+    border: 2px solid $d-gray-font;
+    border-radius: 3px;
+    position: relative;
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.language-dropdown > div{
+    display: none;
+    position: absolute;
+    border: 1px solid $d-gray-font;
+    top: -34px;
+}
+
+.language-dropdown .hidden-menu-clicked{
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 164px;
+    padding: 7px 0px;
+    background-color: black;
+    cursor: pointer;
+}
+
+.language-dropdown #hidden-menu:hover{
+    background-color: blue;
+}
+
+#rubber-duck{
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    cursor: pointer;
+}

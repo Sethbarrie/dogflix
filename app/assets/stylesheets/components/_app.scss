@@ -1,0 +1,31 @@
+#root-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-family: 'Netflix Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+#root-div::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}
+
+.button{
+    border-radius: 1px;
+    font-family: 'Netflix Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    background-color: $d-red-button;
+    margin:0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color: white;
+    cursor: pointer;
+    border: 0px solid;
+    outline: none;
+}
+
+#signedin-navbar{
+    margin-bottom: 0px;
+}

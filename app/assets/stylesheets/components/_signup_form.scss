@@ -1,0 +1,180 @@
+.signup-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 95px);
+    min-height: 770px;
+    border-top: 1px solid #e6e6e6;
+    margin-top: 95px;
+    justify-content: top;
+    align-items: center;
+    position: relative;
+}
+
+.signup-container > #signup-form-container{
+    display: flex;
+    flex-direction: column;
+    width: 23%;
+    min-height: 550px;
+    min-width: 455px;
+    padding: 5px 30px 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 110px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.signup-container #signup-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 1px auto;
+}
+
+#signedout-navbar-signup-url > #signin-button{
+    color: black;
+    background-color: white;
+    border: none;
+    font-size: 19px;
+    font-weight: 700px;
+}
+
+
+#signedout-navbar-signup-url > #signin-button:hover{
+    text-decoration: underline;
+}
+
+.signup-container > .error-container{
+    display: flex;
+    justify-content: center;
+    min-width: 350px;
+    max-width: 500px;
+    width: 35%;
+    margin: 0px auto;
+}
+
+.signup-container > .error-container > .error-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+// .signup-container > .error-container li{
+//     color: $d-red-button;
+//     padding: 10px;
+//     font-size: 16px;
+//     line-height: 7px;
+//     text-align: center;
+// }
+///////////////////////////////////////
+.signup-container > .error-container{
+    position: absolute;
+    max-width: 320px;
+    width: 100%;
+    border-radius: 4px;
+    background-color: #e87c03;
+    font-size: 14px;
+    margin: 10px auto 16px;
+    height: auto;
+    top: -1px
+}
+
+.signup-container > .error-container li{
+    width: 100%;
+    margin: 10px 20px;
+}
+/////////////////////////////////////////
+
+.signup-container > #splash-footer{
+    position: absolute;
+    bottom: 0px;
+    background-color: #f3f3f3;
+    border-top: 1px solid #e6e6e6;
+    overflow: hidden;
+    height: 110px;
+}
+
+.signup-container > #splash-footer > #github-image{
+    margin-left: 25px;
+    box-sizing: content-box;
+    background-size: fill;
+}
+
+.signup-container > #splash-footer .language-dropdown,
+.signup-container > #splash-footer .language-dropdown .material-icons,
+.signup-container > #splash-footer .language-dropdown > #hidden-menu{
+    color: #757575;
+    background-color: white;
+}
+
+
+.signup-container > #signup-form-container > #signup-form .button,
+.signup-container > #signup-form-container > #signup-demo-user-form .button{
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.signup-container > #signup-form-container > #signup-form > #signup-form-header *,
+.signup-container > #signup-form-container > #signup-demo-user-form > h1{
+    color: black;
+    text-align: left;
+    width: inherit;
+}
+
+.signup-container > #signup-form-container > #signup-form > #signup-form-header h1,
+.signup-container > #signup-form-container > #signup-demo-user-form > h1{
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 25px;
+    padding-top: 7px;
+}
+.signup-container > #signup-form-container > #signup-form > #signup-form-header h2{
+    font-size:19px;
+    line-height: 21px;
+    padding-top: 12px;
+}
+.signup-container > #signup-form-container > #signup-form > #signup-form-header h3{
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+
+#signup-form #signup-email,
+#signup-form #signup-username,
+#signup-form #signup-password{
+    width: 100%;
+    height: 48px;
+    box-sizing: border-box;
+    border: 1px solid #757575;
+    border-radius: 2px;
+    padding-left: 12px;
+}
+
+#signup-form #signup-username-label,
+#signup-form #signup-password-label,
+#signup-form #signup-email-label{
+    width: 100%;
+    height: 48px;
+    margin: 6px 0px 1px;
+    box-sizing: content-box;
+}
+
+
+.signup-container > #signup-form-container #signup-demo-user-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 450px;
+    padding: 30px 0px;
+}
+
+.signup-container > #signup-form-container #demo-user-submit-button{
+    width: 100%;
+}
