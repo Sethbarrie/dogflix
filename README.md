@@ -1,6 +1,6 @@
 # <img src="https://github.com/Sethbarrie/FullStackProject/blob/main/app/assets/images/dogflix-logo.png" align="center" width="400" height="220"></img>
 
- ### [Dogflix](https://fsp-dogflix.herokuapp.com/)
+ ### [Dogflix](https://sethb-dogflix.herokuapp.com/#/)
  
 ***
 
