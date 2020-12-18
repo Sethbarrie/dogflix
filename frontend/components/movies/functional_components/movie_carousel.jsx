@@ -30,7 +30,7 @@ const MovieCarousel = ({genre, movieKeys, windowIDX}) => {
             unobserveCarouselSize();
         }
     }, []);
-
+    debugger
     return(
         genre ?
         <div className='movie-carousel-container'>

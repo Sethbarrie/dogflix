@@ -1,18 +1,5 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
 require 'open-uri'
-
-# case Rails.env
-#     when "development"
-#         ADD YOUR TESTING VIDEOS
-#     when "production"
-#         ADD ALL YOUR VIDEOS
-# end
+require 'byebug'
 
 User.destroy_all
 Movie.destroy_all
@@ -308,7 +295,7 @@ description = [
     "With the help of his best feline friend, a lovable Great Dane named Marmaduke (Owen Wilson) helps his family (Lee Pace, Judy Greer) adjust to their new lives in Orange County, California. Although he is loving life and living large in The O.C., he is discovering that fitting in with his new pals at the dog park is not always easy."
     ]
 
-clips = [
+s3clips = [
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/video/clip000.mp4',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/video/clip001.mp4',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/video/clip002.mp4',
@@ -364,7 +351,7 @@ clips = [
 
 ]
     
-covers = [
+s3covers = [
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover000.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover001.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover002.jpg',
@@ -586,18 +573,148 @@ movie_filename = [
     'clip051.mp4'
 ]
 
-titles.each_with_index do |movie_title, idx|
-    temp_movie = Movie.create({
-        title: titles[idx], 
-        description: description[idx], 
-        rating: rating[idx], 
-        director: directors[idx],
-        year: years[idx], 
-        video_url: yt_link[idx]
-    })
-    temp_clip = open(clips[idx])
-    temp_cover = open(covers[idx])
-    temp_movie.movie_clip.attach(io: temp_clip, filename: movie_filename[idx])
-    temp_movie.cover_art.attach(io: temp_cover, filename: cover_filename[idx])
+ls_clips = [
+    'storage/video/clip000.mp4',
+    'storage/video/clip001.mp4',
+    'storage/video/clip002.mp4',
+    'storage/video/clip003.mp4',
+    'storage/video/clip004.mp4',
+    'storage/video/clip005.mp4',
+    'storage/video/clip006.mp4',
+    'storage/video/clip007.mp4',
+    'storage/video/clip008.mp4',
+    'storage/video/clip009.mp4',
+    'storage/video/clip010.mp4',
+    'storage/video/clip011.mp4',
+    'storage/video/clip012.mp4',
+    'storage/video/clip013.mp4',
+    'storage/video/clip014.mp4',
+    'storage/video/clip015.mp4',
+    'storage/video/clip016.mp4',
+    'storage/video/clip017.mp4',
+    'storage/video/clip018.mp4',
+    'storage/video/clip019.mp4',
+    'storage/video/clip020.mp4',
+    'storage/video/clip021.mp4',
+    'storage/video/clip022.mp4',
+    'storage/video/clip023.mp4',
+    'storage/video/clip024.mp4',
+    'storage/video/clip025.mp4',
+    'storage/video/clip026.mp4',
+    'storage/video/clip027.mp4',
+    'storage/video/clip028.mp4',
+    'storage/video/clip029.mp4',
+    'storage/video/clip030.mp4',
+    'storage/video/clip031.mp4',
+    'storage/video/clip032.mp4',
+    'storage/video/clip033.mp4',
+    'storage/video/clip034.mp4',
+    'storage/video/clip035.mp4',
+    'storage/video/clip036.mp4',
+    'storage/video/clip037.mp4',
+    'storage/video/clip038.mp4',
+    'storage/video/clip039.mp4',
+    'storage/video/clip040.mp4',
+    'storage/video/clip041.mp4',
+    'storage/video/clip042.mp4',
+    'storage/video/clip043.mp4',
+    'storage/video/clip044.mp4',
+    'storage/video/clip045.mp4',
+    'storage/video/clip046.mp4',
+    'storage/video/clip047.mp4',
+    'storage/video/clip048.mp4',
+    'storage/video/clip049.mp4',
+    'storage/video/clip050.mp4',
+    'storage/video/clip051.mp4'
+]
 
+
+ls_covers = [
+    'storage/cover-picture/cover000.jpg',
+    'storage/cover-picture/cover001.jpg',
+    'storage/cover-picture/cover002.jpg',
+    'storage/cover-picture/cover003.jpg',
+    'storage/cover-picture/cover004.jpg',
+    'storage/cover-picture/cover005.jpeg',
+    'storage/cover-picture/cover006.jpg',
+    'storage/cover-picture/cover007.jpg',
+    'storage/cover-picture/cover008.jpg',
+    'storage/cover-picture/cover009.jpg',
+    'storage/cover-picture/cover010.jpg',
+    'storage/cover-picture/cover011.jpg',
+    'storage/cover-picture/cover012.jpg',
+    'storage/cover-picture/cover013.jpg',
+    'storage/cover-picture/cover014.jpg',
+    'storage/cover-picture/cover015.jpg',
+    'storage/cover-picture/cover016.jpg',
+    'storage/cover-picture/cover017.jpg',
+    'storage/cover-picture/cover018.jpg',
+    'storage/cover-picture/cover019.jpg',
+    'storage/cover-picture/cover020.jpg',
+    'storage/cover-picture/cover021.jpg',
+    'storage/cover-picture/cover022.jpg',
+    'storage/cover-picture/cover023.jpg',
+    'storage/cover-picture/cover024.jpg',
+    'storage/cover-picture/cover025.jpg',
+    'storage/cover-picture/cover026.jpg',
+    'storage/cover-picture/cover027.jpg',
+    'storage/cover-picture/cover028.jpg',
+    'storage/cover-picture/cover029.jpg',
+    'storage/cover-picture/cover030.png',
+    'storage/cover-picture/cover031.png',
+    'storage/cover-picture/cover032.jpg',
+    'storage/cover-picture/cover033.png',
+    'storage/cover-picture/cover034.jpg',
+    'storage/cover-picture/cover035.jpg',
+    'storage/cover-picture/cover036.jpg',
+    'storage/cover-picture/cover037.jpg',
+    'storage/cover-picture/cover038.png',
+    'storage/cover-picture/cover039.jpg',
+    'storage/cover-picture/cover040.png',
+    'storage/cover-picture/cover041.png',
+    'storage/cover-picture/cover042.jpg',
+    'storage/cover-picture/cover043.jpg',
+    'storage/cover-picture/cover044.jpg',
+    'storage/cover-picture/cover045.jpg',
+    'storage/cover-picture/cover046.png',
+    'storage/cover-picture/cover047.jpg',
+    'storage/cover-picture/cover048.jpg',
+    'storage/cover-picture/cover049.jpg',
+    'storage/cover-picture/cover050.png',
+    'storage/cover-picture/cover051.jpg'
+]
+
+
+case Rails.env
+when "development"
+    titles.each_with_index do |movie_title, idx|
+        temp_movie = Movie.create({
+            title: titles[idx], 
+            description: description[idx], 
+            rating: rating[idx], 
+            director: directors[idx],
+            year: years[idx], 
+            video_url: yt_link[idx]
+        })
+        temp_clip = open(ls_clips[idx])
+        temp_cover = open(ls_covers[idx])
+        temp_movie.movie_clip.attach(io: temp_clip, filename: movie_filename[idx])
+        temp_movie.cover_art.attach(io: temp_cover, filename: cover_filename[idx])
+    end 
+when "production"
+    titles.each_with_index do |movie_title, idx|
+        temp_movie = Movie.create({
+            title: titles[idx], 
+            description: description[idx], 
+            rating: rating[idx], 
+            director: directors[idx],
+            year: years[idx], 
+            video_url: yt_link[idx]
+        })
+        temp_clip = open(s3clips[idx])
+        temp_cover = open(s3covers[idx])
+        temp_movie.movie_clip.attach(io: temp_clip, filename: movie_filename[idx])
+        temp_movie.cover_art.attach(io: temp_cover, filename: cover_filename[idx])
+    end
+   
 end

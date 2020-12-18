@@ -21,7 +21,6 @@ const MovieTilePlayer = ({hovering, movieId, movie, fetchMovie}) => {
             movieRef.current.load();
         }
     }, [hovering, movie])
-
     return (
         movie ?
         <>  

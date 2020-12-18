@@ -7,6 +7,7 @@ class Api::MoviesController < ApplicationController
 
     def show
         @movie = Movie.with_attached_movie_clip.with_attached_cover_art.find_by(id: params[:id])
+        debuggerpg
         if @movie
             render :show
         else

@@ -41,7 +41,7 @@ const SplashAd1 = () =>{
                 </div>
                 <div id='splash1-video-player'>
                     <video 
-                        src={window.netflixTVVideo}
+                        src={window.splashTV}
                         autoPlay
                         loop
                         muted={true}
@@ -79,7 +79,7 @@ const SplashAd3 = () => {
                 </div>
                 <div id='splash3-video-player'>
                     <video 
-                        src={window.netflixComputerVideo}
+                        src={window.splashComputer}
                         autoPlay
                         loop
                         muted={true}
