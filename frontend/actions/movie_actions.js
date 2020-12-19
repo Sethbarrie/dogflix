@@ -71,7 +71,7 @@ export const initializeCarousel = () => dispatch => {
 };
 
 export const initializePreview = () => dispatch => {
-    return MovieAPIUtil.fetchMovie(Math.floor(Math.random() * Math.floor(40)))
+    return MovieAPIUtil.fetchMovie(Math.floor(Math.random() * Math.floor(50)))
     .then( movie => 
         dispatch(previewMovie(movie))
     ,( errors => console.log(errors))
