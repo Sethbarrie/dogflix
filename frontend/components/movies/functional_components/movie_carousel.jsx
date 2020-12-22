@@ -23,21 +23,6 @@ const MovieCarousel = ({genre, movieKeys, windowIDX}) => {
             animateRight(screen.current, windowIDX);
         }
     }
-    //Added template for carousel throttling
-    function throttle (callback, limit) {
-        let waiting = false;
-        return function () {
-            if (!waiting) {
-                callback.apply(this, arguments);
-                waiting = true;
-                setTimeout(function () {
-                    waiting = false;
-                }, limit);
-            }
-        }
-    }
-
-    const onClickThrottle = throttle(newScreen, 1101);
 
     useEffect( () => {
         observeCarouselSize();
@@ -53,7 +38,7 @@ const MovieCarousel = ({genre, movieKeys, windowIDX}) => {
             <div className='movie-carousel-inner-container'>
                 <button 
                     className='prev-carousel-window-button'
-                    onClick={() => throttle(-1)}> 
+                    onClick={() => newScreen(-1)}> 
                     <i className="material-icons">navigate_before</i>
                 </button>                      
 
@@ -72,7 +57,7 @@ const MovieCarousel = ({genre, movieKeys, windowIDX}) => {
 
                 <button 
                     className='next-carousel-window-button' 
-                    onClick={() => }>
+                    onClick={() => newScreen(1)}>
                     <i className="material-icons">navigate_next</i>
                 </button>        
             </div>

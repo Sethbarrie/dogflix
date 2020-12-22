@@ -14,7 +14,7 @@
 }
 
 #hovered-movie-tile{
-    // position: relative;
+    position: relative;
 
     background-color: rgb(22, 20, 32);
     // The transform here will increase the size of the pop out tile
@@ -41,11 +41,11 @@
 }
 
 .movie-tile-video{
-    // z-index: 31;
+    z-index: 21;
 }
 
 .anti-flicker-image{
-    // z-index: 30;
+    z-index: 20;
 }
 
 
@@ -56,6 +56,7 @@
     height: 100%;
     position: absolute;
     overflow: visible;
+    z-index: 30;
 }
 
 
@@ -80,6 +81,7 @@
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     box-shadow: 3px 3px 3px #101010;
+    z-index: 40;
 }
 
 .movie-tile-button-container{

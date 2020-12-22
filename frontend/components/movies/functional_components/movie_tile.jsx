@@ -2,14 +2,19 @@ import  React, { useState, useEffect } from 'react';
 import MovieTilePlayerContainer from '../containers/movie_tile_player_container';
 import MovieTileControlsContainer from '../containers/movie_tile_controls_container';
 import useDebounced from '../../../util/useDebounce';
+import { fetchMovie } from '../../../actions/movie_actions';
 
-const MovieTile = ({genre, movieId, playerKey, controlKey}) => {
+const MovieTile = ({genre, movieId, playerKey, controlKey, movieNotDownloaded, fetchMovie}) => {
 
-    const [hovering, setHover] = useState(false);
+    const [hovering, setHover] = useState(movieNotDownloaded);
     const debouncedMovie = useDebounced(hovering, 500, 50);
     
     useEffect(() => {
-        setHover(debouncedMovie);
+        if(hovering && movieNotDownloaded){
+            fetchMovie(movieId);
+        } else {
+            setHover(debouncedMovie);
+        }
     },[debouncedMovie]);
 
 

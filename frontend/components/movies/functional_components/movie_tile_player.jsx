@@ -6,7 +6,7 @@ const MovieTilePlayer = ({hovering, movieId, movie, fetchMovie}) => {
     
     useEffect(() => {
         if(hovering && !movie.movie_clip){
-            fetchMovie(movie.id);
+            async () => await fetchMovie(movie.id);
         }
     },[hovering])
 

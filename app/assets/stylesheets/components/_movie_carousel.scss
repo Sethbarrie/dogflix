@@ -1,6 +1,7 @@
 .carousel-background-container{
     display: flex;
     flex-direction: column-reverse;
+    // flex-direction: column;
     background: linear-gradient(0deg, rgba(20,20,20,1) 45%, rgba(0,0,0,1) 100%);
     background-size: cover;
     width: 100%;
