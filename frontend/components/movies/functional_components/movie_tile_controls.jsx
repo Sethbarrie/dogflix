@@ -1,7 +1,9 @@
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 
 const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
 
+    const movieDownloaded = useRef(!!movie.movie_clip);
+    
     const clickPlay = () => {
         setCurrentMovie(movie);
         history.push({
@@ -9,11 +11,13 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
         })
     }
 
+    let expanded = (hovering && movieDownloaded.current);
+
     return(
-        (movie && hovering)?
+        (expanded)?
         <div 
             className='movie-tile-controls' 
-            id={ hovering 
+            id={ expanded 
                 ? 'hovered-movie-tile-controls' 
                 : null
             }

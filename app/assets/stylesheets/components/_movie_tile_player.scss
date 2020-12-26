@@ -52,7 +52,9 @@
 
 #hovered-movie-tile-video,
 #hovered-anti-flicker-image{
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 4px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
     height: 100%;
     position: absolute;
     overflow: visible;

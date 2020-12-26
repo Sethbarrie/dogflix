@@ -21,6 +21,11 @@
         </script>
     <%end%>
 
+
+    <script type="text/javascript">
+        window.googleAPIKey = "<%= Rails.application.credentials.google[:api_key] %>"
+    </script>
+
     <script type="text/javascript">
       window.background1 = "<%= image_url("background#{rand(1..5)}.jpg") %>";
       window.background2 = "<%= image_url("background#{rand(1..5)}.jpg") %>";

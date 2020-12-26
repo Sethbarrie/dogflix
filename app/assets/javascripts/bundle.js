@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./frontend/entry.jsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./frontend/entry.js");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1299,23 +1299,14 @@ var MovieTile = function MovieTile(_ref) {
   var genre = _ref.genre,
       movieId = _ref.movieId,
       playerKey = _ref.playerKey,
-      controlKey = _ref.controlKey,
-      movieNotDownloaded = _ref.movieNotDownloaded,
-      fetchMovie = _ref.fetchMovie;
+      controlKey = _ref.controlKey;
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(movieNotDownloaded),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       hovering = _useState2[0],
       setHover = _useState2[1];
 
   var debouncedMovie = Object(_util_useDebounce__WEBPACK_IMPORTED_MODULE_3__["default"])(hovering, 500, 50);
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (hovering && movieNotDownloaded) {
-      fetchMovie(movieId);
-    } else {
-      setHover(debouncedMovie);
-    }
-  }, [debouncedMovie]);
   return genre ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile",
     id: debouncedMovie ? 'hovered-movie-tile' : null,
@@ -1360,6 +1351,7 @@ var MovieTileControls = function MovieTileControls(_ref) {
       setCurrentMovie = _ref.setCurrentMovie,
       history = _ref.history,
       hovering = _ref.hovering;
+  var movieDownloaded = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(!!movie.movie_clip);
 
   var clickPlay = function clickPlay() {
     setCurrentMovie(movie);
@@ -1368,9 +1360,10 @@ var MovieTileControls = function MovieTileControls(_ref) {
     });
   };
 
-  return movie && hovering ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  var expanded = hovering && movieDownloaded.current;
+  return expanded ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile-controls",
-    id: hovering ? 'hovered-movie-tile-controls' : null
+    id: expanded ? 'hovered-movie-tile-controls' : null
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile-button-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -1411,9 +1404,17 @@ var MovieTileControls = function MovieTileControls(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -1423,27 +1424,10 @@ var MovieTilePlayer = function MovieTilePlayer(_ref) {
       movie = _ref.movie,
       fetchMovie = _ref.fetchMovie;
   var movieRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var movieDownloaded = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(!!movie.movie_clip);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (hovering && !movie.movie_clip) {
-      /*#__PURE__*/
-      _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return fetchMovie(movie.id);
-
-              case 2:
-                return _context.abrupt("return", _context.sent);
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
+      fetchMovie(movie.id);
     }
   }, [hovering]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -1458,17 +1442,23 @@ var MovieTilePlayer = function MovieTilePlayer(_ref) {
       movieRef.current.load();
     }
   }, [hovering, movie]);
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(hovering && movieDownloaded.current),
+      _useState2 = _slicedToArray(_useState, 2),
+      expanded = _useState2[0],
+      setExpanded = _useState2[1];
+
   return movie ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "anti-flicker-image",
-    id: hovering ? 'hovered-anti-flicker-image' : null,
+    id: expanded ? 'hovered-anti-flicker-image' : null,
     src: movie.cover_art
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
-    id: hovering ? 'hovered-movie-tile-video' : null,
+    id: expanded ? 'hovered-movie-tile-video' : null,
     className: "movie-tile-video",
     poster: movie.cover_art,
     muted: true,
     loop: true,
-    autoPlay: hovering,
+    autoPlay: expanded,
     ref: movieRef
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
     src: movie.movie_clip || null,
@@ -1483,10 +1473,9 @@ var propComp = function propComp(prevProp, nextProp) {
   if (prevProp.hovering !== nextProp.hovering) return false;
   if (prevProp.movie.movie_clip === undefined && nextProp.movie.movie_clip !== undefined) return false;
   return true;
-}; // export default memo(MovieTilePlayer, propComp);
+};
 
-
-/* harmony default export */ __webpack_exports__["default"] = (MovieTilePlayer);
+/* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(MovieTilePlayer, propComp)); // export default MovieTilePlayer;
 
 /***/ }),
 
@@ -2794,10 +2783,10 @@ var Splash = function Splash() {
 
 /***/ }),
 
-/***/ "./frontend/entry.jsx":
-/*!****************************!*\
-  !*** ./frontend/entry.jsx ***!
-  \****************************/
+/***/ "./frontend/entry.js":
+/*!***************************!*\
+  !*** ./frontend/entry.js ***!
+  \***************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

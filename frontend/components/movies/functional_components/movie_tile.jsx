@@ -4,19 +4,10 @@ import MovieTileControlsContainer from '../containers/movie_tile_controls_contai
 import useDebounced from '../../../util/useDebounce';
 import { fetchMovie } from '../../../actions/movie_actions';
 
-const MovieTile = ({genre, movieId, playerKey, controlKey, movieNotDownloaded, fetchMovie}) => {
+const MovieTile = ({genre, movieId, playerKey, controlKey}) => {
 
-    const [hovering, setHover] = useState(movieNotDownloaded);
+    const [hovering, setHover] = useState(false);
     const debouncedMovie = useDebounced(hovering, 500, 50);
-    
-    useEffect(() => {
-        if(hovering && movieNotDownloaded){
-            fetchMovie(movieId);
-        } else {
-            setHover(debouncedMovie);
-        }
-    },[debouncedMovie]);
-
 
     return(
         genre ?

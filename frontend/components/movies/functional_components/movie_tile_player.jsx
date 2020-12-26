@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef, memo } from "react";
 
 const MovieTilePlayer = ({hovering, movieId, movie, fetchMovie}) => {
 
-    const movieRef = useRef()
+    const movieRef = useRef();
+    const movieDownloaded = useRef(!!movie.movie_clip);
     
     useEffect(() => {
         if(hovering && !movie.movie_clip){
-            async () => await fetchMovie(movie.id);
+            fetchMovie(movie.id);
         }
     },[hovering])
 
@@ -21,20 +22,23 @@ const MovieTilePlayer = ({hovering, movieId, movie, fetchMovie}) => {
             movieRef.current.load();
         }
     }, [hovering, movie])
+
+    let [expanded, setExpanded] = useState(hovering && movieDownloaded.current);
+
     return (
         movie ?
         <>  
             <img 
                 className='anti-flicker-image' 
-                id={hovering ? 'hovered-anti-flicker-image' : null}
+                id={expanded ? 'hovered-anti-flicker-image' : null}
                 src={movie.cover_art} />
             <video
-            id={hovering ? 'hovered-movie-tile-video' : null} 
+            id={expanded ? 'hovered-movie-tile-video' : null} 
             className='movie-tile-video' 
             poster={movie.cover_art} 
             muted 
             loop
-            autoPlay={hovering}
+            autoPlay={expanded}
             ref={movieRef}
             >
                 <source src={movie.movie_clip || null} type='video/webm'/>
@@ -56,6 +60,6 @@ const propComp = (prevProp, nextProp) => {
 }
 
 
-// export default memo(MovieTilePlayer, propComp);
+export default memo(MovieTilePlayer, propComp);
 
-export default MovieTilePlayer;
+// export default MovieTilePlayer;
