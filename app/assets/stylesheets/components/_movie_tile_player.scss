@@ -1,5 +1,6 @@
 .movie-tile{
     position: relative;
+    border: transparent;
     background-color: transparent;
     min-width: 15.3vw;
     max-width: 295px;
@@ -123,6 +124,7 @@
     margin: 7px 7px;
     margin-bottom: 3px;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .upper-movie-info span:first-of-type{
@@ -139,21 +141,23 @@
 
 .lower-movie-info{
     display: flex;
+    justify-content: flex-start;
     align-items: center;
     height: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.lower-movie-info .material-icons{
+    font-size: 8px;
 }
 
 .movie-descriptor{
-    list-style-type: disc;
     font-size: 11px;
     font-weight: 600;
     margin-left: 8px;
     padding-right: 16px;
     height: 13px;
-}
-
-.lower-movie-info li:first-of-type{
-    list-style: none;
 }
 
 #hovered-movie-tile:nth-child(6n + 1){

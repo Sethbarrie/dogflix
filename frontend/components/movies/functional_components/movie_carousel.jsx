@@ -1,10 +1,17 @@
-import React, {useState, useRef, useEffect, useLayoutEffect, memo} from 'react';
-import MovieTile from './movie_tile';
-import { randomKeyGen, animateLeft, animateRight } from '../../../util/helper';
+import React, {useState, useRef, useEffect, useLayoutEffect, memo, Profiler} from 'react';
+import MovieTileContainer from '../containers/movie_tile_container';
+import { animateLeft, animateRight } from '../../../util/helper';
 import { observeCarouselSize, unobserveCarouselSize, updateScreen} from '../../../util/observers';
+import useTraceUpdate from '../../../util/useTraceUpdate';
+import profileWriter from '../../../util/profileWriter';
 
-const MovieCarousel = ({genre, movieKeys, windowIDX}) => {
+
+const MovieCarousel = props => {
     
+    const {genre, movieKeys, windowIDX} = props;
+
+    // useTraceUpdate(props, "MovieCarousel");
+
     const screen = useRef(0);
 
     const newScreen = directionNum => {
@@ -43,14 +50,15 @@ const MovieCarousel = ({genre, movieKeys, windowIDX}) => {
                 </button>                      
 
                 <div className='carousel-window' id={`carousel-window-${windowIDX}`}>
-                    {[...Array(24).keys()].map((movie, idx) => {
-                        return( 
-                            <MovieTile
-                            spot={ (idx % 6) === 0 ? 'first-' : (idx % 6) === 5 ? 'last-': ''}
-                            movieId={idx}
-                            genre={genre}
-                            key={movieKeys[idx]}
-                            />
+                    {[...Array(24).keys()].map((idx) => {
+                        return(
+                            // <Profiler id={`MovieTileContainer from ${genre} and spot ${idx}`} onRender={profileWriter}>
+                                <MovieTileContainer
+                                movieId={idx}
+                                genre={genre}
+                                key={movieKeys[idx]}
+                                />
+                            // </Profiler> 
                             )                   
                         })}
                 </div>
@@ -66,5 +74,11 @@ const MovieCarousel = ({genre, movieKeys, windowIDX}) => {
     ) 
 };
 
+function compareMovieKeys(prevProps, nextProps){
+    return [...Array(24).keys()].every( idx => {
+        return prevProps.movieKeys[idx] === nextProps.movieKeys[idx];
+    })
+}
 
-export default MovieCarousel;
+
+export default memo(MovieCarousel, compareMovieKeys);

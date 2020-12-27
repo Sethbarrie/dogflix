@@ -15,6 +15,12 @@ const MoviePreview = (props) => {
     }
 
     useEffect(() => {
+        if(!!props.movie.movie_clip){
+            setPlaying(true);
+        }
+    }, [props.movie])
+
+    useEffect(() => {
         observeNavbar();
 
         return () => {

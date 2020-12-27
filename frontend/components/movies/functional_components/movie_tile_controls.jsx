@@ -11,7 +11,13 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
         })
     }
 
-    let expanded = (hovering && movieDownloaded.current);
+    let expanded;
+
+    if(movieDownloaded.current && hovering){
+        expanded = true;
+    } else {
+        expanded = false;
+    }
 
     return(
         (expanded)?
@@ -35,7 +41,9 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
                 </div>
                 <ul className='lower-movie-info'>
                     <li className='movie-descriptor'>{movie.descriptors[0]}</li>
+                    <i class="material-icons">brightness_1</i>
                     <li className='movie-descriptor'>{movie.descriptors[1]}</li>
+                    <i class="material-icons">brightness_1</i>
                     <li className='movie-descriptor'>{movie.descriptors[2]}</li>
                 </ul>
             </div>

@@ -52,7 +52,10 @@ const carouselReducer = (initialState = {}, action) => {
                         let newMovie = Object.assign( {} , action.movie);
                         newMovie.descriptors = movie.descriptors;
                         newMovie.matchPercent = movie.matchPercent;
-                        newMovie.key =[randomKeyGen(), randomKeyGen(), randomKeyGen()];
+                        // newMovie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
+                        newMovie.key = [movie.key[0]];
+                        let tempArr = [randomKeyGen(), randomKeyGen()];
+                        newMovie.key = newMovie.key.concat(tempArr);
                         return newMovie;
                     } else {
                         return movie;

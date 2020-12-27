@@ -4,6 +4,7 @@
 /public/assets
 /log/
 /config/master.key
+/before_push_todo
 
 /storage/
 /public/uploads

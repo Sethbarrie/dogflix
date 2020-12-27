@@ -1,9 +1,21 @@
 import React, { useState, useEffect, useRef, memo } from "react";
+import useTraceUpdate from "../../../util/useTraceUpdate";
 
-const MovieTilePlayer = ({hovering, movieId, movie, fetchMovie}) => {
+const MovieTilePlayer = props => {
+
+    // useTraceUpdate(props, "MovieTilePlayer");
+
+    const {hovering, movie, fetchMovie} = props;
 
     const movieRef = useRef();
     const movieDownloaded = useRef(!!movie.movie_clip);
+    
+    let expanded
+    if(movieDownloaded.current && hovering){
+        expanded = true;
+    } else {
+        expanded = false;
+    }
     
     useEffect(() => {
         if(hovering && !movie.movie_clip){
@@ -23,7 +35,7 @@ const MovieTilePlayer = ({hovering, movieId, movie, fetchMovie}) => {
         }
     }, [hovering, movie])
 
-    let [expanded, setExpanded] = useState(hovering && movieDownloaded.current);
+
 
     return (
         movie ?

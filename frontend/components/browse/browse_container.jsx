@@ -6,7 +6,7 @@ import {
 } from '../../actions/movie_actions'
 
 const mapStateToProps = state => {
-    let genres = Object.keys(state.carousel);
+    let genres = Object.keys(state.carousel).sort();
     return {
     genres: genres,
     genreKeys: genres.map( genre => state.carousel[genre].key),

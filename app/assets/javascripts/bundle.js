@@ -471,22 +471,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/helper */ "./frontend/util/helper.js");
 /* harmony import */ var _movies_containers_movie_preview_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../movies/containers/movie_preview_container */ "./frontend/components/movies/containers/movie_preview_container.jsx");
 /* harmony import */ var _movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../movies/containers/movie_carousel_container */ "./frontend/components/movies/containers/movie_carousel_container.jsx");
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
+/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/profileWriter */ "./frontend/util/profileWriter.js");
 
 
 
 
 
 
-var Browse = function Browse(_ref) {
-  var genres = _ref.genres,
-      previewMovie = _ref.previewMovie,
-      genreKeys = _ref.genreKeys,
-      initializeCarousel = _ref.initializeCarousel,
-      initializePreview = _ref.initializePreview;
+
+
+var Browse = function Browse(props) {
+  var genres = props.genres,
+      previewMovie = props.previewMovie,
+      genreKeys = props.genreKeys,
+      initializeCarousel = props.initializeCarousel,
+      initializePreview = props.initializePreview; // useTraceUpdate(props, "Browse");
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["emptyObject"])(previewMovie)) {
-      initializeCarousel();
       initializePreview();
+      initializeCarousel();
     }
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -496,11 +501,16 @@ var Browse = function Browse(_ref) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "carousel-background-container"
   }, genres.map(function (genre, idx) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      key: genreKeys[idx],
-      genre: genre,
-      windowIDX: idx
-    });
+    return (
+      /*#__PURE__*/
+      // <Profiler id={`${genre} carousel`} onRender={profileWriter}>
+      react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        key: genreKeys[idx],
+        genre: genre,
+        windowIDX: idx
+      }) // </Profiler>
+
+    );
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_1__["Footer"], null));
 };
 
@@ -510,7 +520,14 @@ var propComp = function propComp(prevProp, nextProp) {
       return false;
     }
   });
-  return prevProp.previewMovie.movie_clip === nextProp.previewMovie.movie_clip;
+  var flag1 = !!nextProp.previewMovie.movie_clip;
+  var flag2 = prevProp.previewMovie.movie_clip !== nextProp.previewMovie.movie_clip;
+
+  if (flag1 && flag2) {
+    return false;
+  } else {
+    return true;
+  }
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(Browse, propComp));
@@ -534,7 +551,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state) {
-  var genres = Object.keys(state.carousel);
+  var genres = Object.keys(state.carousel).sort();
   return {
     genres: genres,
     genreKeys: genres.map(function (genre) {
@@ -872,6 +889,35 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/movies/containers/movie_tile_container.js":
+/*!***********************************************************************!*\
+  !*** ./frontend/components/movies/containers/movie_tile_container.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _functional_components_movie_tile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functional_components/movie_tile */ "./frontend/components/movies/functional_components/movie_tile.jsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    playerKey: state.carousel[ownProps.genre][ownProps.movieId].key[1],
+    controlKey: state.carousel[ownProps.genre][ownProps.movieId].key[2]
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {};
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(_functional_components_movie_tile__WEBPACK_IMPORTED_MODULE_0__["default"]));
+
+/***/ }),
+
 /***/ "./frontend/components/movies/containers/movie_tile_controls_container.js":
 /*!********************************************************************************!*\
   !*** ./frontend/components/movies/containers/movie_tile_controls_container.js ***!
@@ -956,9 +1002,11 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _movie_tile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./movie_tile */ "./frontend/components/movies/functional_components/movie_tile.jsx");
+/* harmony import */ var _containers_movie_tile_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../containers/movie_tile_container */ "./frontend/components/movies/containers/movie_tile_container.js");
 /* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/helper */ "./frontend/util/helper.js");
 /* harmony import */ var _util_observers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/observers */ "./frontend/util/observers.jsx");
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
+/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/profileWriter */ "./frontend/util/profileWriter.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -976,10 +1024,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-var MovieCarousel = function MovieCarousel(_ref) {
-  var genre = _ref.genre,
-      movieKeys = _ref.movieKeys,
-      windowIDX = _ref.windowIDX;
+
+
+var MovieCarousel = function MovieCarousel(props) {
+  var genre = props.genre,
+      movieKeys = props.movieKeys,
+      windowIDX = props.windowIDX; // useTraceUpdate(props, "MovieCarousel");
+
   var screen = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(0);
 
   var newScreen = function newScreen(directionNum) {
@@ -1023,13 +1074,17 @@ var MovieCarousel = function MovieCarousel(_ref) {
   }, "navigate_before")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "carousel-window",
     id: "carousel-window-".concat(windowIDX)
-  }, _toConsumableArray(Array(24).keys()).map(function (movie, idx) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movie_tile__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      spot: idx % 6 === 0 ? 'first-' : idx % 6 === 5 ? 'last-' : '',
-      movieId: idx,
-      genre: genre,
-      key: movieKeys[idx]
-    });
+  }, _toConsumableArray(Array(24).keys()).map(function (idx) {
+    return (
+      /*#__PURE__*/
+      // <Profiler id={`MovieTileContainer from ${genre} and spot ${idx}`} onRender={profileWriter}>
+      react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_movie_tile_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        movieId: idx,
+        genre: genre,
+        key: movieKeys[idx]
+      }) // </Profiler> 
+
+    );
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "next-carousel-window-button",
     onClick: function onClick() {
@@ -1040,7 +1095,13 @@ var MovieCarousel = function MovieCarousel(_ref) {
   }, "navigate_next")))) : null;
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (MovieCarousel);
+function compareMovieKeys(prevProps, nextProps) {
+  return _toConsumableArray(Array(24).keys()).every(function (idx) {
+    return prevProps.movieKeys[idx] === nextProps.movieKeys[idx];
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(MovieCarousel, compareMovieKeys));
 
 /***/ }),
 
@@ -1215,6 +1276,11 @@ var MoviePreview = function MoviePreview(props) {
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (!!props.movie.movie_clip) {
+      setPlaying(true);
+    }
+  }, [props.movie]);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     Object(_util_observers__WEBPACK_IMPORTED_MODULE_1__["observeNavbar"])();
     return function () {
       Object(_util_observers__WEBPACK_IMPORTED_MODULE_1__["unobserveNavbar"])();
@@ -1276,7 +1342,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _containers_movie_tile_player_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../containers/movie_tile_player_container */ "./frontend/components/movies/containers/movie_tile_player_container.js");
 /* harmony import */ var _containers_movie_tile_controls_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../containers/movie_tile_controls_container */ "./frontend/components/movies/containers/movie_tile_controls_container.js");
 /* harmony import */ var _util_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/useDebounce */ "./frontend/util/useDebounce.js");
-/* harmony import */ var _actions_movie_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/movie_actions */ "./frontend/actions/movie_actions.js");
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
+/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/profileWriter */ "./frontend/util/profileWriter.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1295,11 +1362,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var MovieTile = function MovieTile(_ref) {
-  var genre = _ref.genre,
-      movieId = _ref.movieId,
-      playerKey = _ref.playerKey,
-      controlKey = _ref.controlKey;
+
+var MovieTile = function MovieTile(props) {
+  var genre = props.genre,
+      movieId = props.movieId,
+      playerKey = props.playerKey,
+      controlKey = props.controlKey; // useTraceUpdate(props, "MovieTile");
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -1360,7 +1428,14 @@ var MovieTileControls = function MovieTileControls(_ref) {
     });
   };
 
-  var expanded = hovering && movieDownloaded.current;
+  var expanded;
+
+  if (movieDownloaded.current && hovering) {
+    expanded = true;
+  } else {
+    expanded = false;
+  }
+
   return expanded ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile-controls",
     id: expanded ? 'hovered-movie-tile-controls' : null
@@ -1382,9 +1457,13 @@ var MovieTileControls = function MovieTileControls(_ref) {
     className: "lower-movie-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "movie-descriptor"
-  }, movie.descriptors[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+  }, movie.descriptors[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    "class": "material-icons"
+  }, "brightness_1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "movie-descriptor"
-  }, movie.descriptors[1]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+  }, movie.descriptors[1]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    "class": "material-icons"
+  }, "brightness_1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "movie-descriptor"
   }, movie.descriptors[2])))) : null;
 };
@@ -1404,27 +1483,25 @@ var MovieTileControls = function MovieTileControls(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
 
 
 
-var MovieTilePlayer = function MovieTilePlayer(_ref) {
-  var hovering = _ref.hovering,
-      movieId = _ref.movieId,
-      movie = _ref.movie,
-      fetchMovie = _ref.fetchMovie;
+var MovieTilePlayer = function MovieTilePlayer(props) {
+  // useTraceUpdate(props, "MovieTilePlayer");
+  var hovering = props.hovering,
+      movie = props.movie,
+      fetchMovie = props.fetchMovie;
   var movieRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   var movieDownloaded = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(!!movie.movie_clip);
+  var expanded;
+
+  if (movieDownloaded.current && hovering) {
+    expanded = true;
+  } else {
+    expanded = false;
+  }
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (hovering && !movie.movie_clip) {
       fetchMovie(movie.id);
@@ -1442,12 +1519,6 @@ var MovieTilePlayer = function MovieTilePlayer(_ref) {
       movieRef.current.load();
     }
   }, [hovering, movie]);
-
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(hovering && movieDownloaded.current),
-      _useState2 = _slicedToArray(_useState, 2),
-      expanded = _useState2[0],
-      setExpanded = _useState2[1];
-
   return movie ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "anti-flicker-image",
     id: expanded ? 'hovered-anti-flicker-image' : null,
@@ -2887,8 +2958,11 @@ var carouselReducer = function carouselReducer() {
           if (movie.id === action.movie.id) {
             var newMovie = Object.assign({}, action.movie);
             newMovie.descriptors = movie.descriptors;
-            newMovie.matchPercent = movie.matchPercent;
-            newMovie.key = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])()];
+            newMovie.matchPercent = movie.matchPercent; // newMovie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
+
+            newMovie.key = [movie.key[0]];
+            var tempArr = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])()];
+            newMovie.key = newMovie.key.concat(tempArr);
             return newMovie;
           } else {
             return movie;
@@ -3235,7 +3309,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _random_genres__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./random_genres */ "./frontend/util/random_genres.js");
 
 
-var keyArray = [];
+var keyArray = []; //https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+
 var shuffle = function shuffle(array) {
   for (var i = array.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
@@ -3501,6 +3576,37 @@ function throttleCallback(callback, entries) {
 
 /***/ }),
 
+/***/ "./frontend/util/profileWriter.js":
+/*!****************************************!*\
+  !*** ./frontend/util/profileWriter.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function profileWriter(id, // the "id" prop of the Profiler tree that has just committed
+phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
+actualDuration, // time spent rendering the committed update
+baseDuration, // estimated time to render the entire subtree without memoization
+startTime, // when React began rendering this update
+commitTime, // when React committed this update
+interactions // the Set of interactions belonging to this update
+) {
+  // console.log(id);
+  // console.log(phase);
+  // console.log(actualDuration);
+  // console.log(baseDuration);
+  // console.log(startTime);
+  // console.log(commitTime);
+  console.log("".concat(id, " has ").concat(phase === "mount" ? "mounted" : "updated", ", actualDuration: ").concat(actualDuration, "ms, baseDuration: ").concat(baseDuration, "ms, startTime: ").concat(startTime, "ms, commitTime: ").concat(commitTime, "ms"));
+  console.log(interactions);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (profileWriter);
+
+/***/ }),
+
 /***/ "./frontend/util/random_descriptor.js":
 /*!********************************************!*\
   !*** ./frontend/util/random_descriptor.js ***!
@@ -3703,6 +3809,59 @@ var useDebounced = function useDebounced(value, delayOn, delayOff) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (useDebounced);
+
+/***/ }),
+
+/***/ "./frontend/util/useTraceUpdate.js":
+/*!*****************************************!*\
+  !*** ./frontend/util/useTraceUpdate.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function useTraceUpdate(props, component) {
+  var prev = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(props);
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    var changedProps = Object.entries(props).reduce(function (ps, _ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          k = _ref2[0],
+          v = _ref2[1];
+
+      if (prev.current[k] !== v) {
+        ps[k] = [prev.current[k], v];
+      }
+
+      return ps;
+    }, {});
+
+    if (Object.keys(changedProps).length > 0) {
+      console.log("Changed props in ".concat(component, ":"), changedProps);
+    }
+
+    prev.current = props;
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (useTraceUpdate); //https://stackoverflow.com/questions/41004631/trace-why-a-react-component-is-re-rendering
+//Shoutout to Jacob Rask for a very clean implementation of a React trace for debugging
 
 /***/ }),
 
