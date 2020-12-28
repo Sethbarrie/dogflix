@@ -490,8 +490,8 @@ var Browse = function Browse(props) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["emptyObject"])(previewMovie)) {
-      initializePreview();
       initializeCarousel();
+      initializePreview();
     }
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1239,6 +1239,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_observers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/observers */ "./frontend/util/observers.jsx");
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1254,7 +1255,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var MoviePreview = function MoviePreview(props) {
+  // useTraceUpdate(props, "MoviePreview");
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       volume = _useState2[0],
@@ -1265,6 +1268,8 @@ var MoviePreview = function MoviePreview(props) {
       playing = _useState4[0],
       setPlaying = _useState4[1];
 
+  var moviePlayer = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+
   var clickPlay = function clickPlay() {
     props.setCurrentMovie(props.movie);
     props.history.push({
@@ -1273,29 +1278,39 @@ var MoviePreview = function MoviePreview(props) {
         movie: props.movie
       }
     });
-  };
+  }; // useEffect(() => {
+  //     if(!!props.movie.movie_clip && moviePlayer.current){
+  //         moviePlayer.current.play();
+  //     }
+  // }, [props.movie])
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    if (!!props.movie.movie_clip) {
-      setPlaying(true);
-    }
-  }, [props.movie]);
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     Object(_util_observers__WEBPACK_IMPORTED_MODULE_1__["observeNavbar"])();
     return function () {
       Object(_util_observers__WEBPACK_IMPORTED_MODULE_1__["unobserveNavbar"])();
     };
   }, []);
+
+  var playMedia = function playMedia() {
+    moviePlayer.current.play();
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-preview-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
     loop: true,
     disablePictureInPicture: true,
     poster: props.movie.cover_art,
+    ref: moviePlayer,
     className: "movie-preview",
     controlsList: "nodownload",
+    onLoadedData: function onLoadedData() {
+      return moviePlayer.current.play();
+    },
+    playsInline: playing,
     autoPlay: playing,
-    muted: !volume
+    muted: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
     src: props.movie.movie_clip,
     type: "video/webm"

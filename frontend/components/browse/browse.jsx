@@ -14,8 +14,8 @@ const Browse = props => {
     
     useEffect( () => {
         if(emptyObject(previewMovie)){
-            initializePreview();
             initializeCarousel();
+            initializePreview();
         }
     }, [])
 

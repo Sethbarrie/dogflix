@@ -1,10 +1,14 @@
 import React, {useEffect, useState, useRef} from 'react';
 import { observeNavbar, unobserveNavbar} from '../../../util/observers';
+import useTraceUpdate from '../../../util/useTraceUpdate';
 
 const MoviePreview = (props) => {
 
+    // useTraceUpdate(props, "MoviePreview");
+
     const [ volume, setVolume] = useState(false);
     const [playing, setPlaying ] = useState(!!props.movie.movie_clip);
+    const moviePlayer = useRef();
 
     const clickPlay = () => {
         props.setCurrentMovie(props.movie);
@@ -14,19 +18,22 @@ const MoviePreview = (props) => {
         })
     }
 
-    useEffect(() => {
-        if(!!props.movie.movie_clip){
-            setPlaying(true);
-        }
-    }, [props.movie])
+    // useEffect(() => {
+    //     if(!!props.movie.movie_clip && moviePlayer.current){
+    //         moviePlayer.current.play();
+    //     }
+    // }, [props.movie])
 
     useEffect(() => {
         observeNavbar();
-
         return () => {
             unobserveNavbar();
         }
     }, [])
+
+    const playMedia = () => {
+        moviePlayer.current.play()
+    }
 
     return(
         <div className='movie-preview-container'>
@@ -34,10 +41,13 @@ const MoviePreview = (props) => {
             loop
             disablePictureInPicture
             poster={props.movie.cover_art}
+            ref={moviePlayer}
             className='movie-preview'
             controlsList="nodownload"
+            onLoadedData={() => moviePlayer.current.play()}
+            playsInline={playing}
             autoPlay={playing}
-            muted={!volume}>
+            muted>
                 <source src={props.movie.movie_clip} type='video/webm'/>
             </video>
             <div id='movie-preview-filter'></div>
