@@ -103,3 +103,17 @@ export function animateRight(screenNum, windowIDX){
     }); 
 
 }
+
+
+export function createMovie(skeleton){
+    skeleton.matchPercent = randomPercent();
+    skeleton.descriptors = [randomDescriptor(), randomDescriptor(), randomDescriptor()];
+    skeleton.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
+    return skeleton;
+}
+
+export function createCarouselRow(skeletonArray, genre = randomGenre()){
+    skeletonArray.map( movie => createMovie(movie));
+    skeletonArray.genre = genre;
+    skeletonArray.key = randomKeyGen();
+}

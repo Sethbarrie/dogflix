@@ -7,8 +7,9 @@ const MoviePreview = (props) => {
     // useTraceUpdate(props, "MoviePreview");
 
     const [ volume, setVolume] = useState(false);
-    const [playing, setPlaying ] = useState(!!props.movie.movie_clip);
+    // const [playing, setPlaying ] = useState(false);
     const moviePlayer = useRef();
+    // const movieFlag = useRef(false);
 
     const clickPlay = () => {
         props.setCurrentMovie(props.movie);
@@ -19,10 +20,11 @@ const MoviePreview = (props) => {
     }
 
     // useEffect(() => {
-    //     if(!!props.movie.movie_clip && moviePlayer.current){
+    //     if(playing && !movieFlag.current){
+    //         movieFlag.current = true;
     //         moviePlayer.current.play();
     //     }
-    // }, [props.movie])
+    // }, [playing, setPlaying])
 
     useEffect(() => {
         observeNavbar();
@@ -31,12 +33,11 @@ const MoviePreview = (props) => {
         }
     }, [])
 
-    const playMedia = () => {
-        moviePlayer.current.play()
-    }
-
     return(
-        <div className='movie-preview-container'>
+        <div 
+            className='movie-preview-container'
+            // onMouseEnter={() => setPlaying(true)}
+            >
             <video
             loop
             disablePictureInPicture
@@ -44,9 +45,7 @@ const MoviePreview = (props) => {
             ref={moviePlayer}
             className='movie-preview'
             controlsList="nodownload"
-            onLoadedData={() => moviePlayer.current.play()}
-            playsInline={playing}
-            autoPlay={playing}
+            autoPlay
             muted>
                 <source src={props.movie.movie_clip} type='video/webm'/>
             </video>

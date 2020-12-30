@@ -3,7 +3,8 @@ import {
     SIGNOUT_CURRENT_USER
 } from '../actions/session_actions';
 import {
-    UPDATE_USER_SETTINGS
+    UPDATE_USER_SETTINGS,
+    UPDATE_FAVORITES
 } from '../actions/user_actions'
 
 const _nullUser = {}
@@ -18,6 +19,10 @@ const sessionReducer = (oldState = {}, action) => {
             return newState;
         case UPDATE_USER_SETTINGS:
             newState.currentUser = action.user;
+            return newState;
+        case UPDATE_FAVORITES:
+            newState.currentUser.movies = [];
+            Object.values(action.userList).forEach( movie => typeof movie !== 'string' ? newState.currentUser.movies.push(movie) : null);
             return newState;
         case SIGNOUT_CURRENT_USER:
             return _nullUser

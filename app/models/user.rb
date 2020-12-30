@@ -14,7 +14,10 @@ class User < ApplicationRecord
 
     ############################################################
 
+    # has_many :favorites
+    # has_many :movies, through: :favorites, source: :movie
 
+    has_and_belongs_to_many :movies
 
     ############################################################
 

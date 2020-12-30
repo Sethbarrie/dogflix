@@ -5,20 +5,32 @@ import MoviePreviewContainer from '../movies/containers/movie_preview_container'
 import MovieCarouselContainer from '../movies/containers/movie_carousel_container';
 import useTraceUpdate from '../../util/useTraceUpdate';
 import profileWriter from '../../util/profileWriter';
+import {useForceUpdate} from '../../util/useForceUpdate';
 
 const Browse = props => {
     
-    const {genres, previewMovie, genreKeys, initializeCarousel, initializePreview} = props;
-
+    const {
+        genres, 
+        previewMovie, 
+        genreKeys, 
+        initializeCarousel, 
+        initializePreview
+    } = props;
+    
     // useTraceUpdate(props, "Browse");
+    // let forceUpdate = useForceUpdate();
     
     useEffect( () => {
+        if(!genres.length){
+            initializeCarousel()
+            // .then(() => forceUpdate())
+        }
         if(emptyObject(previewMovie)){
-            initializeCarousel();
-            initializePreview();
+            initializePreview()
+            // .then(() => forceUpdate())
         }
     }, [])
-
+    
     return(
         <div className='browse-container'>
             {/* <Profiler id="MoviePreview" onRender={profileWriter}> */}
@@ -26,15 +38,29 @@ const Browse = props => {
             {/* </Profiler> */}
             <div className='carousel-background-container'>
                 {genres.map((genre, idx) => {
-                    return(
-                    // <Profiler id={`${genre} carousel`} onRender={profileWriter}>
-                        <MovieCarouselContainer 
-                        key={genreKeys[idx]} 
-                        genre={genre}
-                        windowIDX={idx} 
-                        />
-                    // </Profiler>
-                    )
+                    if(genre === 'My List'){
+                        return(
+                            <MovieCarouselContainer 
+                                key={genreKeys[idx]} 
+                                genre={genre}
+                                windowIDX={idx}
+                                carouselLength={props.myListLength}                        
+                            />
+                        )
+                    } else {
+                        // <Profiler id={`${genre} carousel`} onRender={profileWriter}>
+                        return(
+                            <MovieCarouselContainer 
+                                key={genreKeys[idx]} 
+                                genre={genre}
+                                windowIDX={idx}
+                                carouselLength={24} 
+                            />
+                        )
+
+                        // </Profiler>
+                    }
+
                 })}
             </div>
             <Footer />
@@ -59,4 +85,5 @@ const propComp = (prevProp, nextProp) => {
 }
 
 
-export default memo(Browse, propComp);
+// export default memo(Browse, propComp);
+export default Browse;

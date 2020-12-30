@@ -1,6 +1,6 @@
 import React, { memo, useRef } from 'react';
 
-const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
+const MovieTileControls = ({movie, setCurrentMovie, history, hovering, addMovieToFavorites, currentUser}) => {
 
     const movieDownloaded = useRef(!!movie.movie_clip);
     
@@ -30,8 +30,8 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
         >
             <div className='movie-tile-button-container'>
                 <i className="material-icons" onClick={clickPlay}>play_circle_filled</i>
-                {/* <i className="material-icons" onClick={() => console.log('Seth is testing')}>play_circle_filled</i> */}
-                <i className="material-icons" onClick={() => console.log("you clicked a button that doesn't work")}>expand_more</i>
+                <i className="material-icons" onClick={() => addMovieToFavorites(currentUser.id, movie.id)}>add_circle_outline</i>
+                {/* <i className="material-icons" onClick={() => console.log("you clicked a button that doesn't work")}>expand_more</i> */}
             </div>
             <div className='movie-tile-info'>
                 <div className='upper-movie-info'>
@@ -41,9 +41,9 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
                 </div>
                 <ul className='lower-movie-info'>
                     <li className='movie-descriptor'>{movie.descriptors[0]}</li>
-                    <i class="material-icons">brightness_1</i>
+                    <i className="material-icons">brightness_1</i>
                     <li className='movie-descriptor'>{movie.descriptors[1]}</li>
-                    <i class="material-icons">brightness_1</i>
+                    <i className="material-icons">brightness_1</i>
                     <li className='movie-descriptor'>{movie.descriptors[2]}</li>
                 </ul>
             </div>
@@ -52,4 +52,10 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering}) => {
     )
 }
 
-export default memo(MovieTileControls);
+function compFunc(prevProps, nextProps){
+    
+}
+
+
+export default memo(MovieTileControls, compFunc);
+// export default MovieTileControls;

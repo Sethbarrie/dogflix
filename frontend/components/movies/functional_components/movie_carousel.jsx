@@ -4,11 +4,12 @@ import { animateLeft, animateRight } from '../../../util/helper';
 import { observeCarouselSize, unobserveCarouselSize, updateScreen} from '../../../util/observers';
 import useTraceUpdate from '../../../util/useTraceUpdate';
 import profileWriter from '../../../util/profileWriter';
+import { observeLastCarousel, unobserveLastCarousel} from '../../../util/observers';
 
 
 const MovieCarousel = props => {
     
-    const {genre, movieKeys, windowIDX} = props;
+    const {genre, movieKeys, windowIDX, carouselLength} = props;
 
     // useTraceUpdate(props, "MovieCarousel");
 
@@ -30,14 +31,15 @@ const MovieCarousel = props => {
             animateRight(screen.current, windowIDX);
         }
     }
-
+    
     useEffect( () => {
         observeCarouselSize();
+        observeLastCarousel(props.fetchFavorites, props.currentUser.id);
         return () => {
             unobserveCarouselSize();
+            unobserveLastCarousel();
         }
     }, []);
-    
     return(
         genre ?
         <div className='movie-carousel-container'>
@@ -50,7 +52,7 @@ const MovieCarousel = props => {
                 </button>                      
 
                 <div className='carousel-window' id={`carousel-window-${windowIDX}`}>
-                    {[...Array(24).keys()].map((idx) => {
+                    {[...Array(carouselLength).keys()].map((idx) => {
                         return(
                             // <Profiler id={`MovieTileContainer from ${genre} and spot ${idx}`} onRender={profileWriter}>
                                 <MovieTileContainer

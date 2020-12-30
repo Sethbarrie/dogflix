@@ -34,15 +34,23 @@ export const deleteUser = userId => dispatch => {
 }
 
 export const postSession = user => dispatch => {
-    return APIUtils.postSession(user)
+    // if(window.localStorage.getItem('favoritesList')){
+    //     dispatch(receiveCurrentUser(JSON.parse(window.localStorage.getItem('favoritesList'))));
+    // }
+    // else {
+        return APIUtils.postSession(user)
     .then(curUser => {
+        window.localStorage.setItem('favoritesList',JSON.stringify(curUser));
         dispatch(receiveCurrentUser(curUser));
     })
     ,(error => {
         dispatch(receiveErrors(error.responseJSON))
-    })
+    })  
+    // }
+
 }
 
 export const deleteSession = () => dispatch => {
+    window.localStorage.removeItem('favoritesList');
     return APIUtils.deleteSession().then(() => dispatch(signoutCurrentUser()))
 }

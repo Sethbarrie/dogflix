@@ -8,6 +8,7 @@ export const INITIALIZE_CAROUSEL = 'INITIALIZE_CAROUSEL';
 export const ADD_CAROUSEL_ROW = 'ADD_CAROUSEL_ROW';
 export const RECEIVE_MOVIE_ERRORS = "RECEIVE_MOVIE_ERRORS";
 export const SET_CURRENT_SCREEN = 'SET_CURRENT_SCREEN';
+export const ADD_FAVORITES_ROW = 'ADD_FAVORITES_ROW';
 
 const receiveMovie = movie => ({
     type: RECEIVE_MOVIE,
@@ -38,6 +39,12 @@ const initialCarousel = movies => ({
 const addRow = movies => ({
     type: ADD_CAROUSEL_ROW,
     movies
+});
+
+const addFavorites = (movies, list) => ({
+    type: ADD_FAVORITES_ROW,
+    movies,
+    list
 });
 
 const receiveMovieErrors = errors => ({
@@ -82,6 +89,14 @@ export const addCarouselRow = () => dispatch => {
     return MovieAPIUtil.fetchMovies()
     .then( movies => {
         dispatch(addRow(movies))
+    }, ( errors => console.log(errors))
+    )
+};
+
+export const addFavoritesRow = (movieList = []) => dispatch => {
+    return MovieAPIUtil.fetchMovies()
+    .then( movies => {
+        dispatch(addFavorites(movies, movieList))
     }, ( errors => console.log(errors))
     )
 };

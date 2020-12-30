@@ -28,8 +28,8 @@ export const deleteSession = () => {
     })
 }
 
-// testing features for 
-window.postUser = postUser;
-window.postSession = postSession;
-window.deleteUser = deleteUser;
-window.deleteSession = deleteSession;
+// // testing features for 
+// window.postUser = postUser;
+// window.postSession = postSession;
+// window.deleteUser = deleteUser;
+// window.deleteSession = deleteSession;

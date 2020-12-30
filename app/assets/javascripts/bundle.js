@@ -90,7 +90,7 @@
 /*!*******************************************!*\
   !*** ./frontend/actions/movie_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_MOVIE, RECEIVE_ALL_MOVIES, RECEIVE_PREVIEW_MOVIE, RECEIVE_CURRENT_MOVIE, INITIALIZE_CAROUSEL, ADD_CAROUSEL_ROW, RECEIVE_MOVIE_ERRORS, SET_CURRENT_SCREEN, fetchMovie, fetchMovies, initializeCarousel, initializePreview, addCarouselRow, setCurrentMovie */
+/*! exports provided: RECEIVE_MOVIE, RECEIVE_ALL_MOVIES, RECEIVE_PREVIEW_MOVIE, RECEIVE_CURRENT_MOVIE, INITIALIZE_CAROUSEL, ADD_CAROUSEL_ROW, RECEIVE_MOVIE_ERRORS, SET_CURRENT_SCREEN, ADD_FAVORITES_ROW, fetchMovie, fetchMovies, initializeCarousel, initializePreview, addCarouselRow, addFavoritesRow, setCurrentMovie */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -103,11 +103,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_CAROUSEL_ROW", function() { return ADD_CAROUSEL_ROW; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MOVIE_ERRORS", function() { return RECEIVE_MOVIE_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENT_SCREEN", function() { return SET_CURRENT_SCREEN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_FAVORITES_ROW", function() { return ADD_FAVORITES_ROW; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchMovie", function() { return fetchMovie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchMovies", function() { return fetchMovies; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializeCarousel", function() { return initializeCarousel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initializePreview", function() { return initializePreview; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCarouselRow", function() { return addCarouselRow; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addFavoritesRow", function() { return addFavoritesRow; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setCurrentMovie", function() { return setCurrentMovie; });
 /* harmony import */ var _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/movie_api_utils */ "./frontend/util/movie_api_utils.js");
 
@@ -119,6 +121,7 @@ var INITIALIZE_CAROUSEL = 'INITIALIZE_CAROUSEL';
 var ADD_CAROUSEL_ROW = 'ADD_CAROUSEL_ROW';
 var RECEIVE_MOVIE_ERRORS = "RECEIVE_MOVIE_ERRORS";
 var SET_CURRENT_SCREEN = 'SET_CURRENT_SCREEN';
+var ADD_FAVORITES_ROW = 'ADD_FAVORITES_ROW';
 
 var receiveMovie = function receiveMovie(movie) {
   return {
@@ -159,6 +162,14 @@ var addRow = function addRow(movies) {
   return {
     type: ADD_CAROUSEL_ROW,
     movies: movies
+  };
+};
+
+var addFavorites = function addFavorites(movies, list) {
+  return {
+    type: ADD_FAVORITES_ROW,
+    movies: movies,
+    list: list
   };
 };
 
@@ -211,6 +222,16 @@ var addCarouselRow = function addCarouselRow() {
   return function (dispatch) {
     return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovies"]().then(function (movies) {
       dispatch(addRow(movies));
+    }, function (errors) {
+      return console.log(errors);
+    });
+  };
+};
+var addFavoritesRow = function addFavoritesRow() {
+  var movieList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  return function (dispatch) {
+    return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovies"]().then(function (movies) {
+      dispatch(addFavorites(movies, movieList));
     }, function (errors) {
       return console.log(errors);
     });
@@ -292,15 +313,21 @@ var deleteUser = function deleteUser(userId) {
 };
 var postSession = function postSession(user) {
   return function (dispatch) {
+    // if(window.localStorage.getItem('favoritesList')){
+    //     dispatch(receiveCurrentUser(JSON.parse(window.localStorage.getItem('favoritesList'))));
+    // }
+    // else {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["postSession"](user).then(function (curUser) {
+      window.localStorage.setItem('favoritesList', JSON.stringify(curUser));
       dispatch(receiveCurrentUser(curUser));
     }), function (error) {
       dispatch(receiveErrors(error.responseJSON));
-    };
+    }; // }
   };
 };
 var deleteSession = function deleteSession() {
   return function (dispatch) {
+    window.localStorage.removeItem('favoritesList');
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteSession"]().then(function () {
       return dispatch(signoutCurrentUser());
     });
@@ -313,16 +340,21 @@ var deleteSession = function deleteSession() {
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: UPDATE_USER_SETTINGS, updateAutoplay */
+/*! exports provided: UPDATE_USER_SETTINGS, UPDATE_FAVORITES, updateAutoplay, fetchFavorites, addMovieToFavorites, removeMovieFromFavorites */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_USER_SETTINGS", function() { return UPDATE_USER_SETTINGS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_FAVORITES", function() { return UPDATE_FAVORITES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAutoplay", function() { return updateAutoplay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchFavorites", function() { return fetchFavorites; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMovieToFavorites", function() { return addMovieToFavorites; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMovieFromFavorites", function() { return removeMovieFromFavorites; });
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_api_util */ "./frontend/util/user_api_util.js");
 
 var UPDATE_USER_SETTINGS = 'UPDATE_USER_SETTINGS';
+var UPDATE_FAVORITES = 'UPDATE_FAVORITES';
 
 var updateUserSettings = function updateUserSettings(user) {
   return {
@@ -338,12 +370,46 @@ var receiveErrors = function receiveErrors(errors) {
   };
 };
 
+var updateFavoritesList = function updateFavoritesList(userList) {
+  return {
+    type: UPDATE_FAVORITES,
+    userList: userList
+  };
+};
+
 var updateAutoplay = function updateAutoplay(user) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["updateAutoplay"](user).then(function (user) {
       return dispatch(updateUserSettings(user));
     }, function (errors) {
       return dispatch(receiveErrors(errors));
+    });
+  };
+};
+var fetchFavorites = function fetchFavorites(userId) {
+  return function (dispatch) {
+    return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchFavorites"](userId).then(function (userList) {
+      dispatch(updateFavoritesList(userList.movies));
+    }, function (errors) {
+      return console.log(errors);
+    });
+  };
+};
+var addMovieToFavorites = function addMovieToFavorites(userId, movieId) {
+  return function (dispatch) {
+    return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["addMovieToFavorites"](userId, movieId).then(function (userList) {
+      dispatch(updateFavoritesList(userList));
+    }, function (errors) {
+      return console.log(errors);
+    });
+  };
+};
+var removeMovieFromFavorites = function removeMovieFromFavorites(userId, movieId) {
+  return function (dispatch) {
+    return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["removeMovieFromFavorites"](userId, movieId).then(function (userList) {
+      dispatch(updateFavoritesList(userList));
+    }, function (errors) {
+      return console.log(errors);
     });
   };
 };
@@ -473,6 +539,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../movies/containers/movie_carousel_container */ "./frontend/components/movies/containers/movie_carousel_container.jsx");
 /* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
 /* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/profileWriter */ "./frontend/util/profileWriter.js");
+/* harmony import */ var _util_useForceUpdate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/useForceUpdate */ "./frontend/util/useForceUpdate.js");
+
 
 
 
@@ -487,11 +555,15 @@ var Browse = function Browse(props) {
       genreKeys = props.genreKeys,
       initializeCarousel = props.initializeCarousel,
       initializePreview = props.initializePreview; // useTraceUpdate(props, "Browse");
+  // let forceUpdate = useForceUpdate();
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    if (!genres.length) {
+      initializeCarousel(); // .then(() => forceUpdate())
+    }
+
     if (Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["emptyObject"])(previewMovie)) {
-      initializeCarousel();
-      initializePreview();
+      initializePreview(); // .then(() => forceUpdate())
     }
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -501,16 +573,22 @@ var Browse = function Browse(props) {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "carousel-background-container"
   }, genres.map(function (genre, idx) {
-    return (
-      /*#__PURE__*/
-      // <Profiler id={`${genre} carousel`} onRender={profileWriter}>
-      react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    if (genre === 'My List') {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
         key: genreKeys[idx],
         genre: genre,
-        windowIDX: idx
-      }) // </Profiler>
-
-    );
+        windowIDX: idx,
+        carouselLength: props.myListLength
+      });
+    } else {
+      // <Profiler id={`${genre} carousel`} onRender={profileWriter}>
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        key: genreKeys[idx],
+        genre: genre,
+        windowIDX: idx,
+        carouselLength: 24
+      }); // </Profiler>
+    }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_1__["Footer"], null));
 };
 
@@ -528,9 +606,10 @@ var propComp = function propComp(prevProp, nextProp) {
   } else {
     return true;
   }
-};
+}; // export default memo(Browse, propComp);
 
-/* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(Browse, propComp));
+
+/* harmony default export */ __webpack_exports__["default"] = (Browse);
 
 /***/ }),
 
@@ -546,18 +625,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _browse__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./browse */ "./frontend/components/browse/browse.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_movie_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/movie_actions */ "./frontend/actions/movie_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
 
 var mapStateToProps = function mapStateToProps(state) {
   var genres = Object.keys(state.carousel).sort();
+  var myList;
+
+  if (genres.includes('My List')) {
+    myList = state.carousel['My List'].length;
+    genres = genres.filter(function (genre) {
+      return genre !== "My List";
+    });
+    genres.push('My List');
+  }
+
+  debugger;
   return {
     genres: genres,
     genreKeys: genres.map(function (genre) {
       return state.carousel[genre].key;
     }),
-    previewMovie: state.entities.previewMovie
+    previewMovie: state.entities.previewMovie,
+    currentUser: state.session.currentUser,
+    myListLength: myList ? myList : null
   };
 };
 
@@ -568,6 +662,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     initializePreview: function initializePreview() {
       return dispatch(Object(_actions_movie_actions__WEBPACK_IMPORTED_MODULE_2__["initializePreview"])());
+    },
+    fetchFavorites: function fetchFavorites(userId) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["fetchFavorites"])(userId));
     }
   };
 };
@@ -794,19 +891,29 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functional_components_movie_carousel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../functional_components/movie_carousel */ "./frontend/components/movies/functional_components/movie_carousel.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
+  if (ownProps.genre === 'My List') {}
+
+  debugger;
   return {
     movieKeys: state.carousel[ownProps.genre].map(function (movie) {
       return movie.key[0];
-    })
+    }),
+    currentUser: state.session.currentUser
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    fetchFavorites: function fetchFavorites(userId) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["fetchFavorites"])(userId));
+    }
+  };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(_functional_components_movie_carousel__WEBPACK_IMPORTED_MODULE_0__["default"]));
@@ -931,6 +1038,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_movie_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../actions/movie_actions */ "./frontend/actions/movie_actions.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
@@ -938,7 +1047,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    movie: state.carousel[ownProps.genre][ownProps.movieId]
+    movie: state.carousel[ownProps.genre][ownProps.movieId],
+    currentUser: state.session.currentUser
   };
 };
 
@@ -949,6 +1059,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     setCurrentMovie: function setCurrentMovie(movie) {
       return dispatch(Object(_actions_movie_actions__WEBPACK_IMPORTED_MODULE_1__["setCurrentMovie"])(movie));
+    },
+    addMovieToFavorites: function addMovieToFavorites(userId, movieId) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["addMovieToFavorites"])(userId, movieId));
+    },
+    removeMovieFromFavorites: function removeMovieFromFavorites(userId, movieId) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["removeMovieFromFavorites"])(userId, movieId));
     }
   };
 };
@@ -1026,10 +1142,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 var MovieCarousel = function MovieCarousel(props) {
   var genre = props.genre,
       movieKeys = props.movieKeys,
-      windowIDX = props.windowIDX; // useTraceUpdate(props, "MovieCarousel");
+      windowIDX = props.windowIDX,
+      carouselLength = props.carouselLength; // useTraceUpdate(props, "MovieCarousel");
 
   var screen = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(0);
 
@@ -1054,8 +1172,10 @@ var MovieCarousel = function MovieCarousel(props) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["observeCarouselSize"])();
+    Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["observeLastCarousel"])(props.fetchFavorites, props.currentUser.id);
     return function () {
       Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["unobserveCarouselSize"])();
+      Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["unobserveLastCarousel"])();
     };
   }, []);
   return genre ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1074,7 +1194,7 @@ var MovieCarousel = function MovieCarousel(props) {
   }, "navigate_before")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "carousel-window",
     id: "carousel-window-".concat(windowIDX)
-  }, _toConsumableArray(Array(24).keys()).map(function (idx) {
+  }, _toConsumableArray(Array(carouselLength).keys()).map(function (idx) {
     return (
       /*#__PURE__*/
       // <Profiler id={`MovieTileContainer from ${genre} and spot ${idx}`} onRender={profileWriter}>
@@ -1261,14 +1381,10 @@ var MoviePreview = function MoviePreview(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       volume = _useState2[0],
-      setVolume = _useState2[1];
+      setVolume = _useState2[1]; // const [playing, setPlaying ] = useState(false);
 
-  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(!!props.movie.movie_clip),
-      _useState4 = _slicedToArray(_useState3, 2),
-      playing = _useState4[0],
-      setPlaying = _useState4[1];
 
-  var moviePlayer = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  var moviePlayer = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(); // const movieFlag = useRef(false);
 
   var clickPlay = function clickPlay() {
     props.setCurrentMovie(props.movie);
@@ -1279,10 +1395,11 @@ var MoviePreview = function MoviePreview(props) {
       }
     });
   }; // useEffect(() => {
-  //     if(!!props.movie.movie_clip && moviePlayer.current){
+  //     if(playing && !movieFlag.current){
+  //         movieFlag.current = true;
   //         moviePlayer.current.play();
   //     }
-  // }, [props.movie])
+  // }, [playing, setPlaying])
 
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -1291,13 +1408,9 @@ var MoviePreview = function MoviePreview(props) {
       Object(_util_observers__WEBPACK_IMPORTED_MODULE_1__["unobserveNavbar"])();
     };
   }, []);
-
-  var playMedia = function playMedia() {
-    moviePlayer.current.play();
-  };
-
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "movie-preview-container"
+    className: "movie-preview-container" // onMouseEnter={() => setPlaying(true)}
+
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
     loop: true,
     disablePictureInPicture: true,
@@ -1305,11 +1418,7 @@ var MoviePreview = function MoviePreview(props) {
     ref: moviePlayer,
     className: "movie-preview",
     controlsList: "nodownload",
-    onLoadedData: function onLoadedData() {
-      return moviePlayer.current.play();
-    },
-    playsInline: playing,
-    autoPlay: playing,
+    autoPlay: true,
     muted: true
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
     src: props.movie.movie_clip,
@@ -1433,7 +1542,9 @@ var MovieTileControls = function MovieTileControls(_ref) {
   var movie = _ref.movie,
       setCurrentMovie = _ref.setCurrentMovie,
       history = _ref.history,
-      hovering = _ref.hovering;
+      hovering = _ref.hovering,
+      addMovieToFavorites = _ref.addMovieToFavorites,
+      currentUser = _ref.currentUser;
   var movieDownloaded = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(!!movie.movie_clip);
 
   var clickPlay = function clickPlay() {
@@ -1462,9 +1573,9 @@ var MovieTileControls = function MovieTileControls(_ref) {
   }, "play_circle_filled"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "material-icons",
     onClick: function onClick() {
-      return console.log("you clicked a button that doesn't work");
+      return addMovieToFavorites(currentUser.id, movie.id);
     }
-  }, "expand_more")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "add_circle_outline")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "upper-movie-info"
@@ -1473,17 +1584,19 @@ var MovieTileControls = function MovieTileControls(_ref) {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "movie-descriptor"
   }, movie.descriptors[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    "class": "material-icons"
+    className: "material-icons"
   }, "brightness_1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "movie-descriptor"
   }, movie.descriptors[1]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    "class": "material-icons"
+    className: "material-icons"
   }, "brightness_1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "movie-descriptor"
   }, movie.descriptors[2])))) : null;
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(MovieTileControls));
+function compFunc(prevProps, nextProps) {}
+
+/* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(MovieTileControls, compFunc)); // export default MovieTileControls;
 
 /***/ }),
 
@@ -2911,12 +3024,103 @@ document.addEventListener("DOMContentLoaded", function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/movie_actions */ "./frontend/actions/movie_actions.js");
-/* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/helper */ "./frontend/util/helper.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/helper */ "./frontend/util/helper.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// import {
+//     INITIALIZE_CAROUSEL,
+//     ADD_CAROUSEL_ROW,
+//     RECEIVE_MOVIE,
+//     ADD_FAVORITES_ROW
+// } from '../actions/movie_actions';
+// import {
+//     UPDATE_FAVORITES
+// } from '../actions/user_actions';
+// import { 
+//     shuffle,
+//     getRandomInt, 
+//     randomPercent,
+//     randomGenre, 
+//     randomDescriptor,
+//     randomKeyGen 
+// } from '../util/helper';
+// const carouselReducer = (initialState = {}, action) => {
+//     Object.freeze(initialState);
+//     let genre;
+//     let newCarousel;
+//     let carouselValues;
+//     let genreKeys;
+//     switch(action.type){
+//         case INITIALIZE_CAROUSEL:
+//             newCarousel = {...initialState};
+//             carouselValues = Object.values(action.movies).map( movie => {
+//                 movie.matchPercent = randomPercent();
+//                 movie.descriptors = [randomDescriptor(), randomDescriptor(), randomDescriptor()];
+//                 return movie;
+//             });
+//             for(let i = 0 ; i < 4 ; i ++ ){
+//                 let genre = randomGenre();
+//                 newCarousel[genre] = (shuffle(carouselValues).slice(0, 24));
+//                 newCarousel[genre].map(movie => movie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()]);
+//                 newCarousel[genre].key = randomKeyGen();
+//             };
+//             return newCarousel;
+//         case ADD_CAROUSEL_ROW:
+//             carouselValues = Object.values(action.movies);
+//             genre = randomGenre();
+//             newCarousel = {...initialState, genre: (shuffle(carouselValues).slice(0, 24))};
+//             newCarousel[genre].map( movie => {movie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()]});
+//             newCarousel[genre].key = randomKeyGen();
+//             return newCarousel;
+//         case ADD_FAVORITES_ROW:
+//             // carouselValues = Object.values(action.movies);
+//             // let favoriteList = action.list.map( movieId => action.movies.movieId);
+//             // newCarousel = {...initialState, myList: favoriteList};
+//             // newCarousel.myList.map( movie => {movie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()]});
+//             // newCarousel.myList.key = randomKeyGen();
+//             // return newCarousel;
+//             newCarousel = {...initialState, 'My List': action.list}
+//             newCarousel['My List'].map( movie => {movie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()]});
+//             newCarousel['My List'].key = randomKeyGen();
+//             return newCarousel;
+//         case UPDATE_FAVORITES:
+//             newCarousel = {...initialState, 'My List': action.userList}
+//             newCarousel['My List'].map( movie => {
+//                 movie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
+//                 movie.descriptors = [randomDescriptor(), randomDescriptor(), randomDescriptor()];
+//                 movie.matchPercent = randomPercent();
+//             });
+//             newCarousel['My List'].key = randomKeyGen();
+//             return newCarousel;
+//         case RECEIVE_MOVIE:
+//             newCarousel = {};
+//             Object.keys(initialState).forEach( genreName => {
+//                 newCarousel[genreName] = initialState[genreName].map( movie => {
+//                     if(movie.id === action.movie.id){
+//                         let newMovie = Object.assign( {} , action.movie);
+//                         newMovie.descriptors = movie.descriptors;
+//                         newMovie.matchPercent = movie.matchPercent;
+//                         // newMovie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
+//                         newMovie.key = [movie.key[0]];
+//                         let tempArr = [randomKeyGen(), randomKeyGen()];
+//                         newMovie.key = newMovie.key.concat(tempArr);
+//                         return newMovie;
+//                     } else {
+//                         return movie;
+//                     }
+//                 })
+//             })
+//             return newCarousel;
+//         default:
+//             return initialState;
+//     }
+// }
+// export default carouselReducer;
 
 
 
@@ -2932,23 +3136,11 @@ var carouselReducer = function carouselReducer() {
 
   switch (action.type) {
     case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["INITIALIZE_CAROUSEL"]:
-      newCarousel = {};
-      carouselValues = Object.values(action.movies).map(function (movie) {
-        movie.matchPercent = Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomPercent"])();
-        movie.descriptors = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomDescriptor"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomDescriptor"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomDescriptor"])()];
-        return movie;
-      });
+      newCarousel = _objectSpread({}, initialState);
+      carouselValues = Object.values(action.movies);
 
       for (var i = 0; i < 4; i++) {
-        var _genre = Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomGenre"])();
-
-        newCarousel[_genre] = Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["shuffle"])(carouselValues).slice(0, 24);
-
-        newCarousel[_genre].map(function (movie) {
-          return movie.key = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])()];
-        });
-
-        newCarousel[_genre].key = Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])();
+        newCarousel[genre] = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["shuffle"])(carouselValues).slice(0, 24);
       }
 
       ;
@@ -2956,14 +3148,42 @@ var carouselReducer = function carouselReducer() {
 
     case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["ADD_CAROUSEL_ROW"]:
       carouselValues = Object.values(action.movies);
-      genre = Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomGenre"])();
+      genre = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomGenre"])();
       newCarousel = _objectSpread(_objectSpread({}, initialState), {}, {
-        genre: Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["shuffle"])(carouselValues).slice(0, 24)
+        genre: Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["shuffle"])(carouselValues).slice(0, 24)
       });
       newCarousel[genre].map(function (movie) {
-        movie.key = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])()];
+        movie.key = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])()];
       });
-      newCarousel[genre].key = Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])();
+      newCarousel[genre].key = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])();
+      return newCarousel;
+
+    case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["ADD_FAVORITES_ROW"]:
+      // carouselValues = Object.values(action.movies);
+      // let favoriteList = action.list.map( movieId => action.movies.movieId);
+      // newCarousel = {...initialState, myList: favoriteList};
+      // newCarousel.myList.map( movie => {movie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()]});
+      // newCarousel.myList.key = randomKeyGen();
+      // return newCarousel;
+      newCarousel = _objectSpread(_objectSpread({}, initialState), {}, {
+        'My List': action.list
+      });
+      newCarousel['My List'].map(function (movie) {
+        movie.key = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])()];
+      });
+      newCarousel['My List'].key = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])();
+      return newCarousel;
+
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_FAVORITES"]:
+      newCarousel = _objectSpread(_objectSpread({}, initialState), {}, {
+        'My List': action.userList
+      });
+      newCarousel['My List'].map(function (movie) {
+        movie.key = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])()];
+        movie.descriptors = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomDescriptor"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomDescriptor"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomDescriptor"])()];
+        movie.matchPercent = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomPercent"])();
+      });
+      newCarousel['My List'].key = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])();
       return newCarousel;
 
     case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_MOVIE"]:
@@ -2976,7 +3196,7 @@ var carouselReducer = function carouselReducer() {
             newMovie.matchPercent = movie.matchPercent; // newMovie.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
 
             newMovie.key = [movie.key[0]];
-            var tempArr = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["randomKeyGen"])()];
+            var tempArr = [Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])(), Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["randomKeyGen"])()];
             newMovie.key = newMovie.key.concat(tempArr);
             return newMovie;
           } else {
@@ -3249,6 +3469,13 @@ var sessionReducer = function sessionReducer() {
       newState.currentUser = action.user;
       return newState;
 
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_FAVORITES"]:
+      newState.currentUser.movies = [];
+      Object.values(action.userList).forEach(function (movie) {
+        return typeof movie !== 'string' ? newState.currentUser.movies.push(movie) : null;
+      });
+      return newState;
+
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["SIGNOUT_CURRENT_USER"]:
       return _nullUser;
 
@@ -3306,7 +3533,7 @@ var configureStore = function configureStore() {
 /*!*********************************!*\
   !*** ./frontend/util/helper.js ***!
   \*********************************/
-/*! exports provided: shuffle, getRandomInt, randomPercent, emptyObject, randomDescriptor, randomGenre, randomKeyGen, animateLeft, animateRight */
+/*! exports provided: shuffle, getRandomInt, randomPercent, emptyObject, randomDescriptor, randomGenre, randomKeyGen, animateLeft, animateRight, createMovie, createCarouselRow */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3320,6 +3547,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomKeyGen", function() { return randomKeyGen; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "animateLeft", function() { return animateLeft; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "animateRight", function() { return animateRight; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMovie", function() { return createMovie; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCarouselRow", function() { return createCarouselRow; });
 /* harmony import */ var _random_descriptor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./random_descriptor */ "./frontend/util/random_descriptor.js");
 /* harmony import */ var _random_genres__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./random_genres */ "./frontend/util/random_genres.js");
 
@@ -3413,6 +3642,20 @@ function animateRight(screenNum, windowIDX) {
     fill: 'both'
   });
 }
+function createMovie(skeleton) {
+  skeleton.matchPercent = randomPercent();
+  skeleton.descriptors = [randomDescriptor(), randomDescriptor(), randomDescriptor()];
+  skeleton.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
+  return skeleton;
+}
+function createCarouselRow(skeletonArray) {
+  var genre = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : randomGenre();
+  skeletonArray.map(function (movie) {
+    return createMovie(movie);
+  });
+  skeletonArray.genre = genre;
+  skeletonArray.key = randomKeyGen();
+}
 
 /***/ }),
 
@@ -3446,7 +3689,7 @@ var fetchMovie = function fetchMovie(movieId) {
 /*!*************************************!*\
   !*** ./frontend/util/observers.jsx ***!
   \*************************************/
-/*! exports provided: observeNavbar, unobserveNavbar, updateScreen, observeCarouselSize, unobserveCarouselSize */
+/*! exports provided: observeNavbar, unobserveNavbar, updateScreen, observeCarouselSize, unobserveCarouselSize, observeLastCarousel, unobserveLastCarousel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3456,6 +3699,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateScreen", function() { return updateScreen; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "observeCarouselSize", function() { return observeCarouselSize; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unobserveCarouselSize", function() { return unobserveCarouselSize; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "observeLastCarousel", function() { return observeLastCarousel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unobserveLastCarousel", function() { return unobserveLastCarousel; });
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -3488,10 +3733,13 @@ var darkenNavbar = function darkenNavbar(entries) {
         var nav = document.getElementsByClassName('navbar')[0];
         nav.style.transition = '.3s';
         nav.style.backgroundColor = 'black';
+        nav.style.easing = 'linear';
       } else {
         var nav2 = document.getElementsByClassName('navbar')[0];
         nav2.style.transition = '1s';
         nav2.style.backgroundColor = 'transparent';
+        nav2.style.transitionDelay = '.5s';
+        nav2.style.easing = 'linear';
       }
     }
   } catch (err) {
@@ -3552,7 +3800,7 @@ function resizeCarousel(entries) {
   }
 }
 
-;
+; /////////////////////////////////////////////////////////////////
 
 function throttleCallback(callback, entries) {
   var timeout = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 500;
@@ -3562,32 +3810,52 @@ function throttleCallback(callback, entries) {
   return function () {
     clearTimeout(throttledCallback);
   };
-} //Original way I resized carousels, very inefficient
-// function resizeCarousels(){
-//     let screenSlideSize = ((window.innerWidth * .153) * 6) + 29;
-//     let carousels = document.getElementsByClassName('carousel-window');
-//     Array.from(carousels).forEach( carousel => {
-//         let animation = carousel.animate([{
-//             transform: `translate(-${(screen.current - 1) * screenSlideSize}px, 0)`
-//         }, {
-//             transform: `translate(-${screen.current * screenSlideSize}px, 0)`
-//         }], {
-//             duration: 1,
-//             iterations: 1,
-//             delay: 0,
-//             easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-//             direction: 'normal',
-//             fill: 'both',
-//             endDelay: 100
-//         });
-//     })
-// }
-// useEffect( () => {
-//     window.addEventListener( 'resize' , resizeCarousels);
-//     return () => {
-//         window.removeEventListener('resize', resizeCarousels);
-//     }
-// }, [])
+}
+
+function last(arr) {
+  return arr[arr.length - 1];
+} /////////////////////////////////////////////////////////////////////
+
+
+var lastCarousel;
+var getListFunc;
+var userId;
+var gotList = false;
+var observeLastCarousel = function observeLastCarousel(func, id) {
+  userId = id;
+  getListFunc = func;
+  lastCarousel = new IntersectionObserver(getList, listOptions);
+  lastCarousel.observe(last(Array.from(document.getElementsByClassName('movie-carousel-container'))));
+};
+var unobserveLastCarousel = function unobserveLastCarousel() {
+  lastCarousel.unobserve(last(Array.from(document.getElementsByClassName('movie-carousel-container'))));
+};
+
+var getList = function getList(entries) {
+  var _iterator3 = _createForOfIteratorHelper(entries),
+      _step3;
+
+  try {
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+      var entry = _step3.value;
+
+      if (!gotList && entry.isIntersecting) {
+        gotList = true;
+        getListFunc(userId);
+      }
+    }
+  } catch (err) {
+    _iterator3.e(err);
+  } finally {
+    _iterator3.f();
+  }
+};
+
+var listOptions = {
+  root: last(Array.from(document.getElementsByClassName('movie-carousel-container'))),
+  rootMargin: '0px',
+  threshold: .7
+};
 
 /***/ }),
 
@@ -3763,12 +4031,11 @@ var deleteSession = function deleteSession() {
     method: "DELETE",
     url: "/api/session"
   });
-}; // testing features for 
-
-window.postUser = postUser;
-window.postSession = postSession;
-window.deleteUser = deleteUser;
-window.deleteSession = deleteSession;
+}; // // testing features for 
+// window.postUser = postUser;
+// window.postSession = postSession;
+// window.deleteUser = deleteUser;
+// window.deleteSession = deleteSession;
 
 /***/ }),
 
@@ -3824,6 +4091,48 @@ var useDebounced = function useDebounced(value, delayOn, delayOff) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (useDebounced);
+
+/***/ }),
+
+/***/ "./frontend/util/useForceUpdate.js":
+/*!*****************************************!*\
+  !*** ./frontend/util/useForceUpdate.js ***!
+  \*****************************************/
+/*! exports provided: useForceUpdate */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useForceUpdate", function() { return useForceUpdate; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+function useForceUpdate() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0),
+      _useState2 = _slicedToArray(_useState, 2),
+      setTick = _useState2[1];
+
+  var update = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function () {
+    setTick(function (tick) {
+      return tick + 1;
+    });
+  }, []);
+  return update;
+} //https://stackoverflow.com/questions/53215285/how-can-i-force-component-to-re-render-with-hooks-in-react
+//Had a similar function, took it out to use as a hook. Bad practice to use but I will find the 
+//Work around later
 
 /***/ }),
 
@@ -3884,12 +4193,15 @@ function useTraceUpdate(props, component) {
 /*!****************************************!*\
   !*** ./frontend/util/user_api_util.js ***!
   \****************************************/
-/*! exports provided: updateAutoplay */
+/*! exports provided: updateAutoplay, fetchFavorites, addMovieToFavorites, removeMovieFromFavorites */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAutoplay", function() { return updateAutoplay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchFavorites", function() { return fetchFavorites; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMovieToFavorites", function() { return addMovieToFavorites; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMovieFromFavorites", function() { return removeMovieFromFavorites; });
 var updateAutoplay = function updateAutoplay(users) {
   return $.ajax({
     method: "PATCH",
@@ -3899,6 +4211,27 @@ var updateAutoplay = function updateAutoplay(users) {
     }
   });
 };
+var fetchFavorites = function fetchFavorites(userId) {
+  return $.ajax({
+    method: 'GET',
+    url: "/api/users/".concat(userId, "/favorites/:id")
+  });
+};
+var addMovieToFavorites = function addMovieToFavorites(userId, movieId) {
+  return $.ajax({
+    method: "GET",
+    url: "/api/users/".concat(userId, "/favorites/").concat(movieId, "/edit")
+  });
+};
+var removeMovieFromFavorites = function removeMovieFromFavorites(userId, movieId) {
+  return $.ajax({
+    method: "PUT",
+    url: "/api/users/".concat(userId, "/favorites/").concat(movieId)
+  });
+};
+window.addMovieToFavorites = addMovieToFavorites;
+window.removeMovieFromFavorites = removeMovieFromFavorites;
+window.fetchFavorites = fetchFavorites;
 
 /***/ }),
 

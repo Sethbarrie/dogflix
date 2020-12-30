@@ -18,10 +18,13 @@ const darkenNavbar = (entries) => {
             let nav = document.getElementsByClassName('navbar')[0];
             nav.style.transition = '.3s';
             nav.style.backgroundColor = 'black';
+            nav.style.easing = 'linear';
         } else {
             let nav2 =  document.getElementsByClassName('navbar')[0];
             nav2.style.transition = '1s';
             nav2.style.backgroundColor = 'transparent';
+            nav2.style.transitionDelay = '.5s';
+            nav2.style.easing = 'linear';
         }
     }
 }
@@ -66,6 +69,9 @@ function resizeCarousel(entries){
     }
 };
 
+
+/////////////////////////////////////////////////////////////////
+
 function throttleCallback( callback, entries, timeout = 500){
 
     const throttledCallback = setTimeout( () => {
@@ -77,33 +83,40 @@ function throttleCallback( callback, entries, timeout = 500){
     }
 }
 
-//Original way I resized carousels, very inefficient
+function last( arr ){
+    return arr[arr.length - 1];
+}
 
-// function resizeCarousels(){
-//     let screenSlideSize = ((window.innerWidth * .153) * 6) + 29;
+/////////////////////////////////////////////////////////////////////
 
-//     let carousels = document.getElementsByClassName('carousel-window');
-//     Array.from(carousels).forEach( carousel => {
-//         let animation = carousel.animate([{
-//             transform: `translate(-${(screen.current - 1) * screenSlideSize}px, 0)`
-//         }, {
-//             transform: `translate(-${screen.current * screenSlideSize}px, 0)`
-//         }], {
-//             duration: 1,
-//             iterations: 1,
-//             delay: 0,
-//             easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-//             direction: 'normal',
-//             fill: 'both',
-//             endDelay: 100
-//         });
-//     })
-// }
+let lastCarousel;
+let getListFunc;
+let userId;
+let gotList = false;
 
-// useEffect( () => {
-//     window.addEventListener( 'resize' , resizeCarousels);
+export const observeLastCarousel = (func, id) => {
+    userId = id;
+    getListFunc = func;
+    lastCarousel = new IntersectionObserver(getList, listOptions);
+    lastCarousel.observe(last(Array.from(document.getElementsByClassName('movie-carousel-container'))))
+}
 
-//     return () => {
-//         window.removeEventListener('resize', resizeCarousels);
-//     }
-// }, [])
+export const unobserveLastCarousel = () => {
+    lastCarousel.unobserve(last(Array.from(document.getElementsByClassName('movie-carousel-container'))))
+}
+
+
+const getList = (entries) => {
+    for(let entry of entries){
+        if(!gotList && entry.isIntersecting){
+            gotList = true;
+            getListFunc(userId);
+        }
+    }
+}
+
+const listOptions = {
+    root: last(Array.from(document.getElementsByClassName('movie-carousel-container'))),
+    rootMargin: '0px',
+    threshold: .7
+}
