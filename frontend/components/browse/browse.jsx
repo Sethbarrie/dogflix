@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState, memo, Profiler } from 'react';
 import {Footer} from '../splash';
-import { emptyObject } from '../../util/helper';
+import { emptyObject, arraysEqual } from '../../util/helper';
 import MoviePreviewContainer from '../movies/containers/movie_preview_container';
 import MovieCarouselContainer from '../movies/containers/movie_carousel_container';
 import useTraceUpdate from '../../util/useTraceUpdate';
@@ -30,6 +30,7 @@ const Browse = props => {
             // .then(() => forceUpdate())
         }
     }, [])
+
     
     return(
         <div className='browse-container'>
@@ -75,6 +76,11 @@ const propComp = (prevProp, nextProp) => {
             return false;
         }
     })
+
+    if(!arraysEqual(prevProp.genres, nextProp.genres)){
+        return false;
+    }
+
     let flag1 = !!nextProp.previewMovie.movie_clip;
     let flag2 = prevProp.previewMovie.movie_clip !== nextProp.previewMovie.movie_clip;
     if( flag1 && flag2){
@@ -85,5 +91,5 @@ const propComp = (prevProp, nextProp) => {
 }
 
 
-// export default memo(Browse, propComp);
-export default Browse;
+export default memo(Browse, propComp);
+// export default Browse;

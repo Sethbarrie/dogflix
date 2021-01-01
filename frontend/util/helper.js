@@ -104,16 +104,25 @@ export function animateRight(screenNum, windowIDX){
 
 }
 
-
-export function createMovie(skeleton){
-    skeleton.matchPercent = randomPercent();
-    skeleton.descriptors = [randomDescriptor(), randomDescriptor(), randomDescriptor()];
-    skeleton.key = [randomKeyGen(), randomKeyGen(), randomKeyGen()];
+export function createMovie(skeleton, descriptors, matchPercent, reactKey){
+    skeleton.descriptors = descriptors || [randomDescriptor(), randomDescriptor(), randomDescriptor()];
+    skeleton.matchPercent = matchPercent || randomPercent();
+    let tempKey = reactKey || randomKeyGen();
+    skeleton.key = [tempKey, randomKeyGen(), randomKeyGen()];
     return skeleton;
 }
 
-export function createCarouselRow(skeletonArray, genre = randomGenre()){
+export function createCarouselRow(skeletonArray, genre){
+    let defaultGenre = randomGenre()
     skeletonArray.map( movie => createMovie(movie));
-    skeletonArray.genre = genre;
+    skeletonArray.genre = genre || defaultGenre;
     skeletonArray.key = randomKeyGen();
+    return skeletonArray;
+}
+
+export function arraysEqual(arr1, arr2){
+    if(!arr1.every( ele => arr2.includes(ele))){
+        return false;
+    }
+    return arr1.length === arr2.length;
 }

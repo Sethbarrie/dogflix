@@ -13,9 +13,9 @@ const receiveErrors = errors => ({
     errors
 });
 
-const updateFavoritesList = userList => ({
+const updateFavoritesList = movies => ({
     type: UPDATE_FAVORITES,
-    userList
+    movies
 })
 
 export const updateAutoplay = user => dispatch => {
@@ -26,8 +26,8 @@ export const updateAutoplay = user => dispatch => {
 
 export const fetchFavorites = (userId) => dispatch => {
     return UserAPIUtils.fetchFavorites(userId)
-    .then(userList => {
-        dispatch(updateFavoritesList(userList.movies))}
+    .then(movies => {
+        dispatch(updateFavoritesList(movies))}
     , (errors => console.log(errors)))
 }
 

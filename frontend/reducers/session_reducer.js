@@ -21,8 +21,7 @@ const sessionReducer = (oldState = {}, action) => {
             newState.currentUser = action.user;
             return newState;
         case UPDATE_FAVORITES:
-            newState.currentUser.movies = [];
-            Object.values(action.userList).forEach( movie => typeof movie !== 'string' ? newState.currentUser.movies.push(movie) : null);
+            newState.currentUser.movies = action.movies;
             return newState;
         case SIGNOUT_CURRENT_USER:
             return _nullUser

@@ -8,7 +8,7 @@ export const INITIALIZE_CAROUSEL = 'INITIALIZE_CAROUSEL';
 export const ADD_CAROUSEL_ROW = 'ADD_CAROUSEL_ROW';
 export const RECEIVE_MOVIE_ERRORS = "RECEIVE_MOVIE_ERRORS";
 export const SET_CURRENT_SCREEN = 'SET_CURRENT_SCREEN';
-export const ADD_FAVORITES_ROW = 'ADD_FAVORITES_ROW';
+// export const ADD_FAVORITES_ROW = 'ADD_FAVORITES_ROW';
 
 const receiveMovie = movie => ({
     type: RECEIVE_MOVIE,
@@ -41,11 +41,11 @@ const addRow = movies => ({
     movies
 });
 
-const addFavorites = (movies, list) => ({
-    type: ADD_FAVORITES_ROW,
-    movies,
-    list
-});
+// const addFavorites = (movies, list) => ({
+//     type: ADD_FAVORITES_ROW,
+//     movies,
+//     list
+// });
 
 const receiveMovieErrors = errors => ({
     type: RECEIVE_MOVIE_ERRORS,
@@ -93,13 +93,13 @@ export const addCarouselRow = () => dispatch => {
     )
 };
 
-export const addFavoritesRow = (movieList = []) => dispatch => {
-    return MovieAPIUtil.fetchMovies()
-    .then( movies => {
-        dispatch(addFavorites(movies, movieList))
-    }, ( errors => console.log(errors))
-    )
-};
+// export const addFavoritesRow = (movieList = []) => dispatch => {
+//     return MovieAPIUtil.fetchMovies()
+//     .then( movies => {
+//         dispatch(addFavorites(movies, movieList))
+//     }, ( errors => console.log(errors))
+//     )
+// };
 
 export const setCurrentMovie = movie => dispatch => {
     return dispatch(currentMovie(movie));

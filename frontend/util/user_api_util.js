@@ -26,7 +26,3 @@ export const removeMovieFromFavorites = (userId, movieId) => {
         url: `/api/users/${userId}/favorites/${movieId}`
     })
 }
-
-window.addMovieToFavorites = addMovieToFavorites;
-window.removeMovieFromFavorites = removeMovieFromFavorites;
-window.fetchFavorites = fetchFavorites;
