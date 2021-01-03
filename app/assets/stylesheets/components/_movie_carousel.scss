@@ -32,8 +32,9 @@
     flex-direction: column;
     background: transparent;
     // the height calcs are for adding the header font size and line height
+    min-height: 220px;
     height: calc(18vh + 2.65vw);
-    min-height: calc(115px + 2.65vw);
+    // min-height: calc(115px + 2.65vw);
     width:100%;
     min-width: 700px;
     max-width: 100%;

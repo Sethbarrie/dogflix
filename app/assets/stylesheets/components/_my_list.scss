@@ -1,8 +1,11 @@
 .myListContainer{
-    min-width: 1400px;
+    // min-width: 1400px;
     width: 100%;
     max-width: 2000px;
-    height:100vh;
+    //This is a nice work around since your list isn't necessarily going to be taller
+    //than the browser window. This keeps the background black in case it isn't, but 
+    //also allows it to grow past and keep the same black background. Neat!
+    min-height: 100vh;
     background-color: black;
     display: flex;
     align-items: flex-start;
@@ -20,22 +23,23 @@
     margin: 80px 30px 0px 40px;
 }
 
-// .image-and-mylist-div{
-//     display: flex;
-//     align-items: center;
-//     flex-wrap: wrap;
-// }
+.image-and-mylist-div{
+    display: flex;
+    align-items: center;
+    // flex-wrap: wrap;
+}
 
 .myList-navbar-link{
     margin-left: 20px;
 }
 
 .myListTilesContainer{
+    background-color: black;
     display: grid;
     grid-column-gap: 1px;
     grid-row-gap:70px;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
     grid-auto-rows: auto;
-    // margin: 0px 3.2vw;
+    margin: 0px 3.2vw;
 }
 

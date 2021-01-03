@@ -6,6 +6,8 @@
     font-family: 'Netflix Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    min-width: 1130px;
+    min-height: 600px;
 }
 
 #root-div::-webkit-scrollbar{
@@ -26,6 +28,6 @@
     outline: none;
 }
 
-#signedin-navbar{
-    margin-bottom: 0px;
-}
+// #signedin-navbar{
+//     margin-bottom: 0px;
+// }

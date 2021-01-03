@@ -4,6 +4,7 @@
     display: flex;
     z-index: 0;
     justify-content: space-between;
+    min-width: 1130px;
     width: 100%;
     max-width: 100vw;
     height: 85vh;
@@ -11,13 +12,14 @@
 }
 
 .movie-preview-container > .movie-preview{
+    min-width: 1130px;
     display: block;
     width: 100%;
-    height: calc(auto );
     object-fit: fill;
 }
 
 .movie-preview-container > #movie-preview-filter{
+    min-width: 1130px;
     width:100%;
     height: 100%;
     position: absolute;
