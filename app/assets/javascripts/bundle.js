@@ -1636,6 +1636,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _movies_containers_movie_tile_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../movies/containers/movie_tile_container */ "./frontend/components/movies/containers/movie_tile_container.js");
+/* harmony import */ var _splash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../splash */ "./frontend/components/splash.jsx");
+
 
 
 
@@ -1662,7 +1664,7 @@ function MyList(props) {
       genre: 'My List',
       key: movie.key[0]
     });
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "My list is empty. Go pick out some movies!")));
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "My list is empty. Go pick out some movies!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_2__["Footer"], null));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (MyList); // useEffect( () => {

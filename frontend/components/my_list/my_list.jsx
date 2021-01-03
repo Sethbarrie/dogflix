@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import MovieTileContainer from '../movies/containers/movie_tile_container';
+import {Footer} from '../splash';
 
 function MyList(props){
 
@@ -31,6 +32,7 @@ function MyList(props){
                 <h1>My list is empty. Go pick out some movies!</h1>
             </div>
         }
+        <Footer />
         </div>
     )
 

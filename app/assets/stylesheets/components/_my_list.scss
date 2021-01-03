@@ -6,7 +6,7 @@
     //than the browser window. This keeps the background black in case it isn't, but 
     //also allows it to grow past and keep the same black background. Neat!
     min-height: 100vh;
-    background-color: black;
+    background-color: #141414;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -15,12 +15,20 @@
 .myListHeader{
     position: -webkit-sticky;
     position: sticky;
-    z-index: 11;
-    top: 20px;
+    z-index: 25;
+    top: 0px;
     font-size: 40px;
-    background-color: black;
+    background-color: #141414;
     color: white;
-    margin: 80px 30px 0px 40px;
+    // padding: 80px 0px 40px 40px;
+    padding-left: 25px;
+    margin: 1px;
+    margin-top: 110px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    display: block;
+    width: 99.5vw;
+    box-sizing: border-box;
 }
 
 .image-and-mylist-div{
@@ -34,12 +42,33 @@
 }
 
 .myListTilesContainer{
-    background-color: black;
+    background-color: #141414;
     display: grid;
+    min-width: 1400px;
     grid-column-gap: 1px;
     grid-row-gap:70px;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
+    // grid-auto-columns: minmax(160px, 16.67%);
     grid-auto-rows: auto;
-    margin: 0px 3.2vw;
+    padding: 40px 3.2vw 0px;
+    position: relative;
+    z-index: 24;
+    margin-bottom: 130px;
 }
 
+@media screen and (max-width: 1400px){
+    .myListTilesContainer{
+        grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6%;
+    }
+}
+
+@media screen and (max-width: 1100px){
+    .myListTilesContainer{
+        grid-template-columns: 16.6% 16.6% 16.6% 16.6%;
+    }
+}
+
+.myListContainer > #splash-footer{
+    position: absolute;
+    bottom: 0px;
+}
