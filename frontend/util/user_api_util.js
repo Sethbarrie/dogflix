@@ -14,6 +14,7 @@ export const fetchFavorites = userId => {
 }
 
 export const addMovieToFavorites = (userId, movieId) => {
+    debugger
     return $.ajax({
         method: `GET`,
         url: `/api/users/${userId}/favorites/${movieId}/edit`

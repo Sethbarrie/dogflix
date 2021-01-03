@@ -19,7 +19,6 @@ class MoviePlayer extends React.Component {
             })
         }
     }
-
     
     componentDidUpdate(){
         if(this.emptyObject(this.props.movie)){
@@ -28,10 +27,6 @@ class MoviePlayer extends React.Component {
                 this.props.setCurrentMovie(movie);
             })
         }
-    }
-    
-    emptyObject(obj){
-        return (Object.keys(obj).length === 0 && obj.constructor === Object);
     }
 
     playDelay(){

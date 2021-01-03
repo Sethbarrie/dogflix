@@ -23,7 +23,8 @@ export const randomPercent = () => {
 
 
 export const emptyObject = (obj) => {
-    return (Object.keys(obj).length === 0 && obj.constructor === Object);
+    if(!obj || obj.constructor !== Object){return obj};
+    return (Object.keys(obj).length === 0);
 };
 
 
@@ -113,9 +114,9 @@ export function createMovie(skeleton, descriptors, matchPercent, reactKey){
 }
 
 export function createCarouselRow(skeletonArray, genre){
-    let defaultGenre = randomGenre()
+    let defaultGenre = genre || randomGenre()
     skeletonArray.map( movie => createMovie(movie));
-    skeletonArray.genre = genre || defaultGenre;
+    skeletonArray.genre = defaultGenre;
     skeletonArray.key = randomKeyGen();
     return skeletonArray;
 }

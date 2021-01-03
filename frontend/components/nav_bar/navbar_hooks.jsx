@@ -71,24 +71,63 @@ const NavBarHooks = ({user = {}, postSession, deleteSession, updateAutoplay, his
     )
 
     const demoSigninButton = (
-        <button className='button' id='demo-user-button' onClick={demoSignin}>Demo Sign in</button>
+        <button className='button' id='demo-user-button' onClick={demoSignin}>Demo</button>
     )
 
-    if(emptyObject(user)){
+    const myListLink = (
+        <Link to='/my-list' className='myList-navbar-link'>My List</Link>
+    )
+
+    const splashDiv = (
+        <div>
+            {signinButton}
+            {demoSigninButton}
+        </div>
+    )
+
+    const browseDiv = (
+        <>
+            <div className='image-and-mylist-div'>
+                {smallerDogflixLogo}
+                {myListLink}
+            </div>
+            {profileDropdown}
+        </>
+    )
+
+    const playerDiv = (
+        <>
+            <div className='image-and-mylist-div'>
+                {LargerDogflixLogo}
+                {myListLink}
+            </div>
+            {profileDropdown}
+        </>
+    )
+
+    const myListDiv = (
+        <>
+            {LargerDogflixLogo}
+            {profileDropdown}
+        </>
+    )
+
+    if(!emptyObject(user)){
         return(
-            <header className='navbar'>
-                {location.pathname.includes('/player/') ? LargerDogflixLogo : smallerDogflixLogo}
-                {profileDropdown}
+            <header className='navbar' id='signedin-navbar'>
+                {location.pathname.includes('/player') ? playerDiv : null}
+                {location.pathname.includes('/my-list') ? myListDiv : null}
+                {location.pathname.includes('/browse') ? browseDiv : null}
             </header>
         )
     }
     return(
-        <header className='navbar'>
+        <header className='navbar' id='signedout-navbar'>
             {LargerDogflixLogo}
-            {location.pathname.includes('/signup') ? {signinButton} : null}
-            {location.pathname.includes('/signin') ? <div id='spacer-div'></div> : {demoSigninButton}}
+            {location.pathname === '/signup' ? signinButton : null}
+            {location.pathname === '/' ? splashDiv : null }
         </header>
     )
 }
 
-export default NavBarHooks
+export default NavBarHooks;

@@ -44,9 +44,12 @@ const carouselReducer = (initialState = {}, action) => {
             newCarousel = {...initialState, [newRow.genre]: newRow};
             return newCarousel;
         case UPDATE_FAVORITES://
-            newRow = createCarouselRow(shuffle(action.movies));
-            newCarousel = {...initialState, 'My List': newRow};
-            return newCarousel;
+            if(action.movies.length){
+                newRow = createCarouselRow(action.movies, 'My List');
+                newCarousel = {...initialState, 'My List': newRow};
+                return newCarousel;
+            }
+            return initialState;
         case RECEIVE_MOVIE:
             newCarousel = {};
             Object.keys(initialState).forEach( genreName => {

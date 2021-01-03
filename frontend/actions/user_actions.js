@@ -34,6 +34,7 @@ export const fetchFavorites = (userId) => dispatch => {
 export const addMovieToFavorites = (userId, movieId) => dispatch => {
     return UserAPIUtils.addMovieToFavorites(userId, movieId)
     .then(userList => {
+        debugger
         dispatch(updateFavoritesList(userList))}
     ,(errors => console.log(errors)))
 }

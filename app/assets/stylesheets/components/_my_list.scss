@@ -1,0 +1,41 @@
+.myListContainer{
+    min-width: 1400px;
+    width: 100%;
+    max-width: 2000px;
+    height:100vh;
+    background-color: black;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.myListHeader{
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 11;
+    top: 20px;
+    font-size: 40px;
+    background-color: black;
+    color: white;
+    margin: 80px 30px 0px 40px;
+}
+
+// .image-and-mylist-div{
+//     display: flex;
+//     align-items: center;
+//     flex-wrap: wrap;
+// }
+
+.myList-navbar-link{
+    margin-left: 20px;
+}
+
+.myListTilesContainer{
+    display: grid;
+    grid-column-gap: 1px;
+    grid-row-gap:70px;
+    grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
+    grid-auto-rows: auto;
+    // margin: 0px 3.2vw;
+}
+

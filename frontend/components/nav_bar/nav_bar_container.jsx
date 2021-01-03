@@ -1,4 +1,5 @@
-import NavBar from './navbar';
+// import NavBar from './navbar';
+import NavBarHooks from './navbar_hooks';
 import {connect} from 'react-redux';
 import {deleteSession, postSession} from '../../actions/session_actions';
 import { fetchMovies } from '../../actions/movie_actions';
@@ -20,4 +21,5 @@ const mapDispatchToProps = dispatch => ({
     fetchMovies: () => dispatch(fetchMovies())
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar))
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBarHooks))

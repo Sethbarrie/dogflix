@@ -1,17 +1,20 @@
 import MyList from './my_list';
 import {connect} from 'react-redux';
-import { addFavoritesRow } from '../../actions/movie_actions';
 import { fetchFavorites } from '../../actions/user_actions';
+import { initializeCarousel } from '../../actions/movie_actions';
+import { emptyObject } from '../../util/helper';
 
 const mapStateToProps = state => {
+    debugger
     return{
+    movies: state.carousel['My List'] || [],
     currentUser: state.session.currentUser,
-    windowIDX: Object.keys(state.carousel).length
+    emptyCarousel: emptyObject(state.carousel)
 }}
 
 const mapDispatchToProps = dispatch => ({
-    addFavoritesRow: list => dispatch(addFavoritesRow(list)),
-    fetchFavorites: userId => dispatch(fetchFavorites(userId))
+    fetchFavorites: userId => dispatch(fetchFavorites(userId)),
+    initializeCarousel: () => dispatch(initializeCarousel())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyList);

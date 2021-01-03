@@ -1,4 +1,4 @@
-import MoviePlayer from '../functional_components/movie_player';
+import MoviePlayerHooks from '../functional_components/movie_player_hooks';
 import {fetchMovie, setCurrentMovie} from '../../../actions/movie_actions';
 import {connect} from 'react-redux';
 
@@ -12,4 +12,4 @@ const mapDispatchToProps = dispatch => ({
     setCurrentMovie: (movie) => dispatch(setCurrentMovie(movie))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MoviePlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(MoviePlayerHooks);

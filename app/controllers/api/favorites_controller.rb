@@ -8,16 +8,24 @@ class Api::FavoritesController < ApplicationController
 
     def edit 
         @user = User.find_by(id: params[:user_id])
-        @movie = Movie.find_by(id: params[:id])
-        @user.movies << @movie
-        if @user.save
+        @movies = @user.movies.with_attached_cover_art
+        unless @user.movies.find_by(id: params[:id]).nil?
             render :show
         else
-            render json: ['Your favorites list is unavailable right now, please try again later.']
+            @movie = Movie.find_by(id: params[:id])
+
+            @user.movies << @movie
+            if @user.save
+                render :show
+            else
+                render json: ['There was an error somewhere. Please try again later.']
+            end
         end
     end
 
     def update
+        debugger
+        @movies = @user.movies.with_attached_cover_art
         @user = User.find_by(id: params[:user_id])
         @movie = @user.movies.find_by(id: params[:movie_id])
         @user.movies.delete(@movie) unless @movie.nil?

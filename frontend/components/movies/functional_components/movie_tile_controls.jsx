@@ -18,7 +18,7 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering, addMovieT
     } else {
         expanded = false;
     }
-
+    debugger
     return(
         (expanded)?
         <div 

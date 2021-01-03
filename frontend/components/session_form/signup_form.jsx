@@ -49,7 +49,7 @@ class SignupForm extends React.Component{
                 <h1 id="form-header">{this.props.formType}</h1>
                 <ErrorsContainer />
                 <div id='signup-form-container'>
-                    <form class="form" id="signup-form" onSubmit={this.handleSubmit}>
+                    <form className="form" id="signup-form" onSubmit={this.handleSubmit}>
                         <div id="signup-form-header">
                             <h3> step 1 of 1. Yay!</h3>
                             <h1>Create a Username and password to start your membership.</h1>

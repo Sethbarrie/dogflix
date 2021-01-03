@@ -15,6 +15,7 @@ import ErrorPageContainer from './errors/error_page_container';
 import {Splash} from './splash';
 import BrowseContainer from './browse/browse_container';
 import MoviePlayerContainer from './movies/containers/movie_player_container';
+import MyListContainer from './my_list/my_list_container';
 
 
 
@@ -36,6 +37,8 @@ class App extends React.Component{
                     <ProtectedRoute path='/browse' component={BrowseContainer}/>
 
                     <ProtectedRoute path='/player/:movieId' component={MoviePlayerContainer}/>
+
+                    <ProtectedRoute exact path='/my-list' component={MyListContainer}/>
                     
                     <Route exact path='/page-not-found-404' component={ErrorPageContainer}/> 
                     <Route path='*'>{<Redirect to='/page-not-found-404'/>}</Route>

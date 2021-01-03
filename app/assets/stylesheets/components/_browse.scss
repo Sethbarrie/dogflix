@@ -25,6 +25,14 @@
     top: 0;
 }
 
+#signedout-navbar{
+    background: transparent;
+}
+
+#signedout-navbar > div{
+    display: flex;
+}
+
 #profile-picture{
     border-radius: 6px;
 }
