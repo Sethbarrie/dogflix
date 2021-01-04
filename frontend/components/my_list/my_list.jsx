@@ -5,6 +5,9 @@ import {Footer} from '../splash';
 function MyList(props){
 
     useEffect( () => {
+        //Autoscroll to top on page render
+        window.scrollTo(0,0);
+
         if(props.emptyCarousel){
             props.initializeCarousel();
         }
@@ -13,7 +16,7 @@ function MyList(props){
             props.fetchFavorites(props.currentUser.id)
         }
     }, [])
-    debugger
+
     return (
         <div className='myListContainer'>
             <h1 className='myListHeader'>My List</h1>
@@ -39,16 +42,3 @@ function MyList(props){
 }
 
 export default MyList;
-
-
-    
-// useEffect( () => {
-//     if(!genres.length){
-//         initializeCarousel()
-//         // .then(() => forceUpdate())
-//     }
-//     if(emptyObject(previewMovie)){
-//         initializePreview()
-//         // .then(() => forceUpdate())
-//     }
-// }, [])

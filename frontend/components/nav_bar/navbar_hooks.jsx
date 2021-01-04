@@ -98,7 +98,7 @@ const NavBarHooks = ({user = {}, postSession, deleteSession, updateAutoplay, his
     const playerDiv = (
         <>
             <div className='image-and-mylist-div'>
-                {LargerDogflixLogo}
+                {smallerDogflixLogo}
                 {myListLink}
             </div>
             {profileDropdown}
@@ -107,7 +107,7 @@ const NavBarHooks = ({user = {}, postSession, deleteSession, updateAutoplay, his
 
     const myListDiv = (
         <>
-            {LargerDogflixLogo}
+            {smallerDogflixLogo}
             {profileDropdown}
         </>
     )

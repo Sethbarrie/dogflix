@@ -5,9 +5,15 @@ import { withRouter } from 'react-router-dom';
 import { removeMovieFromFavorites, addMovieToFavorites } from '../../../actions/user_actions';
 
 const mapStateToProps = (state, ownProps) => {
-
+    let favorited = false;
+    debugger;
+    if(state.session.currentUser.movies){
+        let movieId = state.carousel[ownProps.genre][ownProps.movieId].id;
+        favorited = state.session.currentUser.movies.some( movie => movie.id === movieId);
+    }
     return {
     movie: state.carousel[ownProps.genre][ownProps.movieId],
+    favorited: favorited,
     currentUser: state.session.currentUser
 }};
 

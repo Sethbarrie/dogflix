@@ -1050,8 +1050,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
+  var favorited = false;
+  debugger;
+
+  if (state.session.currentUser.movies) {
+    var movieId = state.carousel[ownProps.genre][ownProps.movieId].id;
+    favorited = state.session.currentUser.movies.some(function (movie) {
+      return movie.id === movieId;
+    });
+  }
+
   return {
     movie: state.carousel[ownProps.genre][ownProps.movieId],
+    favorited: favorited,
     currentUser: state.session.currentUser
   };
 };
@@ -1483,13 +1494,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-var MovieTileControls = function MovieTileControls(_ref) {
-  var movie = _ref.movie,
-      setCurrentMovie = _ref.setCurrentMovie,
-      history = _ref.history,
-      hovering = _ref.hovering,
-      addMovieToFavorites = _ref.addMovieToFavorites,
-      currentUser = _ref.currentUser;
+var MovieTileControls = function MovieTileControls(props) {
+  var movie = props.movie,
+      setCurrentMovie = props.setCurrentMovie,
+      history = props.history,
+      hovering = props.hovering,
+      addMovieToFavorites = props.addMovieToFavorites,
+      currentUser = props.currentUser,
+      favorited = props.favorited;
   var movieDownloaded = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(!!movie.movie_clip);
 
   var clickPlay = function clickPlay() {
@@ -1497,6 +1509,14 @@ var MovieTileControls = function MovieTileControls(_ref) {
     history.push({
       pathname: "/player/".concat(movie.id)
     });
+  };
+
+  var handleClick = function handleClick() {
+    if (favorited) {
+      removeMovieFromFavorites(currentUser.id, movie.id);
+    } else {
+      addMovieToFavorites(currentUser.id, movie.id);
+    }
   };
 
   var expanded;
@@ -1507,7 +1527,6 @@ var MovieTileControls = function MovieTileControls(_ref) {
     expanded = false;
   }
 
-  debugger;
   return expanded ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile-controls",
     id: expanded ? 'hovered-movie-tile-controls' : null
@@ -1518,10 +1537,8 @@ var MovieTileControls = function MovieTileControls(_ref) {
     onClick: clickPlay
   }, "play_circle_filled"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "material-icons",
-    onClick: function onClick() {
-      return addMovieToFavorites(currentUser.id, movie.id);
-    }
-  }, "add_circle_outline")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    onClick: handleClick
+  }, favorited ? 'remove_circle_outline' : 'add_circle_outline')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "upper-movie-info"
@@ -1643,6 +1660,9 @@ __webpack_require__.r(__webpack_exports__);
 
 function MyList(props) {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    //Autoscroll to top on page render
+    window.scrollTo(0, 0);
+
     if (props.emptyCarousel) {
       props.initializeCarousel();
     }
@@ -1651,7 +1671,6 @@ function MyList(props) {
       props.fetchFavorites(props.currentUser.id);
     }
   }, []);
-  debugger;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "myListContainer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -1667,16 +1686,7 @@ function MyList(props) {
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "My list is empty. Go pick out some movies!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_2__["Footer"], null));
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (MyList); // useEffect( () => {
-//     if(!genres.length){
-//         initializeCarousel()
-//         // .then(() => forceUpdate())
-//     }
-//     if(emptyObject(previewMovie)){
-//         initializePreview()
-//         // .then(() => forceUpdate())
-//     }
-// }, [])
+/* harmony default export */ __webpack_exports__["default"] = (MyList);
 
 /***/ }),
 
@@ -1908,8 +1918,8 @@ var NavBarHooks = function NavBarHooks(_ref) {
   }, smallerDogflixLogo, myListLink), profileDropdown);
   var playerDiv = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "image-and-mylist-div"
-  }, LargerDogflixLogo, myListLink), profileDropdown);
-  var myListDiv = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, LargerDogflixLogo, profileDropdown);
+  }, smallerDogflixLogo, myListLink), profileDropdown);
+  var myListDiv = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, smallerDogflixLogo, profileDropdown);
 
   if (!Object(_util_helper__WEBPACK_IMPORTED_MODULE_3__["emptyObject"])(user)) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
@@ -3594,6 +3604,8 @@ var observeNavbar = function observeNavbar() {
   navbarObserver.observe(document.getElementsByClassName('movie-preview-container')[0]);
 };
 var unobserveNavbar = function unobserveNavbar() {
+  var navbar = document.getElementsByClassName('navbar')[0];
+  navbar.style.backgroundColor = 'transparent';
   navbarObserver.unobserve(document.getElementsByClassName('movie-preview-container')[0]);
 };
 var navbarOptions = {

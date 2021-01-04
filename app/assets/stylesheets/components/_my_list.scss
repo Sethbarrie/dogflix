@@ -21,9 +21,8 @@
     background-color: #141414;
     color: white;
     // padding: 80px 0px 40px 40px;
-    padding-left: 25px;
-    margin: 1px;
-    margin-top: 110px;
+    padding-left: 55px;
+    margin-top: 80px;
     padding-top: 15px;
     padding-bottom: 20px;
     display: block;
@@ -48,11 +47,8 @@
     grid-column-gap: 1px;
     grid-row-gap:70px;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
-    // grid-auto-columns: minmax(160px, 16.67%);
     grid-auto-rows: auto;
     padding: 40px 3.2vw 0px;
-    position: relative;
-    z-index: 24;
     margin-bottom: 130px;
 }
 

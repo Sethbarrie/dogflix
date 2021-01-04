@@ -1,7 +1,8 @@
 import React, { memo, useRef } from 'react';
 
-const MovieTileControls = ({movie, setCurrentMovie, history, hovering, addMovieToFavorites, currentUser}) => {
+const MovieTileControls = (props) => {
 
+    const {movie, setCurrentMovie, history, hovering, addMovieToFavorites, currentUser, favorited} = props
     const movieDownloaded = useRef(!!movie.movie_clip);
     
     const clickPlay = () => {
@@ -11,6 +12,14 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering, addMovieT
         })
     }
 
+    const handleClick = () => {
+        if(favorited){
+            removeMovieFromFavorites(currentUser.id, movie.id);
+        } else {
+            addMovieToFavorites(currentUser.id, movie.id);
+        }
+    }
+
     let expanded;
 
     if(movieDownloaded.current && hovering){
@@ -18,7 +27,6 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering, addMovieT
     } else {
         expanded = false;
     }
-    debugger
     return(
         (expanded)?
         <div 
@@ -29,8 +37,16 @@ const MovieTileControls = ({movie, setCurrentMovie, history, hovering, addMovieT
             }
         >
             <div className='movie-tile-button-container'>
-                <i className="material-icons" onClick={clickPlay}>play_circle_filled</i>
-                <i className="material-icons" onClick={() => addMovieToFavorites(currentUser.id, movie.id)}>add_circle_outline</i>
+                <i 
+                    className="material-icons" 
+                    onClick={clickPlay}>
+                        play_circle_filled
+                </i>
+                <i 
+                    className="material-icons" 
+                    onClick={handleClick}>
+                        {favorited ? 'remove_circle_outline' : 'add_circle_outline'}
+                </i>
                 {/* <i className="material-icons" onClick={() => console.log("you clicked a button that doesn't work")}>expand_more</i> */}
             </div>
             <div className='movie-tile-info'>
