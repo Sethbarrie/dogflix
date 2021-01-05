@@ -2,8 +2,9 @@ import React, { memo, useRef } from 'react';
 
 const MovieTileControls = (props) => {
 
-    const {movie, setCurrentMovie, history, hovering, addMovieToFavorites, currentUser, favorited} = props
+    const {movie, setCurrentMovie, history, hovering, addMovieToFavorites, removeMovieFromFavorites, currentUser, favorited} = props
     const movieDownloaded = useRef(!!movie.movie_clip);
+    const popupInfoDiv = useRef();
     
     const clickPlay = () => {
         setCurrentMovie(movie);
@@ -19,6 +20,15 @@ const MovieTileControls = (props) => {
             addMovieToFavorites(currentUser.id, movie.id);
         }
     }
+
+    const handleHover = () => {
+        popupInfoDiv.current.id = 'visible-popup-favorites-info';
+    }
+
+    const handleNotHover = () => {
+        popupInfoDiv.current.id = null;
+    }
+
 
     let expanded;
 
@@ -43,10 +53,18 @@ const MovieTileControls = (props) => {
                         play_circle_filled
                 </i>
                 <i 
-                    className="material-icons" 
+                    className="material-icons"
+                    onMouseEnter={handleHover}
+                    onMouseLeave={handleNotHover} 
                     onClick={handleClick}>
                         {favorited ? 'remove_circle_outline' : 'add_circle_outline'}
                 </i>
+                {/* <div className='favorites-popup-container'> */}
+                    <div className={favorited ? 'on-favorites-list' : 'off-favorites-list'} ref={popupInfoDiv}>
+                        {favorited ? "Remove from My List" : "Add to My List"}
+                        <i className="material-icons">signal_cellular_4_bar</i>
+                    </div>
+                {/* </div> */}
                 {/* <i className="material-icons" onClick={() => console.log("you clicked a button that doesn't work")}>expand_more</i> */}
             </div>
             <div className='movie-tile-info'>
@@ -73,5 +91,5 @@ function compFunc(prevProps, nextProps){
 }
 
 
-export default memo(MovieTileControls, compFunc);
-// export default MovieTileControls;
+// export default memo(MovieTileControls, compFunc);
+export default MovieTileControls;

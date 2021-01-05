@@ -31,7 +31,7 @@ function MyList(props){
                     />
                 })}
             </div>
-            :<div>
+            :<div className='myEmptyListTilesContainer'>
                 <h1>My list is empty. Go pick out some movies!</h1>
             </div>
         }

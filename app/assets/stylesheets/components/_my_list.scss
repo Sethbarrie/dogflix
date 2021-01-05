@@ -52,6 +52,13 @@
     margin-bottom: 130px;
 }
 
+.myEmptyListTilesContainer > h1{
+    padding-left: 30px;
+    font-size: 30px;
+    font-weight: 500;
+    display: block;
+}
+
 @media screen and (max-width: 1400px){
     .myListTilesContainer{
         grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6%;

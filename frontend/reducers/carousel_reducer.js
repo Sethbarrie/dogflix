@@ -37,6 +37,8 @@ const carouselReducer = (initialState = {}, action) => {
                 newRow = createCarouselRow(shuffle(carouselValues).slice(0, 24));
                 newCarousel[newRow.genre] = newRow;
             }
+            newRow = createCarouselRow(action.favoriteMovies, 'My List');
+            newCarousel["My List"] = newRow;
             return newCarousel;
         case ADD_CAROUSEL_ROW: //
             carouselValues = Object.values(action.movies);

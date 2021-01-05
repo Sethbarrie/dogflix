@@ -5,7 +5,6 @@ import { initializeCarousel } from '../../actions/movie_actions';
 import { emptyObject } from '../../util/helper';
 
 const mapStateToProps = state => {
-    debugger
     return{
     movies: state.carousel['My List'] || [],
     currentUser: state.session.currentUser,

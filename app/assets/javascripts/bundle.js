@@ -148,10 +148,13 @@ var currentMovie = function currentMovie(movie) {
   };
 };
 
-var initialCarousel = function initialCarousel(movies) {
+var initialCarousel = function initialCarousel(_ref) {
+  var movies = _ref.movies,
+      favoriteMovies = _ref.favoriteMovies;
   return {
     type: INITIALIZE_CAROUSEL,
-    movies: movies
+    movies: movies,
+    favoriteMovies: favoriteMovies
   };
 };
 
@@ -196,8 +199,8 @@ var fetchMovies = function fetchMovies() {
 };
 var initializeCarousel = function initializeCarousel() {
   return function (dispatch) {
-    return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovies"]().then(function (movies) {
-      dispatch(initialCarousel(movies));
+    return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovies"]().then(function (movieBundle) {
+      dispatch(initialCarousel(movieBundle));
     }, function (errors) {
       return console.log(errors);
     });
@@ -389,7 +392,6 @@ var fetchFavorites = function fetchFavorites(userId) {
 var addMovieToFavorites = function addMovieToFavorites(userId, movieId) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["addMovieToFavorites"](userId, movieId).then(function (userList) {
-      debugger;
       dispatch(updateFavoritesList(userList));
     }, function (errors) {
       return console.log(errors);
@@ -575,8 +577,7 @@ var Browse = function Browse(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movies_containers_movie_carousel_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
         key: genreKeys[idx],
         genre: genre,
-        windowIDX: idx,
-        carouselLength: props.myListLength
+        windowIDX: idx
       });
     } else {
       // <Profiler id={`${genre} carousel`} onRender={profileWriter}>
@@ -584,7 +585,7 @@ var Browse = function Browse(props) {
         key: genreKeys[idx],
         genre: genre,
         windowIDX: idx,
-        carouselLength: 24
+        carouselTempLength: 24
       }); // </Profiler>
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_1__["Footer"], null));
@@ -645,7 +646,6 @@ var mapStateToProps = function mapStateToProps(state) {
     genres.push('My List');
   }
 
-  debugger;
   return {
     genres: genres,
     genreKeys: genres.map(function (genre) {
@@ -899,15 +899,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  if (ownProps.genre === 'My List') {
-    debugger;
+  var length;
+
+  if (!ownProps.carouselTempLength) {
+    length = state.carousel[ownProps.genre].length;
+  } else {
+    length = ownProps.carouselTempLength;
   }
 
   return {
     movieKeys: state.carousel[ownProps.genre].map(function (movie) {
       return movie.key[0];
     }),
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    carouselLength: length
   };
 };
 
@@ -1014,7 +1019,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  debugger;
   return {
     playerKey: state.carousel[ownProps.genre][ownProps.movieId].key[1],
     controlKey: state.carousel[ownProps.genre][ownProps.movieId].key[2]
@@ -1051,7 +1055,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var favorited = false;
-  debugger;
 
   if (state.session.currentUser.movies) {
     var movieId = state.carousel[ownProps.genre][ownProps.movieId].id;
@@ -1273,7 +1276,6 @@ function MoviePlayerHooks(props) {
       play = _useState2[0],
       setPlaying = _useState2[1];
 
-  debugger;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (Object(_util_helper__WEBPACK_IMPORTED_MODULE_1__["emptyObject"])(props.movie)) {
       props.fetchMovie(props.match.params.movieId).then(function (movie) {
@@ -1454,7 +1456,8 @@ var MovieTile = function MovieTile(props) {
       hovering = _useState2[0],
       setHover = _useState2[1];
 
-  var debouncedMovie = Object(_util_useDebounce__WEBPACK_IMPORTED_MODULE_3__["default"])(hovering, 500, 50);
+  var debouncedMovie = Object(_util_useDebounce__WEBPACK_IMPORTED_MODULE_3__["default"])(hovering, 500, 50); // const debouncedMovie = useDebounced(hovering, 500, 500000);
+
   return genre ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile",
     id: debouncedMovie ? 'hovered-movie-tile' : null,
@@ -1500,9 +1503,11 @@ var MovieTileControls = function MovieTileControls(props) {
       history = props.history,
       hovering = props.hovering,
       addMovieToFavorites = props.addMovieToFavorites,
+      removeMovieFromFavorites = props.removeMovieFromFavorites,
       currentUser = props.currentUser,
       favorited = props.favorited;
   var movieDownloaded = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(!!movie.movie_clip);
+  var popupInfoDiv = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
 
   var clickPlay = function clickPlay() {
     setCurrentMovie(movie);
@@ -1517,6 +1522,14 @@ var MovieTileControls = function MovieTileControls(props) {
     } else {
       addMovieToFavorites(currentUser.id, movie.id);
     }
+  };
+
+  var handleHover = function handleHover() {
+    popupInfoDiv.current.id = 'visible-popup-favorites-info';
+  };
+
+  var handleNotHover = function handleNotHover() {
+    popupInfoDiv.current.id = null;
   };
 
   var expanded;
@@ -1537,8 +1550,15 @@ var MovieTileControls = function MovieTileControls(props) {
     onClick: clickPlay
   }, "play_circle_filled"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "material-icons",
+    onMouseEnter: handleHover,
+    onMouseLeave: handleNotHover,
     onClick: handleClick
-  }, favorited ? 'remove_circle_outline' : 'add_circle_outline')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, favorited ? 'remove_circle_outline' : 'add_circle_outline'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: favorited ? 'on-favorites-list' : 'off-favorites-list',
+    ref: popupInfoDiv
+  }, favorited ? "Remove from My List" : "Add to My List", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "material-icons"
+  }, "signal_cellular_4_bar"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile-info"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "upper-movie-info"
@@ -1557,9 +1577,10 @@ var MovieTileControls = function MovieTileControls(props) {
   }, movie.descriptors[2])))) : null;
 };
 
-function compFunc(prevProps, nextProps) {}
+function compFunc(prevProps, nextProps) {} // export default memo(MovieTileControls, compFunc);
 
-/* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(MovieTileControls, compFunc)); // export default MovieTileControls;
+
+/* harmony default export */ __webpack_exports__["default"] = (MovieTileControls);
 
 /***/ }),
 
@@ -1683,7 +1704,9 @@ function MyList(props) {
       genre: 'My List',
       key: movie.key[0]
     });
-  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "My list is empty. Go pick out some movies!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_2__["Footer"], null));
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "myEmptyListTilesContainer"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "My list is empty. Go pick out some movies!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_2__["Footer"], null));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (MyList);
@@ -1711,7 +1734,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state) {
-  debugger;
   return {
     movies: state.carousel['My List'] || [],
     currentUser: state.session.currentUser,
@@ -3012,6 +3034,8 @@ var carouselReducer = function carouselReducer() {
         newCarousel[newRow.genre] = newRow;
       }
 
+      newRow = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createCarouselRow"])(action.favoriteMovies, 'My List');
+      newCarousel["My List"] = newRow;
       return newCarousel;
 
     case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["ADD_CAROUSEL_ROW"]:
@@ -3523,7 +3547,7 @@ function animateRight(screenNum, windowIDX) {
   });
 }
 function createMovie(skeleton, descriptors, matchPercent, reactKey) {
-  skeleton.descriptors = descriptors || [randomDescriptor(), randomDescriptor(), randomDescriptor()];
+  skeleton.descriptors = descriptors || createDescriptors();
   skeleton.matchPercent = matchPercent || randomPercent();
   var tempKey = reactKey || randomKeyGen();
   skeleton.key = [tempKey, randomKeyGen(), randomKeyGen()];
@@ -3546,6 +3570,21 @@ function arraysEqual(arr1, arr2) {
   }
 
   return arr1.length === arr2.length;
+}
+
+function createDescriptors() {
+  var flag = true;
+  var returnArr = [];
+
+  while (flag) {
+    returnArr = [randomDescriptor(), randomDescriptor(), randomDescriptor()];
+
+    if (returnArr[0].length + returnArr[1].length + returnArr[2].length < 30) {
+      flag = false;
+    }
+  }
+
+  return returnArr;
 }
 
 /***/ }),
@@ -3793,7 +3832,7 @@ interactions // the Set of interactions belonging to this update
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RANDOM_DESCRIPTOR", function() { return RANDOM_DESCRIPTOR; });
-var RANDOM_DESCRIPTOR = ["Absurd", "Alien", "Animal", "Art", "Assassination", "Biographical", "Bollywood", "Bounty-Hunter", "Buddy", "Campy", "Chilling", "Classic", "Coming-of-age", "Conspiracy", "Controversial", "Cop", "Courtroom", "Critically-acclaimed", "Cult", "Cynical", "Dark", "Deadpan", "Deep Sea", "Detective", "Disney", "Dysfunctional-Family", "Emotional", "Epic", "Experimental", "Feel-good", "Fight-the-System", "Gambling", "Gangster", "Girl Power", "Golden Globe Award-winning", "Goofy", "Gory", "Gritty", "Haunted House", "Heartfelt", "Heist", "Imaginative", "Independent", "Inspiring", "Irreverent", "Kung Fu", "Mad-Scientist", "Magical", "Martial Arts", "Medical", "Mid-Life-Crisis", "Military", "Mistaken-Identity", "Monster", "Ominous", "Political", "Prison", "Provocative", "Psychological", "Quirky", "Raunchy", "Road Trip", "Rogue-Cop", "Romantic", "Scary", "Sentimental", "Serial Killer", "Slapstick", "Social Issue", "Space-Travel", "Spy", "Steamy", "Supernatural", "Suspenseful", "Talking-Animal", "Tearjerkers", "Teen", "Time Travel", "Travel", "Treasure Hunt", "Underdog", "Understated", "Vampire", "Violent", "Viral Plague", "Visually-striking", "War", "Werewolf", "Witty", "Workplace", "Zombie"];
+var RANDOM_DESCRIPTOR = ["Absurd", "Alien", "Animal", "Art", "Biographical", "Bollywood", "Bounty-Hunter", "Buddy", "Campy", "Chilling", "Classic", "Coming-of-age", "Conspiracy", "Controversial", "Cop", "Courtroom", "Cult", "Cynical", "Dark", "Deadpan", "Deep Sea", "Detective", "Disney", "Emotional", "Epic", "Experimental", "Feel-good", "Gambling", "Gangster", "Girl Power", "Goofy", "Gory", "Gritty", "Haunted House", "Heartfelt", "Heist", "Imaginative", "Independent", "Inspiring", "Irreverent", "Kung Fu", "Mad-Scientist", "Magical", "Martial Arts", "Medical", "Mid-Life-Crisis", "Military", "Monster", "Ominous", "Political", "Prison", "Provocative", "Psychological", "Quirky", "Raunchy", "Road Trip", "Rogue-Cop", "Romantic", "Scary", "Sentimental", "Serial Killer", "Slapstick", "Social Issue", "Space-Travel", "Spy", "Steamy", "Supernatural", "Suspenseful", "Talking-Animal", "Tearjerkers", "Teen", "Time Travel", "Travel", "Treasure Hunt", "Underdog", "Understated", "Vampire", "Violent", "Viral Plague", "War", "Werewolf", "Witty", "Workplace", "Zombie"];
 
 /***/ }),
 
@@ -4111,7 +4150,6 @@ var fetchFavorites = function fetchFavorites(userId) {
   });
 };
 var addMovieToFavorites = function addMovieToFavorites(userId, movieId) {
-  debugger;
   return $.ajax({
     method: "GET",
     url: "/api/users/".concat(userId, "/favorites/").concat(movieId, "/edit")

@@ -5,7 +5,6 @@ import { emptyObject } from '../../../util/helper';
 function MoviePlayerHooks(props){
 
     const [play, setPlaying] = useState(false);
-    debugger
     useEffect(() => {
         if(emptyObject(props.movie)){
             props.fetchMovie(props.match.params.movieId)

@@ -24,11 +24,10 @@ class Api::FavoritesController < ApplicationController
     end
 
     def update
-        debugger
-        @movies = @user.movies.with_attached_cover_art
         @user = User.find_by(id: params[:user_id])
-        @movie = @user.movies.find_by(id: params[:movie_id])
+        @movie = @user.movies.find_by(id: params[:id])
         @user.movies.delete(@movie) unless @movie.nil?
+        @movies = @user.movies.with_attached_cover_art
         render :show
     end
 

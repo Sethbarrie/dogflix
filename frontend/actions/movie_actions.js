@@ -31,9 +31,10 @@ const currentMovie = movie => ({
     movie
 });
 
-const initialCarousel = movies => ({
+const initialCarousel = ({movies, favoriteMovies}) => ({
     type: INITIALIZE_CAROUSEL,
-    movies
+    movies,
+    favoriteMovies
 });
 
 const addRow = movies => ({
@@ -71,8 +72,8 @@ export const fetchMovies = () => dispatch => {
 
 export const initializeCarousel = () => dispatch => {
     return MovieAPIUtil.fetchMovies()
-    .then( movies => {
-        dispatch(initialCarousel(movies))
+    .then( movieBundle => {
+        dispatch(initialCarousel(movieBundle))
     }, ( errors => console.log(errors))
     )
 };

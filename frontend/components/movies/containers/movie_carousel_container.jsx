@@ -3,12 +3,16 @@ import {connect} from 'react-redux';
 import { fetchFavorites } from '../../../actions/user_actions';
 
 const mapStateToProps = (state, ownProps) => {
-    if(ownProps.genre === 'My List'){
-        debugger;
+    let length;
+    if(!ownProps.carouselTempLength){
+        length = state.carousel[ownProps.genre].length;
+    } else {
+        length = ownProps.carouselTempLength;
     }
     return {
     movieKeys: state.carousel[ownProps.genre].map(movie => movie.key[0]),
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    carouselLength: length
 }};
 
 const mapDispatchToProps = dispatch => ({

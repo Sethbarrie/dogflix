@@ -45,7 +45,6 @@ const Browse = props => {
                                 key={genreKeys[idx]} 
                                 genre={genre}
                                 windowIDX={idx}
-                                carouselLength={props.myListLength}                        
                             />
                         )
                     } else {
@@ -55,7 +54,7 @@ const Browse = props => {
                                 key={genreKeys[idx]} 
                                 genre={genre}
                                 windowIDX={idx}
-                                carouselLength={24} 
+                                carouselTempLength={24} 
                             />
                         )
 

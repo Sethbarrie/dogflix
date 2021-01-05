@@ -16,7 +16,6 @@ const mapStateToProps = state => {
         genres = genres.filter( genre => genre !== "My List");
         genres.push('My List');
     }
-    debugger
     return {
         genres: genres,
         genreKeys: genres.map( genre => state.carousel[genre].key),

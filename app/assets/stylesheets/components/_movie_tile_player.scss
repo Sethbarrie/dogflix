@@ -93,17 +93,19 @@
     align-items: center;
     width: 100%;
     padding: 10px 10px;
+    box-sizing: border-box;
 }
 
-.movie-tile-button-container .material-icons:first-of-type{
+.movie-tile-button-container > .material-icons:first-of-type{
     font-size: 45px;
     font-size: 2.5vw;
 }
 
 .movie-tile-button-container .material-icons:nth-child(2){
-    margin-right: 25px;
+    // margin-right: 25px;
     font-size: 45px;
     font-size: 2.5vw;
+    position: relative;
 }
 
 // .movie-tile-button-container .material-icons:last-of-type{
@@ -161,7 +163,7 @@
 }
 
 .movie-descriptor{
-    font-size: .2em;
+    font-size: .65em;
     font-weight: 600;
     margin-left: 8px;
     padding-right: 16px;
@@ -182,4 +184,50 @@
 
 #hovered-movie-tile-controls:nth-child(6n + 6){
     transform: translate(-2.5vw, 11vh);
+}
+
+.favorites-popup-container > .material-icons{
+    position: absolute;
+    transform: rotateX(45);
+}
+
+.favorites-popup-container{
+}
+
+.on-favorites-list,
+.off-favorites-list{
+    display: none;
+    position: absolute;
+    top: -29px;
+    // display: none;
+    padding: 7px 10px;
+    font-weight: 700;
+    text-transform: none;
+    font-size: 15px;
+    border-radius: 3px;
+    color: black;
+    background-color: white;
+}
+
+.on-favorites-list > .material-icons,
+.off-favorites-list > .material-icons{
+    transform: rotate(45deg);
+    position: absolute;
+    color: white;
+    bottom: -7px;
+    left: 45%;
+}
+
+.on-favorites-list{
+    // right: -42px;
+    right: calc(-1.25vw - 1.5em);
+}
+
+.off-favorites-list{
+    // right: -15px;
+    right: calc(-1.25vw + .2em);
+}
+
+#visible-popup-favorites-info{
+    display: block;
 }

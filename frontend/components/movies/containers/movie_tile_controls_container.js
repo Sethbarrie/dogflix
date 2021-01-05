@@ -6,7 +6,6 @@ import { removeMovieFromFavorites, addMovieToFavorites } from '../../../actions/
 
 const mapStateToProps = (state, ownProps) => {
     let favorited = false;
-    debugger;
     if(state.session.currentUser.movies){
         let movieId = state.carousel[ownProps.genre][ownProps.movieId].id;
         favorited = state.session.currentUser.movies.some( movie => movie.id === movieId);
