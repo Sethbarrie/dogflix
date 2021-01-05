@@ -32,7 +32,8 @@ const MovieTileControls = (props) => {
 
     let expanded;
 
-    if(movieDownloaded.current && hovering){
+    // if(movieDownloaded.current && hovering){
+    if(hovering){
         expanded = true;
     } else {
         expanded = false;
