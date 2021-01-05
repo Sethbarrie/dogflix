@@ -73,7 +73,6 @@ export const fetchMovies = () => dispatch => {
 export const initializeCarousel = () => dispatch => {
     return MovieAPIUtil.fetchMovies()
     .then( movieBundle => {
-        debugger
         dispatch(initialCarousel(movieBundle))
     }, ( errors => console.log(errors))
     )

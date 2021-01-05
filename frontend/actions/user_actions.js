@@ -27,7 +27,6 @@ export const updateAutoplay = user => dispatch => {
 export const fetchFavorites = (userId) => dispatch => {
     return UserAPIUtils.fetchFavorites(userId)
     .then(movies => {
-        debugger;
         dispatch(updateFavoritesList(movies))}
     , (errors => console.log(errors)))
 }

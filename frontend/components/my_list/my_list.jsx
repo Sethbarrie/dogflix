@@ -6,7 +6,7 @@ import useTraceUpdate from '../../util/useTraceUpdate';
 
 function MyList(props){
 
-    useTraceUpdate(props, 'MyListComponent');
+    // useTraceUpdate(props, 'MyListComponent');
     const {emptyCarousel, initializeCarousel, currentUser, fetchFavorites, movieKeys} = props;
 
     useEffect( () => {

@@ -119,7 +119,6 @@ export function createCarouselRow(skeletonArray, genre){
     let defaultGenre = genre || randomGenre();
 
     skeletonArray.map( movie => createMovie(movie));
-    debugger
     skeletonArray.genre = defaultGenre;
     skeletonArray.key = randomKeyGen();
     return skeletonArray;

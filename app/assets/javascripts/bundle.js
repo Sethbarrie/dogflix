@@ -200,7 +200,6 @@ var fetchMovies = function fetchMovies() {
 var initializeCarousel = function initializeCarousel() {
   return function (dispatch) {
     return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovies"]().then(function (movieBundle) {
-      debugger;
       dispatch(initialCarousel(movieBundle));
     }, function (errors) {
       return console.log(errors);
@@ -384,7 +383,6 @@ var updateAutoplay = function updateAutoplay(user) {
 var fetchFavorites = function fetchFavorites(userId) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchFavorites"](userId).then(function (movies) {
-      debugger;
       dispatch(updateFavoritesList(movies));
     }, function (errors) {
       return console.log(errors);
@@ -1174,7 +1172,6 @@ var MovieCarousel = function MovieCarousel(props) {
   var screen = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(0);
 
   var newScreen = function newScreen(directionNum) {
-    debugger;
     var maxScreen = Math.floor(carouselLength / 6) - 1;
 
     if (directionNum + screen.current > maxScreen) {
@@ -1691,7 +1688,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function MyList(props) {
-  Object(_util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_4__["default"])(props, 'MyListComponent');
+  // useTraceUpdate(props, 'MyListComponent');
   var emptyCarousel = props.emptyCarousel,
       initializeCarousel = props.initializeCarousel,
       currentUser = props.currentUser,
@@ -3604,7 +3601,6 @@ function createCarouselRow(skeletonArray, genre) {
   skeletonArray.map(function (movie) {
     return createMovie(movie);
   });
-  debugger;
   skeletonArray.genre = defaultGenre;
   skeletonArray.key = randomKeyGen();
   return skeletonArray;
