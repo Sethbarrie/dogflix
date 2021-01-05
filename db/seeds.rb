@@ -1,5 +1,4 @@
 require 'open-uri'
-require 'byebug'
 
 User.destroy_all
 Movie.destroy_all
@@ -357,7 +356,7 @@ s3covers = [
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover002.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover003.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover004.jpg',
-    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover005.jpeg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover005.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover006.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover007.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover008.jpg',
@@ -527,7 +526,7 @@ cover_filename = [
     'cover002.jpg',
     'cover003.jpg',
     'cover004.jpg',
-    'cover005.jpeg',
+    'cover005.jpg',
     'cover006.jpg',
     'cover007.jpg',
     'cover008.jpg',
@@ -693,7 +692,7 @@ ls_covers = [
     'storage/cover-picture/cover002.jpg',
     'storage/cover-picture/cover003.jpg',
     'storage/cover-picture/cover004.jpg',
-    'storage/cover-picture/cover005.jpeg',
+    'storage/cover-picture/cover005.jpg',
     'storage/cover-picture/cover006.jpg',
     'storage/cover-picture/cover007.jpg',
     'storage/cover-picture/cover008.jpg',
