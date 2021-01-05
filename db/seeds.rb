@@ -402,10 +402,68 @@ s3covers = [
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover047.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover048.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover049.jpg',
-    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover050.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover050.jpg',
     'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/cover-picture/cover051.jpg'
 
 ]
+
+    
+s3small_covers = [
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover000.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover001.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover002.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover003.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover004.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover005.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover006.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover007.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover008.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover009.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover010.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover011.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover012.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover013.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover014.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover015.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover016.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover017.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover018.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover019.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover020.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover021.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover022.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover023.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover024.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover025.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover026.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover027.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover028.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover029.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover030.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover031.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover032.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover033.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover034.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover035.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover036.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover037.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover038.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover039.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover040.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover041.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover042.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover043.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover044.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover045.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover046.png',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover047.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover048.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover049.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover050.jpg',
+    'https://dogflix-seed-bucket.s3-us-west-2.amazonaws.com/small-cover-picture/cover051.jpg'
+
+]
+
 
 
 yt_link = [
@@ -680,8 +738,65 @@ ls_covers = [
     'storage/cover-picture/cover047.jpg',
     'storage/cover-picture/cover048.jpg',
     'storage/cover-picture/cover049.jpg',
-    'storage/cover-picture/cover050.png',
+    'storage/cover-picture/cover050.jpg',
     'storage/cover-picture/cover051.jpg'
+]
+
+
+
+ls_small_covers = [
+    'storage/small-cover-picture/cover000.jpg',
+    'storage/small-cover-picture/cover001.jpg',
+    'storage/small-cover-picture/cover002.jpg',
+    'storage/small-cover-picture/cover003.jpg',
+    'storage/small-cover-picture/cover004.jpg',
+    'storage/small-cover-picture/cover005.jpg',
+    'storage/small-cover-picture/cover006.jpg',
+    'storage/small-cover-picture/cover007.jpg',
+    'storage/small-cover-picture/cover008.jpg',
+    'storage/small-cover-picture/cover009.jpg',
+    'storage/small-cover-picture/cover010.jpg',
+    'storage/small-cover-picture/cover011.jpg',
+    'storage/small-cover-picture/cover012.jpg',
+    'storage/small-cover-picture/cover013.jpg',
+    'storage/small-cover-picture/cover014.jpg',
+    'storage/small-cover-picture/cover015.jpg',
+    'storage/small-cover-picture/cover016.jpg',
+    'storage/small-cover-picture/cover017.jpg',
+    'storage/small-cover-picture/cover018.jpg',
+    'storage/small-cover-picture/cover019.jpg',
+    'storage/small-cover-picture/cover020.jpg',
+    'storage/small-cover-picture/cover021.jpg',
+    'storage/small-cover-picture/cover022.jpg',
+    'storage/small-cover-picture/cover023.jpg',
+    'storage/small-cover-picture/cover024.jpg',
+    'storage/small-cover-picture/cover025.jpg',
+    'storage/small-cover-picture/cover026.jpg',
+    'storage/small-cover-picture/cover027.jpg',
+    'storage/small-cover-picture/cover028.jpg',
+    'storage/small-cover-picture/cover029.jpg',
+    'storage/small-cover-picture/cover030.png',
+    'storage/small-cover-picture/cover031.png',
+    'storage/small-cover-picture/cover032.jpg',
+    'storage/small-cover-picture/cover033.png',
+    'storage/small-cover-picture/cover034.jpg',
+    'storage/small-cover-picture/cover035.jpg',
+    'storage/small-cover-picture/cover036.jpg',
+    'storage/small-cover-picture/cover037.png',
+    'storage/small-cover-picture/cover038.jpg',
+    'storage/small-cover-picture/cover039.jpg',
+    'storage/small-cover-picture/cover040.png',
+    'storage/small-cover-picture/cover041.png',
+    'storage/small-cover-picture/cover042.jpg',
+    'storage/small-cover-picture/cover043.jpg',
+    'storage/small-cover-picture/cover044.jpg',
+    'storage/small-cover-picture/cover045.jpg',
+    'storage/small-cover-picture/cover046.png',
+    'storage/small-cover-picture/cover047.jpg',
+    'storage/small-cover-picture/cover048.jpg',
+    'storage/small-cover-picture/cover049.jpg',
+    'storage/small-cover-picture/cover050.jpg',
+    'storage/small-cover-picture/cover051.jpg'
 ]
 
 
@@ -698,8 +813,10 @@ when "development"
         })
         temp_clip = open(ls_clips[idx])
         temp_cover = open(ls_covers[idx])
+        temp_small_cover = open(ls_small_covers[idx])
         temp_movie.movie_clip.attach(io: temp_clip, filename: movie_filename[idx])
         temp_movie.cover_art.attach(io: temp_cover, filename: cover_filename[idx])
+        temp_movie.small_cover_art.attach(io: temp_small_cover, filename: cover_filename[idx])
     end 
 when "production"
     titles.each_with_index do |movie_title, idx|
@@ -713,8 +830,10 @@ when "production"
         })
         temp_clip = open(s3clips[idx])
         temp_cover = open(s3covers[idx])
+        temp_small_cover = open(s3small_covers[idx])
         temp_movie.movie_clip.attach(io: temp_clip, filename: movie_filename[idx])
         temp_movie.cover_art.attach(io: temp_cover, filename: cover_filename[idx])
+        temp_movie.small_cover_art.attach(io: temp_small_cover, filename: cover_filename[idx])
     end
    
 end

@@ -1,7 +1,7 @@
 class Api::MoviesController < ApplicationController
 
     def index
-        @movies = Movie.with_attached_cover_art.all
+        @movies = Movie.with_attached_small_cover_art.all
         @favorites = User.find_by(id: current_user.id).movies
         render :index
     end

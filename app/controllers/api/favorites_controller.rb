@@ -2,13 +2,13 @@ class Api::FavoritesController < ApplicationController
 
     def show
         @user = User.find_by(id: params[:user_id])
-        @movies = @user.movies.with_attached_cover_art
+        @movies = @user.movies.with_attached_small_cover_art
         render :show
     end
 
     def edit 
         @user = User.find_by(id: params[:user_id])
-        @movies = @user.movies.with_attached_cover_art
+        @movies = @user.movies.with_attached_small_cover_art
         unless @user.movies.find_by(id: params[:id]).nil?
             render :show
         else
@@ -27,7 +27,7 @@ class Api::FavoritesController < ApplicationController
         @user = User.find_by(id: params[:user_id])
         @movie = @user.movies.find_by(id: params[:id])
         @user.movies.delete(@movie) unless @movie.nil?
-        @movies = @user.movies.with_attached_cover_art
+        @movies = @user.movies.with_attached_small_cover_art
         render :show
     end
 

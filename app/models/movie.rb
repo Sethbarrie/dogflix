@@ -11,4 +11,5 @@ class Movie < ApplicationRecord
 
     has_one_attached :movie_clip
     has_one_attached :cover_art
+    has_one_attached :small_cover_art
 end
