@@ -200,6 +200,7 @@ var fetchMovies = function fetchMovies() {
 var initializeCarousel = function initializeCarousel() {
   return function (dispatch) {
     return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovies"]().then(function (movieBundle) {
+      debugger;
       dispatch(initialCarousel(movieBundle));
     }, function (errors) {
       return console.log(errors);
@@ -383,6 +384,7 @@ var updateAutoplay = function updateAutoplay(user) {
 var fetchFavorites = function fetchFavorites(userId) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchFavorites"](userId).then(function (movies) {
+      debugger;
       dispatch(updateFavoritesList(movies));
     }, function (errors) {
       return console.log(errors);
@@ -558,6 +560,8 @@ var Browse = function Browse(props) {
   // let forceUpdate = useForceUpdate();
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    window.scrollTo(0, 0);
+
     if (!genres.length) {
       initializeCarousel(); // .then(() => forceUpdate())
     }
@@ -909,7 +913,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
   return {
     movieKeys: state.carousel[ownProps.genre].map(function (movie) {
-      return movie.key[0];
+      return movie.tileKey;
     }),
     currentUser: state.session.currentUser,
     carouselLength: length
@@ -1020,8 +1024,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    playerKey: state.carousel[ownProps.genre][ownProps.movieId].key[1],
-    controlKey: state.carousel[ownProps.genre][ownProps.movieId].key[2]
+    playerKey: state.carousel[ownProps.genre][ownProps.movieId].playerKey,
+    controlKey: state.carousel[ownProps.genre][ownProps.movieId].controlKey
   };
 };
 
@@ -1170,7 +1174,10 @@ var MovieCarousel = function MovieCarousel(props) {
   var screen = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(0);
 
   var newScreen = function newScreen(directionNum) {
-    if (directionNum + screen.current > 3) {
+    debugger;
+    var maxScreen = Math.floor(carouselLength / 6) - 1;
+
+    if (directionNum + screen.current > maxScreen) {
       screen.current = 0;
     } else if (directionNum + screen.current < 0) {
       // screen.current = 3;
@@ -1675,41 +1682,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _movies_containers_movie_tile_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../movies/containers/movie_tile_container */ "./frontend/components/movies/containers/movie_tile_container.js");
 /* harmony import */ var _splash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../splash */ "./frontend/components/splash.jsx");
+/* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/helper */ "./frontend/util/helper.js");
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
+
+
 
 
 
 
 function MyList(props) {
+  Object(_util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_4__["default"])(props, 'MyListComponent');
+  var emptyCarousel = props.emptyCarousel,
+      initializeCarousel = props.initializeCarousel,
+      currentUser = props.currentUser,
+      fetchFavorites = props.fetchFavorites,
+      movieKeys = props.movieKeys;
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     //Autoscroll to top on page render
     window.scrollTo(0, 0);
 
-    if (props.emptyCarousel) {
-      props.initializeCarousel();
+    if (emptyCarousel) {
+      initializeCarousel();
     }
 
-    if (!props.currentUser.movies || !props.movies) {
-      props.fetchFavorites(props.currentUser.id);
+    if (!currentUser.movies || !movieKeys) {
+      fetchFavorites(currentUser.id).then(function () {});
     }
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "myListContainer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     className: "myListHeader"
-  }, "My List"), props.movies.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "myListTilesContainer"
-  }, props.movies.map(function (movie, idx) {
+  }, "My List"), movieKeys.length ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: movieKeys.length < 6 ? 'myListTilesContainerUnder6' : 'myListTilesContainerOver6'
+  }, movieKeys.map(function (movieKey, idx) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_movies_containers_movie_tile_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
       movieId: idx,
       genre: 'My List',
-      key: movie.key[0]
+      key: movieKey
     });
   })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "myEmptyListTilesContainer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "My list is empty. Go pick out some movies!")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_splash__WEBPACK_IMPORTED_MODULE_2__["Footer"], null));
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (MyList);
+function compareMovieKeys(prevProps, nextProps) {
+  return Object(_util_helper__WEBPACK_IMPORTED_MODULE_3__["arraysEqual"])(prevProps.movieKeys, nextProps.movieKeys);
+
+  if (prevProps.movieKeys.every(function (movieKey1) {
+    return nextProps.movieKeys.includes(movieKey1);
+  }) && nextProps.movieKeys.every(function (movieKey2) {
+    return prevProps.movieKeys.includes(movieKey2);
+  })) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(MyList, compareMovieKeys));
 
 /***/ }),
 
@@ -1734,8 +1765,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state) {
+  var tempArr = [];
+
+  if (state.carousel['My List'] && state.carousel["My List"].length) {
+    tempArr = state.carousel["My List"].map(function (movie) {
+      return movie.tileKey;
+    });
+  }
+
   return {
-    movies: state.carousel['My List'] || [],
+    movieKeys: tempArr,
     currentUser: state.session.currentUser,
     emptyCarousel: Object(_util_helper__WEBPACK_IMPORTED_MODULE_4__["emptyObject"])(state.carousel)
   };
@@ -3027,9 +3066,9 @@ var carouselReducer = function carouselReducer() {
     case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["INITIALIZE_CAROUSEL"]:
       //
       newCarousel = _objectSpread({}, initialState);
-      carouselValues = Object.values(action.movies);
 
       for (var i = 0; i < 4; i++) {
+        carouselValues = Object.values(action.movies);
         newRow = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createCarouselRow"])(Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["shuffle"])(carouselValues).slice(0, 24));
         newCarousel[newRow.genre] = newRow;
       }
@@ -3062,8 +3101,9 @@ var carouselReducer = function carouselReducer() {
       Object.keys(initialState).forEach(function (genreName) {
         newCarousel[genreName] = initialState[genreName].map(function (movie) {
           if (movie.id === action.movie.id) {
-            // return reReceiveMovie(movie, action.movie);
-            return Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createMovie"])(action.movie, movie.descriptors, movie.matchPercent, movie.key[0]);
+            var newMovie = Object.assign({}, action.movie);
+            var tempMovie = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createMovie"])(newMovie, movie.descriptors, movie.matchPercent, movie.tileKey);
+            return tempMovie;
           } else {
             return movie;
           }
@@ -3351,6 +3391,8 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/helper */ "./frontend/util/helper.js");
+
 
 
 var _nullUser = {};
@@ -3371,7 +3413,9 @@ var sessionReducer = function sessionReducer() {
       return newState;
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_FAVORITES"]:
-      newState.currentUser.movies = action.movies;
+      var newFavoritesList = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createCarouselRow"])(action.movies);
+      newState.currentUser.movies = newFavoritesList;
+      newState.currentUser.movies.genre = "My List";
       return newState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["SIGNOUT_CURRENT_USER"]:
@@ -3546,11 +3590,13 @@ function animateRight(screenNum, windowIDX) {
     fill: 'both'
   });
 }
-function createMovie(skeleton, descriptors, matchPercent, reactKey) {
+function createMovie(skeleton, descriptors, matchPercent, tileKey) {
   skeleton.descriptors = descriptors || createDescriptors();
   skeleton.matchPercent = matchPercent || randomPercent();
-  var tempKey = reactKey || randomKeyGen();
-  skeleton.key = [tempKey, randomKeyGen(), randomKeyGen()];
+  var tempKey = tileKey || randomKeyGen();
+  skeleton.tileKey = tempKey;
+  skeleton.playerKey = randomKeyGen();
+  skeleton.controlKey = randomKeyGen();
   return skeleton;
 }
 function createCarouselRow(skeletonArray, genre) {
@@ -3558,6 +3604,7 @@ function createCarouselRow(skeletonArray, genre) {
   skeletonArray.map(function (movie) {
     return createMovie(movie);
   });
+  debugger;
   skeletonArray.genre = defaultGenre;
   skeletonArray.key = randomKeyGen();
   return skeletonArray;

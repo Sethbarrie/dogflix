@@ -21,6 +21,9 @@ const Browse = props => {
     // let forceUpdate = useForceUpdate();
     
     useEffect( () => {
+
+        window.scrollTo(0,0);
+
         if(!genres.length){
             initializeCarousel()
             // .then(() => forceUpdate())

@@ -40,7 +40,8 @@
     margin-left: 20px;
 }
 
-.myListTilesContainer{
+.myListTilesContainerOver6,
+.myListTilesContainerUnder6{
     background-color: #141414;
     display: grid;
     min-width: 1400px;
@@ -50,6 +51,10 @@
     grid-auto-rows: auto;
     padding: 40px 3.2vw 0px;
     margin-bottom: 130px;
+}
+
+.myListTilesContainerUnder6{
+    width: 100%
 }
 
 .myEmptyListTilesContainer > h1{

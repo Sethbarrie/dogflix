@@ -5,8 +5,12 @@ import { initializeCarousel } from '../../actions/movie_actions';
 import { emptyObject } from '../../util/helper';
 
 const mapStateToProps = state => {
+    let tempArr = [];
+    if(state.carousel['My List'] && state.carousel["My List"].length){
+        tempArr = state.carousel["My List"].map( movie => movie.tileKey);
+    }
     return{
-    movies: state.carousel['My List'] || [],
+    movieKeys: tempArr,
     currentUser: state.session.currentUser,
     emptyCarousel: emptyObject(state.carousel)
 }}

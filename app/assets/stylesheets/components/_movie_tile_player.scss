@@ -75,10 +75,13 @@
 
 #hovered-movie-tile-controls{
     position: absolute;
-    height: 11vh;
+    // height: 11vh;
+    transform: translateY(1.2vh);
+    transform: translateY(100px);
+    height: calc(100px + 1.2vh);
     opacity: 1;
     background-color: rgb(22, 20, 32);
-    transform: translateY(11vh);
+    // transform: translateY(11vh);
     transition: .3s;
     border-top: 1px solid black;
     border-bottom-left-radius: 3px;
@@ -174,16 +177,27 @@
     transform: scale(1.5) translate(2.5vw, -60px);
 }
 
-#hovered-movie-tile-controls:nth-child(6n + 1){
-    transform: translate(2.5vw, 11vh);
-}
+// #hovered-movie-tile-controls:nth-child(6n + 1){
+//     transform: translate(2.5vw, 11vh);
+// }
 
 #hovered-movie-tile:nth-child(6n + 6){
     transform: scale(1.5) translate(-2.5vw, -60px);
 }
 
+// #hovered-movie-tile-controls:nth-child(6n + 6){
+//     transform: translate(-2.5vw, 11vh);
+// }
+
+#hovered-movie-tile-controls:nth-child(6n + 1){
+    transform: translate(1.25vw, 100px);
+    transform: translate(1.25vw, 1.2vh);
+}
+
+
 #hovered-movie-tile-controls:nth-child(6n + 6){
-    transform: translate(-2.5vw, 11vh);
+    transform: translate(-1.25vw, 100px);
+    transform: translate(-1.25vw, 1.2vh);
 }
 
 .favorites-popup-container > .material-icons{

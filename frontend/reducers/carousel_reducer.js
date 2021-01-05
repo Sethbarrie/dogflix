@@ -32,8 +32,8 @@ const carouselReducer = (initialState = {}, action) => {
     switch(action.type){
         case INITIALIZE_CAROUSEL: //
             newCarousel = {...initialState};
-            carouselValues = Object.values(action.movies);
             for(let i = 0; i < 4; i++){
+                carouselValues = Object.values(action.movies);
                 newRow = createCarouselRow(shuffle(carouselValues).slice(0, 24));
                 newCarousel[newRow.genre] = newRow;
             }
@@ -57,8 +57,9 @@ const carouselReducer = (initialState = {}, action) => {
             Object.keys(initialState).forEach( genreName => {
                 newCarousel[genreName] = initialState[genreName].map( movie => {
                     if(movie.id === action.movie.id){
-                        // return reReceiveMovie(movie, action.movie);
-                        return createMovie(action.movie, movie.descriptors, movie.matchPercent, movie.key[0]);
+                        let newMovie = Object.assign( {}, action.movie);
+                        let tempMovie =  createMovie(newMovie, movie.descriptors, movie.matchPercent, movie.tileKey);
+                        return tempMovie;
                     } else {
                         return movie;
                     }

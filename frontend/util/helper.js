@@ -105,17 +105,21 @@ export function animateRight(screenNum, windowIDX){
 
 }
 
-export function createMovie(skeleton, descriptors, matchPercent, reactKey){
+export function createMovie(skeleton, descriptors, matchPercent, tileKey){
     skeleton.descriptors = descriptors || createDescriptors();
     skeleton.matchPercent = matchPercent || randomPercent();
-    let tempKey = reactKey || randomKeyGen();
-    skeleton.key = [tempKey, randomKeyGen(), randomKeyGen()];
+    let tempKey = tileKey || randomKeyGen();
+    skeleton.tileKey = tempKey;
+    skeleton.playerKey = randomKeyGen();
+    skeleton.controlKey = randomKeyGen()
     return skeleton;
 }
 
 export function createCarouselRow(skeletonArray, genre){
     let defaultGenre = genre || randomGenre();
+
     skeletonArray.map( movie => createMovie(movie));
+    debugger
     skeletonArray.genre = defaultGenre;
     skeletonArray.key = randomKeyGen();
     return skeletonArray;

@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
         length = ownProps.carouselTempLength;
     }
     return {
-    movieKeys: state.carousel[ownProps.genre].map(movie => movie.key[0]),
+    movieKeys: state.carousel[ownProps.genre].map(movie => movie.tileKey),
     currentUser: state.session.currentUser,
     carouselLength: length
 }};

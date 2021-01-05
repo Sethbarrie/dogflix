@@ -16,7 +16,10 @@ const MovieCarousel = props => {
     const screen = useRef(0);
 
     const newScreen = directionNum => {
-        if((directionNum + screen.current) > 3){
+        debugger
+        let maxScreen = Math.floor(carouselLength / 6) - 1;
+
+        if((directionNum + screen.current) > maxScreen){
             screen.current = 0;
         } else if((directionNum + screen.current) < 0){
             // screen.current = 3;
