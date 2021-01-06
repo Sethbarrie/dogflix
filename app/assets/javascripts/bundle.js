@@ -2015,7 +2015,7 @@ var NavBarHooks = function NavBarHooks(_ref) {
 
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", (_React$createElement = {
       className: "navbar"
-    }, _defineProperty(_React$createElement, "className", location.pathname === '/browse' ? 'monster-z-index navbar' : 'navbar'), _defineProperty(_React$createElement, "id", "signedin-navbar"), _React$createElement), location.pathname.includes('/player') ? playerDiv : null, location.pathname.includes('/my-list') ? myListDiv : null, location.pathname.includes('/browse') ? browseDiv : null);
+    }, _defineProperty(_React$createElement, "className", location.pathname === '/browse' ? 'monster-z-index navbar' : 'navbar'), _defineProperty(_React$createElement, "id", location.pathname === '/my-list' ? 'signedin-navbar-small-z-index' : 'signedin-navbar'), _React$createElement), location.pathname.includes('/player') ? playerDiv : null, location.pathname.includes('/my-list') ? myListDiv : null, location.pathname.includes('/browse') ? browseDiv : null);
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
