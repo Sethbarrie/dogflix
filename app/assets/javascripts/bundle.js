@@ -120,10 +120,11 @@ var ADD_CAROUSEL_ROW = 'ADD_CAROUSEL_ROW';
 var RECEIVE_MOVIE_ERRORS = "RECEIVE_MOVIE_ERRORS";
 var SET_CURRENT_SCREEN = 'SET_CURRENT_SCREEN'; // export const ADD_FAVORITES_ROW = 'ADD_FAVORITES_ROW';
 
-var receiveMovie = function receiveMovie(movie) {
+var receiveMovie = function receiveMovie(movie, genre) {
   return {
     type: RECEIVE_MOVIE,
-    movie: movie
+    movie: movie,
+    genre: genre
   };
 };
 
@@ -175,14 +176,21 @@ var receiveMovieErrors = function receiveMovieErrors(errors) {
     type: RECEIVE_MOVIE_ERRORS,
     errors: errors
   };
-};
+}; // export const fetchMovie = (movieId, genre) => dispatch => {
+//     return MovieAPIUtil.fetchMovie(movieId)
+//     .then( movie => {
+//         return MovieAPIUtil.fetchMovie(movie.id)
+//         .then( movie => dispatch(receiveMovie(movie, genre)))
+//         // return dispatch(receiveMovie(movie))
+//     }
+//     ,( errors => dispatch(receiveMovieErrors(errors))))
+// };
 
-var fetchMovie = function fetchMovie(movieId) {
+
+var fetchMovie = function fetchMovie(movieId, genre) {
   return function (dispatch) {
     return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovie"](movieId).then(function (movie) {
-      return _util_movie_api_utils__WEBPACK_IMPORTED_MODULE_0__["fetchMovie"](movie.id).then(function (movie) {
-        return dispatch(receiveMovie(movie));
-      }); // return dispatch(receiveMovie(movie))
+      dispatch(receiveMovie(movie, genre));
     }, function (errors) {
       return dispatch(receiveMovieErrors(errors));
     });
@@ -1117,8 +1125,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchMovie: function fetchMovie(movieId) {
-      return dispatch(Object(_actions_movie_actions__WEBPACK_IMPORTED_MODULE_1__["fetchMovie"])(movieId));
+    fetchMovie: function fetchMovie(movieId, genre) {
+      return dispatch(Object(_actions_movie_actions__WEBPACK_IMPORTED_MODULE_1__["fetchMovie"])(movieId, genre));
     }
   };
 };
@@ -1140,9 +1148,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _containers_movie_tile_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../containers/movie_tile_container */ "./frontend/components/movies/containers/movie_tile_container.js");
 /* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/helper */ "./frontend/util/helper.js");
-/* harmony import */ var _util_observers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/observers */ "./frontend/util/observers.jsx");
-/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
-/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/profileWriter */ "./frontend/util/profileWriter.js");
+/* harmony import */ var _util_carousel_animate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/carousel_animate */ "./frontend/util/carousel_animate.js");
+/* harmony import */ var _util_observers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/observers */ "./frontend/util/observers.jsx");
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
+/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../util/profileWriter */ "./frontend/util/profileWriter.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1163,6 +1172,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 var MovieCarousel = function MovieCarousel(props) {
   var genre = props.genre,
       movieKeys = props.movieKeys,
@@ -1172,7 +1182,17 @@ var MovieCarousel = function MovieCarousel(props) {
   var screen = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(0);
 
   var newScreen = function newScreen(directionNum) {
-    var maxScreen = Math.floor(carouselLength / 6) - 1;
+    var maxScreen;
+
+    if (carouselLength > 6) {
+      if (carouselLength === 24) {
+        maxScreen = 3;
+      } else {
+        maxScreen = Math.floor(carouselLength / 6);
+      }
+    } else {
+      maxScreen = 0;
+    }
 
     if (directionNum + screen.current > maxScreen) {
       screen.current = 0;
@@ -1183,23 +1203,23 @@ var MovieCarousel = function MovieCarousel(props) {
       screen.current = screen.current + directionNum;
     }
 
-    Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["updateScreen"])(screen.current);
+    Object(_util_observers__WEBPACK_IMPORTED_MODULE_4__["updateScreen"])(screen.current);
 
     if (directionNum > 0) {
-      Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["animateLeft"])(screen.current, windowIDX);
+      Object(_util_carousel_animate__WEBPACK_IMPORTED_MODULE_3__["animateLeft"])(screen.current, windowIDX);
     } else {
-      Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["animateRight"])(screen.current, windowIDX);
+      Object(_util_carousel_animate__WEBPACK_IMPORTED_MODULE_3__["animateRight"])(screen.current, windowIDX);
     }
-  };
+  }; // useEffect( () => {
+  //     observeCarouselSize();
+  //     observeLastCarousel(props.fetchFavorites, props.currentUser.id);
+  //     return () => {
+  //         unobserveCarouselSize();
+  //         unobserveLastCarousel();
+  //     }
+  // }, []);
 
-  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["observeCarouselSize"])();
-    Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["observeLastCarousel"])(props.fetchFavorites, props.currentUser.id);
-    return function () {
-      Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["unobserveCarouselSize"])();
-      Object(_util_observers__WEBPACK_IMPORTED_MODULE_3__["unobserveLastCarousel"])();
-    };
-  }, []);
+
   return genre ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-carousel-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -1238,9 +1258,7 @@ var MovieCarousel = function MovieCarousel(props) {
 };
 
 function compareMovieKeys(prevProps, nextProps) {
-  return _toConsumableArray(Array(24).keys()).every(function (idx) {
-    return prevProps.movieKeys[idx] === nextProps.movieKeys[idx];
-  });
+  return Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["arraysEqual"])(prevProps.movieKeys, nextProps.movieKeys);
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (/*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_0__["memo"])(MovieCarousel, compareMovieKeys));
@@ -1425,11 +1443,12 @@ var MoviePreview = function MoviePreview(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _containers_movie_tile_player_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../containers/movie_tile_player_container */ "./frontend/components/movies/containers/movie_tile_player_container.js");
-/* harmony import */ var _containers_movie_tile_controls_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../containers/movie_tile_controls_container */ "./frontend/components/movies/containers/movie_tile_controls_container.js");
-/* harmony import */ var _util_useDebounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/useDebounce */ "./frontend/util/useDebounce.js");
-/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
-/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/profileWriter */ "./frontend/util/profileWriter.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _containers_movie_tile_player_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../containers/movie_tile_player_container */ "./frontend/components/movies/containers/movie_tile_player_container.js");
+/* harmony import */ var _containers_movie_tile_controls_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../containers/movie_tile_controls_container */ "./frontend/components/movies/containers/movie_tile_controls_container.js");
+/* harmony import */ var _util_useDebounce__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/useDebounce */ "./frontend/util/useDebounce.js");
+/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
+/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../util/profileWriter */ "./frontend/util/profileWriter.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1449,18 +1468,20 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var MovieTile = function MovieTile(props) {
   var genre = props.genre,
       movieId = props.movieId,
       playerKey = props.playerKey,
-      controlKey = props.controlKey; // useTraceUpdate(props, "MovieTile");
+      controlKey = props.controlKey;
+  Object(_util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_5__["default"])(props, "MovieTile");
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       hovering = _useState2[0],
       setHover = _useState2[1];
 
-  var debouncedMovie = Object(_util_useDebounce__WEBPACK_IMPORTED_MODULE_3__["default"])(hovering, 500, 50); // const debouncedMovie = useDebounced(hovering, 500, 500000);
+  var debouncedMovie = Object(_util_useDebounce__WEBPACK_IMPORTED_MODULE_4__["default"])(hovering, 500, 50); // const debouncedMovie = useDebounced(hovering, 500, 500000);
 
   return genre ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile",
@@ -1471,18 +1492,31 @@ var MovieTile = function MovieTile(props) {
     onMouseLeave: function onMouseLeave() {
       setHover(false);
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_movie_tile_player_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_movie_tile_player_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
     genre: genre,
     movieId: movieId,
     hovering: debouncedMovie,
     key: playerKey
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_movie_tile_controls_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AntiFlickerImage, {
+    genre: genre,
+    movieId: movieId
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_movie_tile_controls_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
     genre: genre,
     movieId: movieId,
     hovering: debouncedMovie,
     key: controlKey
   })) : null;
 };
+
+function AntiFlickerImage(props) {
+  var coverImg = Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["useSelector"])(function (state) {
+    return state.carousel[props.genre][props.movieId].cover_art;
+  });
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "anti-flicker-image",
+    src: coverImg
+  });
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (MovieTile);
 
@@ -1607,7 +1641,8 @@ var MovieTilePlayer = function MovieTilePlayer(props) {
   // useTraceUpdate(props, "MovieTilePlayer");
   var hovering = props.hovering,
       movie = props.movie,
-      fetchMovie = props.fetchMovie;
+      fetchMovie = props.fetchMovie,
+      genre = props.genre;
   var movieRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
   var movieDownloaded = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(!!movie.movie_clip);
   var expanded;
@@ -1620,7 +1655,7 @@ var MovieTilePlayer = function MovieTilePlayer(props) {
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (hovering && !movie.movie_clip) {
-      fetchMovie(movie.id);
+      fetchMovie(movie.id, genre);
     }
   }, [hovering]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
@@ -1635,11 +1670,7 @@ var MovieTilePlayer = function MovieTilePlayer(props) {
       movieRef.current.load();
     }
   }, [hovering, movie]);
-  return movie ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "anti-flicker-image",
-    id: expanded ? 'hovered-anti-flicker-image' : null,
-    src: movie.cover_art
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
+  return movie ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
     id: expanded ? 'hovered-movie-tile-video' : null,
     className: "movie-tile-video",
     poster: movie.cover_art,
@@ -1980,10 +2011,11 @@ var NavBarHooks = function NavBarHooks(_ref) {
   var myListDiv = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, smallerDogflixLogo, profileDropdown);
 
   if (!Object(_util_helper__WEBPACK_IMPORTED_MODULE_3__["emptyObject"])(user)) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-      className: "navbar",
-      id: "signedin-navbar"
-    }, location.pathname.includes('/player') ? playerDiv : null, location.pathname.includes('/my-list') ? myListDiv : null, location.pathname.includes('/browse') ? browseDiv : null);
+    var _React$createElement;
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", (_React$createElement = {
+      className: "navbar"
+    }, _defineProperty(_React$createElement, "className", location.pathname === '/browse' ? 'monster-z-index navbar' : 'navbar'), _defineProperty(_React$createElement, "id", "signedin-navbar"), _React$createElement), location.pathname.includes('/player') ? playerDiv : null, location.pathname.includes('/my-list') ? myListDiv : null, location.pathname.includes('/browse') ? browseDiv : null);
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
@@ -3063,14 +3095,14 @@ var carouselReducer = function carouselReducer() {
     case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["INITIALIZE_CAROUSEL"]:
       //
       newCarousel = _objectSpread({}, initialState);
+      carouselValues = Object.values(action.movies);
 
       for (var i = 0; i < 4; i++) {
-        carouselValues = Object.values(action.movies);
         newRow = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createCarouselRow"])(Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["shuffle"])(carouselValues).slice(0, 24));
         newCarousel[newRow.genre] = newRow;
       }
 
-      newRow = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createCarouselRow"])(action.favoriteMovies, 'My List');
+      newRow = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createCarouselRow"])(Object.values(action.favoriteMovies), 'My List');
       newCarousel["My List"] = newRow;
       return newCarousel;
 
@@ -3098,6 +3130,7 @@ var carouselReducer = function carouselReducer() {
       Object.keys(initialState).forEach(function (genreName) {
         newCarousel[genreName] = initialState[genreName].map(function (movie) {
           if (movie.id === action.movie.id) {
+            // debugger
             var newMovie = Object.assign({}, action.movie);
             var tempMovie = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createMovie"])(newMovie, movie.descriptors, movie.matchPercent, movie.tileKey);
             return tempMovie;
@@ -3386,9 +3419,11 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/user_actions */ "./frontend/actions/user_actions.js");
-/* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/helper */ "./frontend/util/helper.js");
+/* harmony import */ var _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/movie_actions */ "./frontend/actions/movie_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/helper */ "./frontend/util/helper.js");
+
 
 
 
@@ -3399,23 +3434,30 @@ var sessionReducer = function sessionReducer() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
   var newState = Object.assign({}, oldState);
+  var favoritesList;
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_CURRENT_USER"]:
       newState.currentUser = action.user;
       return newState;
 
-    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_USER_SETTINGS"]:
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["UPDATE_USER_SETTINGS"]:
       newState.currentUser = action.user;
       return newState;
 
-    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_FAVORITES"]:
-      var newFavoritesList = Object(_util_helper__WEBPACK_IMPORTED_MODULE_2__["createCarouselRow"])(action.movies);
-      newState.currentUser.movies = newFavoritesList;
+    case _actions_movie_actions__WEBPACK_IMPORTED_MODULE_0__["INITIALIZE_CAROUSEL"]:
+      favoritesList = Object(_util_helper__WEBPACK_IMPORTED_MODULE_3__["createCarouselRow"])(Object.values(action.favoriteMovies), 'My List');
+      newState.currentUser.movies = favoritesList;
       newState.currentUser.movies.genre = "My List";
       return newState;
 
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["SIGNOUT_CURRENT_USER"]:
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["UPDATE_FAVORITES"]:
+      favoritesList = Object(_util_helper__WEBPACK_IMPORTED_MODULE_3__["createCarouselRow"])(action.movies);
+      newState.currentUser.movies = favoritesList;
+      newState.currentUser.movies.genre = "My List";
+      return newState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["SIGNOUT_CURRENT_USER"]:
       return _nullUser;
 
     default:
@@ -3468,11 +3510,58 @@ var configureStore = function configureStore() {
 
 /***/ }),
 
+/***/ "./frontend/util/carousel_animate.js":
+/*!*******************************************!*\
+  !*** ./frontend/util/carousel_animate.js ***!
+  \*******************************************/
+/*! exports provided: animateLeft, animateRight */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "animateLeft", function() { return animateLeft; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "animateRight", function() { return animateRight; });
+function animateLeft(screenNum, windowIDX) {
+  var tile = document.getElementById("carousel-window-".concat(windowIDX));
+  var screenSlideSize = window.innerWidth * .153 * 6 + 29;
+  var animation = tile.animate([{
+    transform: "translate(-".concat((screenNum - 1) * screenSlideSize, "px, 0)")
+  }, {
+    transform: "translate(-".concat(screenNum * screenSlideSize, "px, 0)")
+  }], {
+    duration: 1000,
+    iterations: 1,
+    delay: 0,
+    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    direction: 'normal',
+    fill: 'both',
+    endDelay: 100
+  });
+}
+function animateRight(screenNum, windowIDX) {
+  var tile = document.getElementById("carousel-window-".concat(windowIDX));
+  var screenSlideSize = window.innerWidth * .153 * 6 + 29;
+  var animation = tile.animate([{
+    transform: "translate(-".concat((screenNum + 1) * screenSlideSize, "px, 0)")
+  }, {
+    transform: "translate(-".concat(screenNum * screenSlideSize, "px, 0)")
+  }], {
+    duration: 1000,
+    iterations: 1,
+    delay: 0,
+    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    direction: 'normal',
+    fill: 'both'
+  });
+}
+
+/***/ }),
+
 /***/ "./frontend/util/helper.js":
 /*!*********************************!*\
   !*** ./frontend/util/helper.js ***!
   \*********************************/
-/*! exports provided: shuffle, getRandomInt, randomPercent, emptyObject, randomDescriptor, randomGenre, randomKeyGen, animateLeft, animateRight, createMovie, createCarouselRow, arraysEqual */
+/*! exports provided: shuffle, getRandomInt, randomPercent, emptyObject, randomDescriptor, randomGenre, randomKeyGen, createMovie, createCarouselRow, arraysEqual */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3484,8 +3573,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomDescriptor", function() { return randomDescriptor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomGenre", function() { return randomGenre; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "randomKeyGen", function() { return randomKeyGen; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "animateLeft", function() { return animateLeft; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "animateRight", function() { return animateRight; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMovie", function() { return createMovie; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCarouselRow", function() { return createCarouselRow; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "arraysEqual", function() { return arraysEqual; });
@@ -3554,46 +3641,15 @@ var getRandomLetters = function getRandomLetters() {
   return returnString;
 };
 
-function animateLeft(screenNum, windowIDX) {
-  var tile = document.getElementById("carousel-window-".concat(windowIDX));
-  var screenSlideSize = window.innerWidth * .153 * 6 + 29;
-  var animation = tile.animate([{
-    transform: "translate(-".concat((screenNum - 1) * screenSlideSize, "px, 0)")
-  }, {
-    transform: "translate(-".concat(screenNum * screenSlideSize, "px, 0)")
-  }], {
-    duration: 1000,
-    iterations: 1,
-    delay: 0,
-    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-    direction: 'normal',
-    fill: 'both',
-    endDelay: 100
-  });
-}
-function animateRight(screenNum, windowIDX) {
-  var tile = document.getElementById("carousel-window-".concat(windowIDX));
-  var screenSlideSize = window.innerWidth * .153 * 6 + 29;
-  var animation = tile.animate([{
-    transform: "translate(-".concat((screenNum + 1) * screenSlideSize, "px, 0)")
-  }, {
-    transform: "translate(-".concat(screenNum * screenSlideSize, "px, 0)")
-  }], {
-    duration: 1000,
-    iterations: 1,
-    delay: 0,
-    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-    direction: 'normal',
-    fill: 'both'
-  });
-}
 function createMovie(skeleton, descriptors, matchPercent, tileKey) {
   skeleton.descriptors = descriptors || createDescriptors();
   skeleton.matchPercent = matchPercent || randomPercent();
-  var tempKey = tileKey || randomKeyGen();
-  skeleton.tileKey = tempKey;
-  skeleton.playerKey = randomKeyGen();
-  skeleton.controlKey = randomKeyGen();
+  var tempTileKey = tileKey || randomKeyGen();
+  var tempPlayerKey = randomKeyGen();
+  var tempControlKey = randomKeyGen();
+  skeleton.tileKey = tempTileKey;
+  skeleton.playerKey = tempPlayerKey;
+  skeleton.controlKey = tempControlKey;
   return skeleton;
 }
 function createCarouselRow(skeletonArray, genre) {
@@ -3687,6 +3743,7 @@ var observeNavbar = function observeNavbar() {
 };
 var unobserveNavbar = function unobserveNavbar() {
   var navbar = document.getElementsByClassName('navbar')[0];
+  navbar.style.transition = '1ms';
   navbar.style.backgroundColor = 'transparent';
   navbarObserver.unobserve(document.getElementsByClassName('movie-preview-container')[0]);
 };

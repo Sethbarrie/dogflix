@@ -8,7 +8,7 @@ const mapStateToProps = (state, ownProps) => {
 }};
 
 const mapDispatchToProps = dispatch => ({
-    fetchMovie: movieId => dispatch(fetchMovie(movieId))
+    fetchMovie: (movieId, genre) => dispatch(fetchMovie(movieId, genre))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieTilePlayer);

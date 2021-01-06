@@ -1,6 +1,7 @@
 import React, {useState, useRef, useEffect, useLayoutEffect, memo, Profiler} from 'react';
 import MovieTileContainer from '../containers/movie_tile_container';
-import { animateLeft, animateRight } from '../../../util/helper';
+import { arraysEqual } from '../../../util/helper';
+import { animateLeft, animateRight} from '../../../util/carousel_animate'
 import { observeCarouselSize, unobserveCarouselSize, updateScreen} from '../../../util/observers';
 import useTraceUpdate from '../../../util/useTraceUpdate';
 import profileWriter from '../../../util/profileWriter';
@@ -16,7 +17,16 @@ const MovieCarousel = props => {
     const screen = useRef(0);
 
     const newScreen = directionNum => {
-        let maxScreen = Math.floor(carouselLength / 6) - 1;
+        let maxScreen;
+        if(carouselLength > 6){
+            if(carouselLength === 24){
+                maxScreen = 3;
+            } else {
+                maxScreen = Math.floor(carouselLength / 6);
+            }
+        } else  {
+            maxScreen = 0;
+        }
 
         if((directionNum + screen.current) > maxScreen){
             screen.current = 0;
@@ -34,14 +44,14 @@ const MovieCarousel = props => {
         }
     }
     
-    useEffect( () => {
-        observeCarouselSize();
-        observeLastCarousel(props.fetchFavorites, props.currentUser.id);
-        return () => {
-            unobserveCarouselSize();
-            unobserveLastCarousel();
-        }
-    }, []);
+    // useEffect( () => {
+    //     observeCarouselSize();
+    //     observeLastCarousel(props.fetchFavorites, props.currentUser.id);
+    //     return () => {
+    //         unobserveCarouselSize();
+    //         unobserveLastCarousel();
+    //     }
+    // }, []);
     return(
         genre ?
         <div className='movie-carousel-container'>
@@ -79,9 +89,7 @@ const MovieCarousel = props => {
 };
 
 function compareMovieKeys(prevProps, nextProps){
-    return [...Array(24).keys()].every( idx => {
-        return prevProps.movieKeys[idx] === nextProps.movieKeys[idx];
-    })
+    return arraysEqual(prevProps.movieKeys, nextProps.movieKeys);
 }
 
 

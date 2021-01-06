@@ -1,4 +1,5 @@
 import  React, { useState, useEffect, Profiler } from 'react';
+import { useSelector } from 'react-redux';
 import MovieTilePlayerContainer from '../containers/movie_tile_player_container';
 import MovieTileControlsContainer from '../containers/movie_tile_controls_container';
 import useDebounced from '../../../util/useDebounce';
@@ -9,7 +10,7 @@ const MovieTile = props => {
 
     const {genre, movieId, playerKey, controlKey} = props;
 
-    // useTraceUpdate(props, "MovieTile");
+    useTraceUpdate(props, "MovieTile");
 
     const [hovering, setHover] = useState(false);
     const debouncedMovie = useDebounced(hovering, 500, 50);
@@ -28,11 +29,24 @@ const MovieTile = props => {
             {/* <Profiler id={`player ${movieId} movieID from ${genre} genre`} onRender={profileWriter}> */}
                 <MovieTilePlayerContainer genre={genre} movieId={movieId} hovering={debouncedMovie} key={playerKey}/>
             {/* </Profiler> */}
+                <AntiFlickerImage genre={genre} movieId={movieId}/>
             {/* <Profiler id={`Controls ${movieId} movieID from ${genre} genre`} onRender={profileWriter}> */}
                 <MovieTileControlsContainer genre={genre} movieId={movieId} hovering={debouncedMovie} key={controlKey}/>
             {/* </Profiler> */}
         </div> 
         : null
+    )
+}
+
+
+function AntiFlickerImage(props){
+    
+    const coverImg = useSelector( state => state.carousel[props.genre][props.movieId].cover_art);   
+
+    return(
+        <img
+            className='anti-flicker-image' 
+            src={coverImg}/>
     )
 }
 

@@ -5,7 +5,7 @@ const MovieTilePlayer = props => {
 
     // useTraceUpdate(props, "MovieTilePlayer");
 
-    const {hovering, movie, fetchMovie} = props;
+    const {hovering, movie, fetchMovie, genre} = props;
 
     const movieRef = useRef();
     const movieDownloaded = useRef(!!movie.movie_clip);
@@ -19,7 +19,7 @@ const MovieTilePlayer = props => {
     
     useEffect(() => {
         if(hovering && !movie.movie_clip){
-            fetchMovie(movie.id);
+            fetchMovie(movie.id, genre);
         }
     },[hovering])
 
@@ -40,10 +40,6 @@ const MovieTilePlayer = props => {
     return (
         movie ?
         <>  
-            <img 
-                className='anti-flicker-image' 
-                id={expanded ? 'hovered-anti-flicker-image' : null}
-                src={movie.cover_art} />
             <video
             id={expanded ? 'hovered-movie-tile-video' : null} 
             className='movie-tile-video' 

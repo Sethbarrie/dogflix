@@ -114,7 +114,7 @@ const NavBarHooks = ({user = {}, postSession, deleteSession, updateAutoplay, his
 
     if(!emptyObject(user)){
         return(
-            <header className='navbar' id='signedin-navbar'>
+            <header className='navbar' className={location.pathname === '/browse' ? 'monster-z-index navbar' : 'navbar'} id='signedin-navbar'>
                 {location.pathname.includes('/player') ? playerDiv : null}
                 {location.pathname.includes('/my-list') ? myListDiv : null}
                 {location.pathname.includes('/browse') ? browseDiv : null}

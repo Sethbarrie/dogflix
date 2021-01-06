@@ -10,9 +10,10 @@ export const RECEIVE_MOVIE_ERRORS = "RECEIVE_MOVIE_ERRORS";
 export const SET_CURRENT_SCREEN = 'SET_CURRENT_SCREEN';
 // export const ADD_FAVORITES_ROW = 'ADD_FAVORITES_ROW';
 
-const receiveMovie = movie => ({
+const receiveMovie = (movie, genre) => ({
     type: RECEIVE_MOVIE,
-    movie
+    movie, 
+    genre
 });
 
 const receiveAllMovies = movies => {
@@ -53,15 +54,25 @@ const receiveMovieErrors = errors => ({
     errors
 });
 
-export const fetchMovie = movieId => dispatch => {
+// export const fetchMovie = (movieId, genre) => dispatch => {
+//     return MovieAPIUtil.fetchMovie(movieId)
+//     .then( movie => {
+//         return MovieAPIUtil.fetchMovie(movie.id)
+//         .then( movie => dispatch(receiveMovie(movie, genre)))
+//         // return dispatch(receiveMovie(movie))
+//     }
+//     ,( errors => dispatch(receiveMovieErrors(errors))))
+// };
+
+
+export const fetchMovie = (movieId, genre) => dispatch => {
     return MovieAPIUtil.fetchMovie(movieId)
     .then( movie => {
-        return MovieAPIUtil.fetchMovie(movie.id)
-        .then( movie => dispatch(receiveMovie(movie)))
-        // return dispatch(receiveMovie(movie))
+        dispatch(receiveMovie(movie, genre))
     }
     ,( errors => dispatch(receiveMovieErrors(errors))))
 };
+
 
 export const fetchMovies = () => dispatch => {
     return MovieAPIUtil.fetchMovies()

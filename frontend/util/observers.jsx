@@ -6,6 +6,7 @@ export const observeNavbar = () => {
 }
 export const unobserveNavbar = () => {
     let navbar = document.getElementsByClassName('navbar')[0];
+    navbar.style.transition = '1ms';
     navbar.style.backgroundColor = 'transparent';
     navbarObserver.unobserve(document.getElementsByClassName('movie-preview-container')[0]); 
 }
