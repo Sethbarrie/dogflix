@@ -99,6 +99,9 @@
 }
 
 .movie-preview-container .movie-preview-mute-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: transparent;
     color: white;
     padding-top: 5px;
@@ -107,7 +110,7 @@
     cursor: pointer;
     width: 2.4vw;
     height: 2.4vw;
-    margin-right: 1.1vw;
+    // margin-right: 1.1vw;
     outline: none;
 }
 
@@ -130,6 +133,7 @@
     box-sizing: border-box;
     line-height: 1.2;
     font-size: 1.1vw;
+    margin-left: 1.1vw;
     text-transform: uppercase;
 }
 

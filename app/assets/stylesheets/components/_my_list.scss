@@ -1,5 +1,5 @@
 .myListContainer{
-    // min-width: 1400px;
+    min-width: 1200px;
     width: 100%;
     max-width: 2000px;
     //This is a nice work around since your list isn't necessarily going to be taller
@@ -10,6 +10,7 @@
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+    box-sizing: content-box;
 }
 
 .myListHeader{
@@ -26,8 +27,8 @@
     padding-top: 15px;
     padding-bottom: 20px;
     display: block;
-    width: 100%;
-    box-sizing: border-box;
+    width: calc(100% - 57px);
+    box-sizing: content-box;
 }
 
 .image-and-mylist-div{
@@ -45,13 +46,14 @@
 .myListTilesContainerUnder6{
     background-color: #141414;
     display: grid;
-    min-width: 1400px;
+    min-width: 1140px;
     grid-column-gap: 1px;
     grid-row-gap:70px;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
     grid-auto-rows: auto;
-    padding: 40px 3.2vw 0px;
+    margin: 40px 3.2vw 0px;
     margin-bottom: 130px;
+    box-sizing: border-box;
 }
 
 .myListTilesContainerUnder6{
@@ -65,19 +67,28 @@
     display: block;
 }
 
-@media screen and (max-width: 1400px){
-    .myListTilesContainer{
-        grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6%;
-    }
-}
+// @media screen and (max-width: 1400px){
+//     .myListTilesContainer{
+//         grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6%;
+//     }
+// }
 
-@media screen and (max-width: 1100px){
-    .myListTilesContainer{
-        grid-template-columns: 16.6% 16.6% 16.6% 16.6%;
-    }
-}
+// @media screen and (max-width: 1100px){
+//     .myListTilesContainer{
+//         grid-template-columns: 16.6% 16.6% 16.6% 16.6%;
+//     }
+// }
 
 .myListContainer > #splash-footer{
     position: absolute;
     bottom: 0px;
+    min-width: calc(1140px + 6.4vw);
+    width: calc(100% + 6.4vw);
+    max-width: 100%;
 }
+
+
+.myListContainer > #splash-footer > div{
+    margin-left: 50px;
+}
+

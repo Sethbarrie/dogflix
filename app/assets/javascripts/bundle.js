@@ -1358,7 +1358,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var MoviePreview = function MoviePreview(props) {
   // useTraceUpdate(props, "MoviePreview");
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(props.currentUser.autoPlay),
       _useState2 = _slicedToArray(_useState, 2),
       volume = _useState2[0],
       setVolume = _useState2[1]; // const [playing, setPlaying ] = useState(false);
@@ -1399,7 +1399,7 @@ var MoviePreview = function MoviePreview(props) {
     className: "movie-preview",
     controlsList: "nodownload",
     autoPlay: true,
-    muted: true
+    muted: !volume
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
     src: props.movie.movie_clip,
     type: "video/webm"

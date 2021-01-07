@@ -6,7 +6,7 @@ const MoviePreview = (props) => {
 
     // useTraceUpdate(props, "MoviePreview");
 
-    const [ volume, setVolume] = useState(false);
+    const [ volume, setVolume] = useState(props.currentUser.autoPlay);
     // const [playing, setPlaying ] = useState(false);
     const moviePlayer = useRef();
     // const movieFlag = useRef(false);
@@ -46,7 +46,7 @@ const MoviePreview = (props) => {
             className='movie-preview'
             controlsList="nodownload"
             autoPlay
-            muted>
+            muted={!volume}>
                 <source src={props.movie.movie_clip} type='video/webm'/>
             </video>
             <div id='movie-preview-filter'></div>
