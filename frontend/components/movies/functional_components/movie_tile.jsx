@@ -13,8 +13,8 @@ const MovieTile = props => {
     useTraceUpdate(props, "MovieTile");
 
     const [hovering, setHover] = useState(false);
-    // const debouncedMovie = useDebounced(hovering, 500, 50);
-    const debouncedMovie = useDebounced(hovering, 500, 500000);
+    const debouncedMovie = useDebounced(hovering, 500, 50);
+    // const debouncedMovie = useDebounced(hovering, 500, 500000);
 
     return(
         genre ?
