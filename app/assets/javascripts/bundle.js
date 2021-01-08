@@ -1479,10 +1479,10 @@ var MovieTile = function MovieTile(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
       _useState2 = _slicedToArray(_useState, 2),
       hovering = _useState2[0],
-      setHover = _useState2[1];
+      setHover = _useState2[1]; // const debouncedMovie = useDebounced(hovering, 500, 50);
 
-  var debouncedMovie = Object(_util_useDebounce__WEBPACK_IMPORTED_MODULE_4__["default"])(hovering, 500, 50); // const debouncedMovie = useDebounced(hovering, 500, 500000);
 
+  var debouncedMovie = Object(_util_useDebounce__WEBPACK_IMPORTED_MODULE_4__["default"])(hovering, 500, 500000);
   return genre ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "movie-tile",
     id: debouncedMovie ? 'hovered-movie-tile' : null,

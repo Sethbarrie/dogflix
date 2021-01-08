@@ -46,7 +46,7 @@
 .myListTilesContainerUnder6{
     background-color: #141414;
     display: grid;
-    min-width: 1140px;
+    min-width: calc(1140px - 3.2vw);
     grid-column-gap: 1px;
     grid-row-gap:70px;
     grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
@@ -82,8 +82,8 @@
 .myListContainer > #splash-footer{
     position: absolute;
     bottom: 0px;
-    min-width: calc(1140px + 6.4vw);
-    width: calc(100% + 6.4vw);
+    min-width: calc(1140px + 5.5vw);
+    width: 100%;
     max-width: 100%;
 }
 

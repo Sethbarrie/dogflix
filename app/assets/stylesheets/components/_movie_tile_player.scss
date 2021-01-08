@@ -2,7 +2,9 @@
     position: relative;
     border: transparent;
     background-color: transparent;
-    min-width: 15.3vw;
+    min-width: 160px;
+    width: 15.3vw;
+    // width: 20.6vw;
     max-width: 295px;
     height: clamp( 115px, 11.475vw, 165px );
     transition: .15s;
@@ -41,6 +43,11 @@
     object-fit: fill;
 }
 
+.anti-flicker-image{
+    width: 99%;
+    height: 99%;
+}
+
 .movie-tile-video{
     z-index: 21;
 }
@@ -71,17 +78,16 @@
     transition: .1s;
     bottom: 0;
     opacity: 0;
+    border-top: none;
 }
 
 #hovered-movie-tile-controls{
     position: absolute;
-    // height: 11vh;
     transform: translateY(1.2vh);
     transform: translateY(100px);
     height: calc(100px + 1.2vh);
     opacity: 1;
     background-color: rgb(22, 20, 32);
-    // transform: translateY(11vh);
     transition: .3s;
     border-top: 1px solid black;
     border-bottom-left-radius: 3px;
@@ -167,7 +173,7 @@
 
 .movie-descriptor{
     font-size: .65em;
-    font-weight: 600;
+    font-weight: 300;
     margin-left: 8px;
     padding-right: 16px;
     height: 13px;
@@ -177,23 +183,14 @@
     transform: scale(1.5) translate(2.5vw, -60px);
 }
 
-// #hovered-movie-tile-controls:nth-child(6n + 1){
-//     transform: translate(2.5vw, 11vh);
-// }
-
 #hovered-movie-tile:nth-child(6n + 6){
     transform: scale(1.5) translate(-2.5vw, -60px);
 }
-
-// #hovered-movie-tile-controls:nth-child(6n + 6){
-//     transform: translate(-2.5vw, 11vh);
-// }
 
 #hovered-movie-tile-controls:nth-child(6n + 1){
     transform: translate(1.25vw, 100px);
     transform: translate(1.25vw, 1.2vh);
 }
-
 
 #hovered-movie-tile-controls:nth-child(6n + 6){
     transform: translate(-1.25vw, 100px);
@@ -203,9 +200,6 @@
 .favorites-popup-container > .material-icons{
     position: absolute;
     transform: rotateX(45);
-}
-
-.favorites-popup-container{
 }
 
 .on-favorites-list,
@@ -244,4 +238,36 @@
 
 #visible-popup-favorites-info{
     display: block;
+}
+
+@media screen and (max-width: 1500px){
+    .lower-movie-info .material-icons{
+        display: none;
+    }
+
+    .lower-movie-info li{
+        padding-left: 0px;
+        padding-right: 7px;
+        font-size: 7px;
+    }
+
+    .movie-tile-info{
+        overflow: hidden;
+    }
+
+    .upper-movie-info > span:first-child{
+        font-size: 10px;
+        font-weight: 500;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .lower-movie-info li{
+        display: none;
+    }
+    #hovered-movie-tile-controls{
+        height: 70px;
+        transform: translateY(70px);
+    }
+
 }
