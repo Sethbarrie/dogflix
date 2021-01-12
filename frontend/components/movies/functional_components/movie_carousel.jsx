@@ -1,11 +1,13 @@
-import React, {useState, useRef, useEffect, useLayoutEffect, memo, Profiler} from 'react';
+import React, { useRef, useEffect, memo, Profiler} from 'react';
 import MovieTileContainer from '../containers/movie_tile_container';
 import { arraysEqual } from '../../../util/helper';
 import { animateLeft, animateRight} from '../../../util/carousel_animate'
-import { observeCarouselSize, unobserveCarouselSize, updateScreen} from '../../../util/observers';
-import useTraceUpdate from '../../../util/useTraceUpdate';
-import profileWriter from '../../../util/profileWriter';
-import { observeLastCarousel, unobserveLastCarousel} from '../../../util/observers';
+import { updateScreen} from '../../../util/observers';
+
+// Debug files and also observers for adding list when scrolling
+//import useTraceUpdate from '../../../util/useTraceUpdate';
+//import profileWriter from '../../../util/profileWriter';
+//import { observeCarouselSize, unobserveCarouselSize, observeLastCarousel, unobserveLastCarousel} from '../../../util/observers';
 
 
 const MovieCarousel = props => {

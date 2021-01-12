@@ -9,6 +9,19 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+
+    <meta property="og:title" content="Dogflix" />
+    <meta property='og:image' content="<%= image_url('featured-image.png') %>"/>
+    <meta property="og:description"
+        content="A full stack clone of Netflix built with Ruby on Rails, AWS s3, and React/Redux."
+    />
+    <meta property="og:url"
+        content="https://sethb-dogflix.herokuapp.com/#/"
+    />
+
+
+
+
     
     <% if current_user%>
         <script>
