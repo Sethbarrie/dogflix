@@ -27,7 +27,7 @@ Technologies used:
 > Sign up.
 
 
-<img src="https://github.com/Sethbarrie/FullStackProject/blob/main/app/assets/images/dogflix-demo1.jpg" align="left" width="1500" height="600" background='cover'></img>
+<img src="https://github.com/Sethbarrie/dogflix/blob/main/app/assets/images/dogflix-demo1.jpg" align="left" width="1500" height="600" background='cover'></img>
 
 
 That's it. You are all ready to start leaving your pets at home guilt-free.
@@ -46,7 +46,7 @@ That's it. You are all ready to start leaving your pets at home guilt-free.
 
 
 
-<img src="https://github.com/Sethbarrie/FullStackProject/blob/main/app/assets/images/dogflix-demo2.jpg" align="center" width="1300" height="500" background='cover' padding-bottom='20' margin-bottom='20'></img>
+<img src="https://github.com/Sethbarrie/dogflix/blob/main/app/assets/images/dogflix-demo2.jpg" align="center" width="1300" height="500" background='cover' padding-bottom='20' margin-bottom='20'></img>
 
 
 
@@ -59,7 +59,7 @@ That's it. You are all ready to start leaving your pets at home guilt-free.
 
 
 
-<img src="https://github.com/Sethbarrie/FullStackProject/blob/main/app/assets/images/dogflix-demo3.jpg" align="center" width="1300" height="500" background='cover' padding-bottom='20' margin-bottom='20'></img>
+<img src="https://github.com/Sethbarrie/dogflix/blob/main/app/assets/images/dogflix-demo3.jpg" align="center" width="1300" height="500" background='cover' padding-bottom='20' margin-bottom='20'></img>
 
 
 
