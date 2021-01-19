@@ -5,7 +5,20 @@
 ***
 
 Dogflix is the best streaming site to leave on for your pets while you are at work. Intuitive UI and lots of content so your pet never gets bored.
-Written in Rails/React and Sass for styling.
+
+Technologies used: 
+![](https://img.shields.io/badge/Front_End-Javascript-informational?style=flat&logo=javascript&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Front_End-React.js-informational?style=flat&logo=react&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Back_End-Ruby_on_Rails-informational?style=flat&logo=ruby-on-rails&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/State_Management-redux-informational?style=flat&logo=redux&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Framework-React_Router-informational?style=flat&logo=react-router&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Styling-Sass-informational?style=flat&logo=sass&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/HTTP_Requests-Jquery-informational?style=flat&logo=jquery&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Data_Hosting-AWS-informational?style=flat&logo=amazon-aws&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Database-postgreSQL-informational?style=flat&logo=postgresql&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Cloud_Deployment-Heroku-informational?style=flat&logo=heroku&logoColor=white&color=2bbc8a)
+![](https://img.shields.io/badge/Version_Control-Git-informational?style=flat&logo=git&logoColor=white&color=2bbc8a)
+
 
 # Steps to using Dogflix
 
