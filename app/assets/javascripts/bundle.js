@@ -1150,8 +1150,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/helper */ "./frontend/util/helper.js");
 /* harmony import */ var _util_carousel_animate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/carousel_animate */ "./frontend/util/carousel_animate.js");
 /* harmony import */ var _util_observers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/observers */ "./frontend/util/observers.jsx");
-/* harmony import */ var _util_useTraceUpdate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/useTraceUpdate */ "./frontend/util/useTraceUpdate.js");
-/* harmony import */ var _util_profileWriter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../util/profileWriter */ "./frontend/util/profileWriter.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1168,10 +1166,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-
-
-
-
+ // Debug files and also observers for adding list when scrolling
+//import useTraceUpdate from '../../../util/useTraceUpdate';
+//import profileWriter from '../../../util/profileWriter';
+//import { observeCarouselSize, unobserveCarouselSize, observeLastCarousel, unobserveLastCarousel} from '../../../util/observers';
 
 var MovieCarousel = function MovieCarousel(props) {
   var genre = props.genre,
