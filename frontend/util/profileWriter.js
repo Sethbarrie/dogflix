@@ -8,12 +8,6 @@ function profileWriter(
     interactions // the Set of interactions belonging to this update
 ) {
 
-    // console.log(id);
-    // console.log(phase);
-    // console.log(actualDuration);
-    // console.log(baseDuration);
-    // console.log(startTime);
-    // console.log(commitTime);
     console.log(`${id} has ${phase === "mount" ? "mounted" : "updated"}, actualDuration: ${actualDuration}ms, baseDuration: ${baseDuration}ms, startTime: ${startTime}ms, commitTime: ${commitTime}ms`)
     console.log(interactions);
 }
