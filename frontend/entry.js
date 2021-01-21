@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.dispatch = store.dispatch;
     } else {
         ReactGA.initialize(process.env.GOOGLE_ANALYTIC_KEY);
-        ReactGA.pageview('/homepage');
+        ReactGA.pageview('/');
     }
     
     const root = document.getElementById("root");
